@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>生词表 — Vocabulaire Chinois</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #e05252;
+    --red-deep: #c0392b;
+    --gold: #e6a817;
+    --bg: #0f0f0f;
+    --surface: #1a1a1a;
+    --surface2: #242424;
+    --border: #2e2e2e;
+    --text: #e8e0d4;
+    --text-muted: #888;
+    --accent: #ff7a7a;
+    --shadow: rgba(224,82,82,0.18);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #1a0505 0%, #2d0a0a 50%, #1a0505 100%);
+    border-bottom: 1px solid #3a1010;
+    padding: 48px 40px 36px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '福';
+    position: absolute;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 260px;
+    color: rgba(224,82,82,0.07);
+    top: -40px; left: -20px;
+    font-weight: 700;
+    pointer-events: none;
+  }
+  header::after {
+    content: '学';
+    position: absolute;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 200px;
+    color: rgba(224,82,82,0.07);
+    bottom: -30px; right: 20px;
+    font-weight: 700;
+    pointer-events: none;
+  }
+  .header-tag {
+    display: inline-block;
+    background: var(--gold);
+    color: #111;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 5px 16px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 6vw, 56px);
+    color: #fff;
+    letter-spacing: -1px;
+    line-height: 1.1;
+  }
+  header h1 span {
+    color: var(--gold);
+  }
+  .header-sub {
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    margin-top: 10px;
+    letter-spacing: 1px;
+  }
+  .header-chars {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .header-chars span {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 28px;
+    color: rgba(255,255,255,0.75);
+    background: rgba(224,82,82,0.12);
+    width: 50px; height: 50px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 6px;
+    border: 1px solid rgba(224,82,82,0.25);
+    transition: all 0.2s;
+  }
+  .header-chars span:hover {
+    background: rgba(224,82,82,0.25);
+    transform: translateY(-2px);
+  }
+
+  /* MAIN */
+  main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* CATEGORY SECTION */
+  .section {
+    margin-bottom: 56px;
+    animation: fadeUp 0.5s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #2e2e2e;
+    padding-bottom: 12px;
+  }
+  .section-emoji {
+    font-size: 28px;
+    line-height: 1;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .section-count {
+    margin-left: auto;
+    background: #2a1010;
+    color: var(--accent);
+    border: 1px solid #3d1515;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+  }
+
+  /* CARDS GRID */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(175px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 14px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    transition: all 0.2s ease;
+    cursor: default;
+    position: relative;
+    overflow: visible;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 10px 10px 0 0;
+    background: var(--red);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 28px rgba(224,82,82,0.15);
+    border-color: #3d1515;
+    background: var(--surface2);
+  }
+  .card:hover::before {
+    transform: scaleX(1);
+  }
+  .card-char {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+    line-height: 1.2;
+    font-weight: 700;
+    word-break: keep-all;
+    white-space: nowrap;
+  }
+  .card-pinyin {
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    font-style: italic;
+    text-align: center;
+  }
+  .card-fr {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    line-height: 1.5;
+    font-weight: 400;
+    word-break: break-word;
+  }
+
+  /* WIDE TABLE for classifiers etc */
+  .table-section table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    border: 1px solid var(--border);
+  }
+  .table-section thead tr {
+    background: #1e0808;
+    color: var(--accent);
+    border-bottom: 1px solid #3d1515;
+  }
+  .table-section th {
+    padding: 12px 18px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 700;
+    text-align: left;
+  }
+  .table-section tbody tr:nth-child(even) { background: #1e1e1e; }
+  .table-section tbody tr { transition: background 0.15s; }
+  .table-section tbody tr:hover { background: #2a1a1a; }
+  .table-section td {
+    padding: 11px 18px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+  }
+  .table-section td:first-child {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .table-section td:nth-child(2) {
+    color: var(--gold);
+    font-style: italic;
+    font-size: 13px;
+  }
+
+  /* PHRASE BOX */
+  .phrase-box {
+    background: linear-gradient(135deg, #1e0808 0%, #2d0f0f 100%);
+    border: 1px solid #3d1515;
+    border-radius: 12px;
+    padding: 20px 24px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: all 0.2s;
+  }
+  .phrase-box:hover {
+    border-color: var(--red);
+    background: linear-gradient(135deg, #2a0f0f 0%, #3a1212 100%);
+  }
+  .phrase-char {
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    min-width: 70px;
+    text-align: center;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .phrase-right {}
+  .phrase-pinyin {
+    font-size: 12px;
+    color: var(--gold);
+    font-style: italic;
+    margin-bottom: 5px;
+  }
+  .phrase-fr {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 32px;
+    background: #080808;
+    border-top: 1px solid #1e1e1e;
+    color: rgba(255,255,255,0.3);
+    font-size: 12px;
+    letter-spacing: 1px;
+  }
+  footer strong { color: var(--gold); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Langue Étrangère · L3 IPPS</div>
+  <h1>生词表<br><span>Vocabulaire Chinois</span></h1>
+  <p class="header-sub">Dr. Setrerrahmane · Faculté de Pharmacie · Université des Sciences de la Santé</p>
+  <div class="header-chars">
+    <span>你</span><span>好</span><span>学</span><span>习</span><span>中</span><span>文</span>
+  </div>
+</header>
+
+<main>
+
+<!-- NUMBERS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🔢</span>
+    <span class="section-title">Les Nombres</span>
+    <span class="section-count">12 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">一</div><div class="card-pinyin">yī</div><div class="card-fr">Un</div></div>
+    <div class="card"><div class="card-char">二</div><div class="card-pinyin">èr</div><div class="card-fr">Deux</div></div>
+    <div class="card"><div class="card-char">两</div><div class="card-pinyin">liǎng</div><div class="card-fr">Deux (quantitatif)</div></div>
+    <div class="card"><div class="card-char">三</div><div class="card-pinyin">sān</div><div class="card-fr">Trois</div></div>
+    <div class="card"><div class="card-char">四</div><div class="card-pinyin">sì</div><div class="card-fr">Quatre</div></div>
+    <div class="card"><div class="card-char">五</div><div class="card-pinyin">wǔ</div><div class="card-fr">Cinq</div></div>
+    <div class="card"><div class="card-char">六</div><div class="card-pinyin">liù</div><div class="card-fr">Six</div></div>
+    <div class="card"><div class="card-char">七</div><div class="card-pinyin">qī</div><div class="card-fr">Sept</div></div>
+    <div class="card"><div class="card-char">八</div><div class="card-pinyin">bā</div><div class="card-fr">Huit</div></div>
+    <div class="card"><div class="card-char">九</div><div class="card-pinyin">jiǔ</div><div class="card-fr">Neuf</div></div>
+    <div class="card"><div class="card-char">十</div><div class="card-pinyin">shí</div><div class="card-fr">Dix</div></div>
+    <div class="card"><div class="card-char">零</div><div class="card-pinyin">líng</div><div class="card-fr">Zéro</div></div>
+  </div>
+</div>
+
+<!-- PRONOUNS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">👤</span>
+    <span class="section-title">Pronoms Personnels</span>
+    <span class="section-count">7 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">我</div><div class="card-pinyin">wǒ</div><div class="card-fr">Je / Moi / Me</div></div>
+    <div class="card"><div class="card-char">你</div><div class="card-pinyin">nǐ</div><div class="card-fr">Tu / Toi / Te</div></div>
+    <div class="card"><div class="card-char">您</div><div class="card-pinyin">nín</div><div class="card-fr">Vous (respect)</div></div>
+    <div class="card"><div class="card-char">他</div><div class="card-pinyin">tā</div><div class="card-fr">Il / Lui</div></div>
+    <div class="card"><div class="card-char">她</div><div class="card-pinyin">tā</div><div class="card-fr">Elle</div></div>
+    <div class="card"><div class="card-char">它</div><div class="card-pinyin">tā</div><div class="card-fr">Pour les objets</div></div>
+    <div class="card"><div class="card-char">们</div><div class="card-pinyin">men</div><div class="card-fr">Suffixe pluriel</div></div>
+  </div>
+</div>
+
+<!-- FAMILY -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">👨‍👩‍👧</span>
+    <span class="section-title">La Famille</span>
+    <span class="section-count">20 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">家</div><div class="card-pinyin">jiā</div><div class="card-fr">Maison / Famille</div></div>
+    <div class="card"><div class="card-char">爸爸</div><div class="card-pinyin">bà ba</div><div class="card-fr">Papa</div></div>
+    <div class="card"><div class="card-char">妈妈</div><div class="card-pinyin">māma</div><div class="card-fr">Maman</div></div>
+    <div class="card"><div class="card-char">爷爷</div><div class="card-pinyin">yé ye</div><div class="card-fr">Grand-père paternel</div></div>
+    <div class="card"><div class="card-char">奶奶</div><div class="card-pinyin">nǎi nai</div><div class="card-fr">Grand-mère paternelle</div></div>
+    <div class="card"><div class="card-char">外公</div><div class="card-pinyin">wài gōng</div><div class="card-fr">Grand-père maternel</div></div>
+    <div class="card"><div class="card-char">外婆</div><div class="card-pinyin">wài pó</div><div class="card-fr">Grand-mère maternelle</div></div>
+    <div class="card"><div class="card-char">姐姐</div><div class="card-pinyin">jiě jie</div><div class="card-fr">Sœur aînée</div></div>
+    <div class="card"><div class="card-char">妹妹</div><div class="card-pinyin">mèi mei</div><div class="card-fr">Sœur cadette</div></div>
+    <div class="card"><div class="card-char">哥哥</div><div class="card-pinyin">gē ge</div><div class="card-fr">Frère aîné</div></div>
+    <div class="card"><div class="card-char">弟弟</div><div class="card-pinyin">dì di</div><div class="card-fr">Frère cadet</div></div>
+    <div class="card"><div class="card-char">叔叔</div><div class="card-pinyin">shū shu</div><div class="card-fr">Oncle</div></div>
+    <div class="card"><div class="card-char">阿姨</div><div class="card-pinyin">ā yí</div><div class="card-fr">Tante</div></div>
+    <div class="card"><div class="card-char">父亲</div><div class="card-pinyin">fù qīn</div><div class="card-fr">Père (formel)</div></div>
+    <div class="card"><div class="card-char">母亲</div><div class="card-pinyin">mǔ qīn</div><div class="card-fr">Mère (formel)</div></div>
+    <div class="card"><div class="card-char">父母</div><div class="card-pinyin">fù mǔ</div><div class="card-fr">Parents</div></div>
+    <div class="card"><div class="card-char">儿子</div><div class="card-pinyin">ér zi</div><div class="card-fr">Fils</div></div>
+    <div class="card"><div class="card-char">女儿</div><div class="card-pinyin">nǚ ér</div><div class="card-fr">Fille</div></div>
+    <div class="card"><div class="card-char">孩子</div><div class="card-pinyin">hái zi</div><div class="card-fr">Enfant</div></div>
+    <div class="card"><div class="card-char">男人</div><div class="card-pinyin">nán rén</div><div class="card-fr">Homme</div></div>
+  </div>
+</div>
+
+<!-- SOCIAL -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🤝</span>
+    <span class="section-title">Relations Sociales</span>
+    <span class="section-count">3 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">朋友</div><div class="card-pinyin">péng you</div><div class="card-fr">Ami(e)</div></div>
+    <div class="card"><div class="card-char">同学</div><div class="card-pinyin">tóng xué</div><div class="card-fr">Camarade de classe</div></div>
+    <div class="card"><div class="card-char">同事</div><div class="card-pinyin">tóng shì</div><div class="card-fr">Collègue</div></div>
+  </div>
+</div>
+
+<!-- TIME -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🕐</span>
+    <span class="section-title">Temps & Dates</span>
+    <span class="section-count">17 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">时间</div><div class="card-pinyin">shí jiān</div><div class="card-fr">Temps</div></div>
+    <div class="card"><div class="card-char">日期</div><div class="card-pinyin">rì qī</div><div class="card-fr">Date</div></div>
+    <div class="card"><div class="card-char">学期</div><div class="card-pinyin">xué qī</div><div class="card-fr">Trimestre</div></div>
+    <div class="card"><div class="card-char">星期</div><div class="card-pinyin">xīng qī</div><div class="card-fr">Semaine</div></div>
+    <div class="card"><div class="card-char">周</div><div class="card-pinyin">zhōu</div><div class="card-fr">Semaine</div></div>
+    <div class="card"><div class="card-char">月</div><div class="card-pinyin">yuè</div><div class="card-fr">Mois</div></div>
+    <div class="card"><div class="card-char">年</div><div class="card-pinyin">nián</div><div class="card-fr">Année</div></div>
+    <div class="card"><div class="card-char">天</div><div class="card-pinyin">tiān</div><div class="card-fr">Jour / Ciel</div></div>
+    <div class="card"><div class="card-char">今天</div><div class="card-pinyin">jīn tiān</div><div class="card-fr">Aujourd'hui</div></div>
+    <div class="card"><div class="card-char">明天</div><div class="card-pinyin">míng tiān</div><div class="card-fr">Demain</div></div>
+    <div class="card"><div class="card-char">去年</div><div class="card-pinyin">qù nián</div><div class="card-fr">L'année dernière</div></div>
+    <div class="card"><div class="card-char">小时</div><div class="card-pinyin">xiǎo shí</div><div class="card-fr">Heure</div></div>
+    <div class="card"><div class="card-char">分钟</div><div class="card-pinyin">fēn zhōng</div><div class="card-fr">Minute</div></div>
+    <div class="card"><div class="card-char">秒</div><div class="card-pinyin">miǎo</div><div class="card-fr">Seconde</div></div>
+    <div class="card"><div class="card-char">一刻</div><div class="card-pinyin">yí kè</div><div class="card-fr">Un quart d'heure</div></div>
+    <div class="card"><div class="card-char">半</div><div class="card-pinyin">bàn</div><div class="card-fr">Demi-heure</div></div>
+    <div class="card"><div class="card-char">钟表</div><div class="card-pinyin">zhōng biǎo</div><div class="card-fr">Horloge</div></div>
+  </div>
+</div>
+
+<!-- SEASONS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🌸</span>
+    <span class="section-title">Les Saisons</span>
+    <span class="section-count">4 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">春天</div><div class="card-pinyin">chūn tiān</div><div class="card-fr">🌸 Printemps</div></div>
+    <div class="card"><div class="card-char">夏天</div><div class="card-pinyin">xià tiān</div><div class="card-fr">☀️ Été</div></div>
+    <div class="card"><div class="card-char">秋天</div><div class="card-pinyin">qiū tiān</div><div class="card-fr">🍂 Automne</div></div>
+    <div class="card"><div class="card-char">冬天</div><div class="card-pinyin">dōng tiān</div><div class="card-fr">❄️ Hiver</div></div>
+  </div>
+</div>
+
+<!-- DAY MOMENTS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🌅</span>
+    <span class="section-title">Moments de la Journée</span>
+    <span class="section-count">6 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">早上</div><div class="card-pinyin">zǎo shàng</div><div class="card-fr">🌄 Le matin</div></div>
+    <div class="card"><div class="card-char">上午</div><div class="card-pinyin">shàng wǔ</div><div class="card-fr">🌤 Avant-midi</div></div>
+    <div class="card"><div class="card-char">下午</div><div class="card-pinyin">xià wǔ</div><div class="card-fr">🌞 Après-midi</div></div>
+    <div class="card"><div class="card-char">午</div><div class="card-pinyin">wǔ</div><div class="card-fr">☀️ Midi</div></div>
+    <div class="card"><div class="card-char">晚上</div><div class="card-pinyin">wǎn shàng</div><div class="card-fr">🌙 Soir</div></div>
+    <div class="card"><div class="card-char">晚安</div><div class="card-pinyin">wǎn ān</div><div class="card-fr">🌛 Bonne nuit</div></div>
+  </div>
+</div>
+
+<!-- GREETINGS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">💬</span>
+    <span class="section-title">Salutations & Expressions</span>
+    <span class="section-count">10 expressions</span>
+  </div>
+  <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px;">
+    <div class="phrase-box"><div class="phrase-char">大家好</div><div class="phrase-right"><div class="phrase-pinyin">dà jiā hǎo</div><div class="phrase-fr">Salut à tous</div></div></div>
+    <div class="phrase-box"><div class="phrase-char">再见</div><div class="phrase-right"><div class="phrase-pinyin">zài jiàn</div><div class="phrase-fr">Au revoir</div></div></div>
+    <div class="phrase-box"><div class="phrase-char">回头见</div><div class="phrase-right"><div class="phrase-pinyin">huí tóu jiàn</div><div class="phrase-fr">À plus tard</div></div></div>
+    <div class="phrase-box"><div class="phrase-char">谢谢</div><div class="phrase-right"><div class="phrase-pinyin">xiè xie</div><div class="phrase-fr">Merci</div></div></div>
+    <div class="phrase-box"><div class="phrase-char">不客气</div><div class="phrase-right"><div class="phrase-pinyin">bú kè qi</div><div class="phrase-fr">De rien</div></div></div>
+    <div class="phrase-box"><div class="phrase-char">对不起</div><div class="phrase-right"><div class="phrase-pinyin">duì bu qǐ</div><div class="phrase-fr">Désolé</div></div></div>
+    <div class="phrase-box"><div class="phrase-char">没关系</div><div class="phrase-right"><div class="phrase-pinyin">méi guān xi</div><div class="phrase-fr">Pas de souci</div></div></div>
+    <div class="phrase-box"><div class="phrase-char">怎么样</div><div class="phrase-right"><div class="phrase-pinyin">zěn me yàng</div><div class="phrase-fr">Comment ça va ?</div></div></div>
+    <div class="phrase-box"><div class="phrase-char">喂</div><div class="phrase-right"><div class="phrase-pinyin">wèi</div><div class="phrase-fr">Allô (téléphone)</div></div></div>
+    <div class="phrase-box"><div class="phrase-char">你叫什么名字？</div><div class="phrase-right"><div class="phrase-pinyin">nǐ jiào shén me míng zì</div><div class="phrase-fr">Comment tu t'appelles ?</div></div></div>
+  </div>
+</div>
+
+<!-- FOOD & DRINKS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🍜</span>
+    <span class="section-title">Nourriture & Boissons</span>
+    <span class="section-count">18 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">食物</div><div class="card-pinyin">shí wù</div><div class="card-fr">Nourriture</div></div>
+    <div class="card"><div class="card-char">饭店</div><div class="card-pinyin">fàn diàn</div><div class="card-fr">🍽 Restaurant</div></div>
+    <div class="card"><div class="card-char">饭馆</div><div class="card-pinyin">fàn guǎn</div><div class="card-fr">🍽 Restaurant</div></div>
+    <div class="card"><div class="card-char">餐厅</div><div class="card-pinyin">cān tīng</div><div class="card-fr">Salle à manger</div></div>
+    <div class="card"><div class="card-char">饮料</div><div class="card-pinyin">yǐn liào</div><div class="card-fr">🥤 Boisson</div></div>
+    <div class="card"><div class="card-char">茶</div><div class="card-pinyin">chá</div><div class="card-fr">🍵 Thé</div></div>
+    <div class="card"><div class="card-char">水</div><div class="card-pinyin">shuǐ</div><div class="card-fr">💧 Eau</div></div>
+    <div class="card"><div class="card-char">咖啡</div><div class="card-pinyin">kā fēi</div><div class="card-fr">☕ Café</div></div>
+    <div class="card"><div class="card-char">可乐</div><div class="card-pinyin">kě lè</div><div class="card-fr">🥤 Cola</div></div>
+    <div class="card"><div class="card-char">牛奶</div><div class="card-pinyin">niú nǎi</div><div class="card-fr">🥛 Lait</div></div>
+    <div class="card"><div class="card-char">果汁</div><div class="card-pinyin">guǒ zhī</div><div class="card-fr">🧃 Jus de fruit</div></div>
+    <div class="card"><div class="card-char">酒精</div><div class="card-pinyin">jiǔ jīng</div><div class="card-fr">🍷 Alcool</div></div>
+    <div class="card"><div class="card-char">肉</div><div class="card-pinyin">ròu</div><div class="card-fr">🥩 Viande</div></div>
+    <div class="card"><div class="card-char">面包</div><div class="card-pinyin">miàn bāo</div><div class="card-fr">🍞 Pain</div></div>
+    <div class="card"><div class="card-char">面条</div><div class="card-pinyin">miàn tiáo</div><div class="card-fr">🍜 Nouilles</div></div>
+    <div class="card"><div class="card-char">米饭</div><div class="card-pinyin">mǐ fàn</div><div class="card-fr">🍚 Riz cuit</div></div>
+    <div class="card"><div class="card-char">零食</div><div class="card-pinyin">líng shí</div><div class="card-fr">🍿 Snacks</div></div>
+    <div class="card"><div class="card-char">蔬菜</div><div class="card-pinyin">shū cài</div><div class="card-fr">🥦 Légumes</div></div>
+  </div>
+</div>
+
+<!-- FRUITS & VEG -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🍎</span>
+    <span class="section-title">Fruits & Légumes</span>
+    <span class="section-count">10 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">苹果</div><div class="card-pinyin">píng guǒ</div><div class="card-fr">🍎 Pomme</div></div>
+    <div class="card"><div class="card-char">橙子</div><div class="card-pinyin">chéng zi</div><div class="card-fr">🍊 Orange</div></div>
+    <div class="card"><div class="card-char">橘子</div><div class="card-pinyin">jú zi</div><div class="card-fr">🍊 Mandarine</div></div>
+    <div class="card"><div class="card-char">梨子</div><div class="card-pinyin">lí zi</div><div class="card-fr">🍐 Poire</div></div>
+    <div class="card"><div class="card-char">桃子</div><div class="card-pinyin">táo zi</div><div class="card-fr">🍑 Pêche</div></div>
+    <div class="card"><div class="card-char">香蕉</div><div class="card-pinyin">xiāng jiāo</div><div class="card-fr">🍌 Banane</div></div>
+    <div class="card"><div class="card-char">草莓</div><div class="card-pinyin">cǎo méi</div><div class="card-fr">🍓 Fraise</div></div>
+    <div class="card"><div class="card-char">土豆</div><div class="card-pinyin">tǔ dòu</div><div class="card-fr">🥔 Pomme de terre</div></div>
+    <div class="card"><div class="card-char">洋葱</div><div class="card-pinyin">yáng cōng</div><div class="card-fr">🧅 Oignon</div></div>
+    <div class="card"><div class="card-char">果</div><div class="card-pinyin">guǒ</div><div class="card-fr">🍇 Fruit</div></div>
+  </div>
+</div>
+
+<!-- COLORS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🎨</span>
+    <span class="section-title">Les Couleurs</span>
+    <span class="section-count">9 couleurs</span>
+  </div>
+  <div class="cards">
+    <div class="card" style="border-left: 4px solid #e0e0e0;"><div class="card-char">白</div><div class="card-pinyin">bái</div><div class="card-fr">⬜ Blanc</div></div>
+    <div class="card" style="border-left: 4px solid #555;"><div class="card-char">黑</div><div class="card-pinyin">hēi</div><div class="card-fr">⬛ Noir</div></div>
+    <div class="card" style="border-left: 4px solid #e74c3c;"><div class="card-char">红</div><div class="card-pinyin">hóng</div><div class="card-fr">🟥 Rouge</div></div>
+    <div class="card" style="border-left: 4px solid #f1c40f;"><div class="card-char">黄</div><div class="card-pinyin">huáng</div><div class="card-fr">🟨 Jaune</div></div>
+    <div class="card" style="border-left: 4px solid #3498db;"><div class="card-char">蓝</div><div class="card-pinyin">lán</div><div class="card-fr">🟦 Bleu</div></div>
+    <div class="card" style="border-left: 4px solid #27ae60;"><div class="card-char">绿</div><div class="card-pinyin">lǜ</div><div class="card-fr">🟩 Vert</div></div>
+    <div class="card" style="border-left: 4px solid #9b59b6;"><div class="card-char">紫</div><div class="card-pinyin">zǐ</div><div class="card-fr">🟪 Violet</div></div>
+    <div class="card" style="border-left: 4px solid #ff69b4;"><div class="card-char">粉</div><div class="card-pinyin">fěn</div><div class="card-fr">🩷 Rose</div></div>
+    <div class="card" style="border-left: 4px solid #e67e22;"><div class="card-char">橙</div><div class="card-pinyin">chéng</div><div class="card-fr">🟧 Orange</div></div>
+  </div>
+</div>
+
+<!-- TRANSPORT -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🚗</span>
+    <span class="section-title">Transport</span>
+    <span class="section-count">7 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">汽车</div><div class="card-pinyin">qì chē</div><div class="card-fr">🚗 Voiture</div></div>
+    <div class="card"><div class="card-char">自行车</div><div class="card-pinyin">zì xíng chē</div><div class="card-fr">🚲 Vélo</div></div>
+    <div class="card"><div class="card-char">公交</div><div class="card-pinyin">gōng jiāo</div><div class="card-fr">🚌 Bus</div></div>
+    <div class="card"><div class="card-char">火车站</div><div class="card-pinyin">huǒ chē zhàn</div><div class="card-fr">🚉 Gare</div></div>
+    <div class="card"><div class="card-char">高铁</div><div class="card-pinyin">gāo tiě</div><div class="card-fr">🚄 TGV</div></div>
+    <div class="card"><div class="card-char">地铁</div><div class="card-pinyin">dì tiě</div><div class="card-fr">🚇 Métro</div></div>
+    <div class="card"><div class="card-char">飞机</div><div class="card-pinyin">fēi jī</div><div class="card-fr">✈️ Avion</div></div>
+  </div>
+</div>
+
+<!-- DIRECTIONS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🧭</span>
+    <span class="section-title">Directions & Bagages</span>
+    <span class="section-count">11 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">左</div><div class="card-pinyin">zuǒ</div><div class="card-fr">⬅️ Gauche</div></div>
+    <div class="card"><div class="card-char">右</div><div class="card-pinyin">yòu</div><div class="card-fr">➡️ Droite</div></div>
+    <div class="card"><div class="card-char">前</div><div class="card-pinyin">qián</div><div class="card-fr">⬆️ Devant</div></div>
+    <div class="card"><div class="card-char">后</div><div class="card-pinyin">hòu</div><div class="card-fr">⬇️ Derrière</div></div>
+    <div class="card"><div class="card-char">外</div><div class="card-pinyin">wài</div><div class="card-fr">Extérieur</div></div>
+    <div class="card"><div class="card-char">里</div><div class="card-pinyin">lǐ</div><div class="card-fr">Intérieur</div></div>
+    <div class="card"><div class="card-char">远</div><div class="card-pinyin">yuǎn</div><div class="card-fr">🔭 Loin</div></div>
+    <div class="card"><div class="card-char">近</div><div class="card-pinyin">jìn</div><div class="card-fr">📍 Proche</div></div>
+    <div class="card"><div class="card-char">迷路</div><div class="card-pinyin">mí lù</div><div class="card-fr">😵 Être perdu</div></div>
+    <div class="card"><div class="card-char">背包</div><div class="card-pinyin">bēi bāo</div><div class="card-fr">🎒 Sac à dos</div></div>
+    <div class="card"><div class="card-char">行李</div><div class="card-pinyin">xíng lǐ</div><div class="card-fr">🧳 Bagages</div></div>
+  </div>
+</div>
+
+<!-- ADJECTIVES -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">📐</span>
+    <span class="section-title">Adjectifs</span>
+    <span class="section-count">12 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">大</div><div class="card-pinyin">dà</div><div class="card-fr">Grand / Large</div></div>
+    <div class="card"><div class="card-char">小</div><div class="card-pinyin">xiǎo</div><div class="card-fr">Petit</div></div>
+    <div class="card"><div class="card-char">高</div><div class="card-pinyin">gāo</div><div class="card-fr">Haut</div></div>
+    <div class="card"><div class="card-char">矮</div><div class="card-pinyin">ǎi</div><div class="card-fr">Court (taille)</div></div>
+    <div class="card"><div class="card-char">低</div><div class="card-pinyin">dī</div><div class="card-fr">Bas / Faible</div></div>
+    <div class="card"><div class="card-char">长</div><div class="card-pinyin">cháng</div><div class="card-fr">Long</div></div>
+    <div class="card"><div class="card-char">短</div><div class="card-pinyin">duǎn</div><div class="card-fr">Court / Bref</div></div>
+    <div class="card"><div class="card-char">快</div><div class="card-pinyin">kuài</div><div class="card-fr">⚡ Rapide</div></div>
+    <div class="card"><div class="card-char">慢</div><div class="card-pinyin">màn</div><div class="card-fr">🐢 Lent</div></div>
+    <div class="card"><div class="card-char">多</div><div class="card-pinyin">duō</div><div class="card-fr">Beaucoup</div></div>
+    <div class="card"><div class="card-char">少</div><div class="card-pinyin">shǎo</div><div class="card-fr">Peu</div></div>
+    <div class="card"><div class="card-char">好</div><div class="card-pinyin">hǎo</div><div class="card-fr">✅ Bon / Bien</div></div>
+  </div>
+</div>
+
+<!-- ISLAM -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🕌</span>
+    <span class="section-title">Islam & Culture</span>
+    <span class="section-count">6 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">伊斯兰</div><div class="card-pinyin">yīsīlán</div><div class="card-fr">☪️ Islam</div></div>
+    <div class="card"><div class="card-char">清真</div><div class="card-pinyin">qīngzhēn</div><div class="card-fr">✅ Halal</div></div>
+    <div class="card"><div class="card-char">斋月</div><div class="card-pinyin">zhāi yuè</div><div class="card-fr">🌙 Ramadan</div></div>
+    <div class="card"><div class="card-char">宗教</div><div class="card-pinyin">zōng jiào</div><div class="card-fr">Religion</div></div>
+    <div class="card"><div class="card-char">寺</div><div class="card-pinyin">sì</div><div class="card-fr">🕌 Temple</div></div>
+    <div class="card"><div class="card-char">灯笼</div><div class="card-pinyin">dēng lóng</div><div class="card-fr">🏮 Lanterne</div></div>
+  </div>
+</div>
+
+<!-- MEDICINE -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🏥</span>
+    <span class="section-title">Médecine & Pharmacie</span>
+    <span class="section-count">6 mots</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">医学</div><div class="card-pinyin">yī xué</div><div class="card-fr">🏥 Médecine</div></div>
+    <div class="card"><div class="card-char">医生</div><div class="card-pinyin">yī shēng</div><div class="card-fr">👨‍⚕️ Médecin</div></div>
+    <div class="card"><div class="card-char">护士</div><div class="card-pinyin">hù shi</div><div class="card-fr">👩‍⚕️ Infirmière</div></div>
+    <div class="card"><div class="card-char">药物</div><div class="card-pinyin">yào wù</div><div class="card-fr">💊 Médicament</div></div>
+    <div class="card"><div class="card-char">卫生</div><div class="card-pinyin">wèi shēng</div><div class="card-fr">🧼 Hygiène</div></div>
+    <div class="card"><div class="card-char">工业</div><div class="card-pinyin">gōng yè</div><div class="card-fr">🏭 Industrie</div></div>
+  </div>
+</div>
+
+<!-- CLASSIFIERS TABLE -->
+<div class="section table-section">
+  <div class="section-header">
+    <span class="section-emoji">🔢</span>
+    <span class="section-title">Classificateurs (量词)</span>
+    <span class="section-count">12 mots</span>
+  </div>
+  <table>
+    <thead><tr><th>Caractère</th><th>Pinyin</th><th>Usage</th></tr></thead>
+    <tbody>
+      <tr><td>个</td><td>gè</td><td>Général (personnes, objets)</td></tr>
+      <tr><td>位</td><td>wèi</td><td>Personnes (respectueux)</td></tr>
+      <tr><td>名</td><td>míng</td><td>Personnes</td></tr>
+      <tr><td>张</td><td>zhāng</td><td>Objets plats (papier, table)</td></tr>
+      <tr><td>条</td><td>tiáo</td><td>Objets longs et fins</td></tr>
+      <tr><td>只</td><td>zhī</td><td>Animaux / petits objets</td></tr>
+      <tr><td>本</td><td>běn</td><td>Livres, cahiers</td></tr>
+      <tr><td>双</td><td>shuāng</td><td>Paires (chaussures, baguettes)</td></tr>
+      <tr><td>杯</td><td>bēi</td><td>☕ Tasses</td></tr>
+      <tr><td>瓶</td><td>píng</td><td>🍶 Bouteilles</td></tr>
+      <tr><td>辆</td><td>liàng</td><td>🚗 Véhicules</td></tr>
+      <tr><td>座</td><td>zuò</td><td>🏔 Bâtiments / montagnes</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- MODAL VERBS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">✅</span>
+    <span class="section-title">Verbes Modaux</span>
+    <span class="section-count">6 verbes</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">是</div><div class="card-pinyin">shì</div><div class="card-fr">Être</div></div>
+    <div class="card"><div class="card-char">有</div><div class="card-pinyin">yǒu</div><div class="card-fr">Avoir</div></div>
+    <div class="card"><div class="card-char">会</div><div class="card-pinyin">huì</div><div class="card-fr">Savoir faire</div></div>
+    <div class="card"><div class="card-char">能</div><div class="card-pinyin">néng</div><div class="card-fr">Pouvoir (capacité)</div></div>
+    <div class="card"><div class="card-char">可以</div><div class="card-pinyin">kě yǐ</div><div class="card-fr">Être autorisé</div></div>
+    <div class="card"><div class="card-char">要</div><div class="card-pinyin">yào</div><div class="card-fr">Vouloir</div></div>
+  </div>
+</div>
+
+<!-- ACTION VERBS -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-emoji">🏃</span>
+    <span class="section-title">Verbes d'Action</span>
+    <span class="section-count">30 verbes</span>
+  </div>
+  <div class="cards">
+    <div class="card"><div class="card-char">吃</div><div class="card-pinyin">chī</div><div class="card-fr">🍽 Manger</div></div>
+    <div class="card"><div class="card-char">喝</div><div class="card-pinyin">hē</div><div class="card-fr">🥤 Boire</div></div>
+    <div class="card"><div class="card-char">睡</div><div class="card-pinyin">shuì</div><div class="card-fr">😴 Dormir</div></div>
+    <div class="card"><div class="card-char">坐</div><div class="card-pinyin">zuò</div><div class="card-fr">🪑 S'asseoir</div></div>
+    <div class="card"><div class="card-char">看</div><div class="card-pinyin">kàn</div><div class="card-fr">👀 Regarder</div></div>
+    <div class="card"><div class="card-char">听</div><div class="card-pinyin">tīng</div><div class="card-fr">👂 Écouter</div></div>
+    <div class="card"><div class="card-char">说</div><div class="card-pinyin">shuō</div><div class="card-fr">💬 Parler</div></div>
+    <div class="card"><div class="card-char">问</div><div class="card-pinyin">wèn</div><div class="card-fr">❓ Demander</div></div>
+    <div class="card"><div class="card-char">走</div><div class="card-pinyin">zǒu</div><div class="card-fr">🚶 Marcher</div></div>
+    <div class="card"><div class="card-char">跑</div><div class="card-pinyin">pǎo</div><div class="card-fr">🏃 Courir</div></div>
+    <div class="card"><div class="card-char">跳</div><div class="card-pinyin">tiào</div><div class="card-fr">🦘 Sauter</div></div>
+    <div class="card"><div class="card-char">来</div><div class="card-pinyin">lái</div><div class="card-fr">Venir</div></div>
+    <div class="card"><div class="card-char">入</div><div class="card-pinyin">rù</div><div class="card-fr">🚪 Entrer</div></div>
+    <div class="card"><div class="card-char">出</div><div class="card-pinyin">chū</div><div class="card-fr">🚪 Sortir</div></div>
+    <div class="card"><div class="card-char">做</div><div class="card-pinyin">zuò</div><div class="card-fr">🔧 Faire</div></div>
+    <div class="card"><div class="card-char">给</div><div class="card-pinyin">gěi</div><div class="card-fr">🎁 Donner</div></div>
+    <div class="card"><div class="card-char">请</div><div class="card-pinyin">qǐng</div><div class="card-fr">🙏 Inviter</div></div>
+    <div class="card"><div class="card-char">学习</div><div class="card-pinyin">xué xí</div><div class="card-fr">📚 Étudier</div></div>
+    <div class="card"><div class="card-char">拿</div><div class="card-pinyin">ná</div><div class="card-fr">✋ Prendre</div></div>
+    <div class="card"><div class="card-char">放</div><div class="card-pinyin">fàng</div><div class="card-fr">Poser / Mettre</div></div>
+    <div class="card"><div class="card-char">写</div><div class="card-pinyin">xiě</div><div class="card-fr">✍️ Écrire</div></div>
+    <div class="card"><div class="card-char">爱</div><div class="card-pinyin">ài</div><div class="card-fr">❤️ Aimer</div></div>
+    <div class="card"><div class="card-char">哭</div><div class="card-pinyin">kū</div><div class="card-fr">😢 Pleurer</div></div>
+    <div class="card"><div class="card-char">笑</div><div class="card-pinyin">xiào</div><div class="card-fr">😄 Sourire</div></div>
+    <div class="card"><div class="card-char">想</div><div class="card-pinyin">xiǎng</div><div class="card-fr">💭 Penser</div></div>
+    <div class="card"><div class="card-char">帮忙</div><div class="card-pinyin">bāng máng</div><div class="card-fr">🤝 Aider</div></div>
+    <div class="card"><div class="card-char">开</div><div class="card-pinyin">kāi</div><div class="card-fr">🔓 Ouvrir</div></div>
+    <div class="card"><div class="card-char">关</div><div class="card-pinyin">guān</div><div class="card-fr">🔒 Fermer</div></div>
+    <div class="card"><div class="card-char">叫</div><div class="card-pinyin">jiào</div><div class="card-fr">S'appeler</div></div>
+    <div class="card"><div class="card-char">喜欢</div><div class="card-pinyin">xǐ huan</div><div class="card-fr">💛 Apprécier</div></div>
+    <div class="card"><div class="card-char">在</div><div class="card-pinyin">zài</div><div class="card-fr">Être à / en train de</div></div>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <strong>生词表</strong> · Vocabulaire Chinois · L3 IPPS · Faculté de Pharmacie<br>
+  Dr. Setrerrahmane · Université des Sciences de la Santé<br>
+  <span style="margin-top:8px;display:inline-block;opacity:0.5;font-size:11px;">🔊 Cliquez sur une carte pour entendre la prononciation</span>
+</footer>
+
+<style>
+  .card, .phrase-box { cursor: pointer; }
+  @keyframes ripple {
+    0%   { transform: scale(0); opacity: 0.5; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+  .ripple-circle {
+    position: absolute;
+    border-radius: 50%;
+    width: 60px; height: 60px;
+    background: rgba(224,82,82,0.35);
+    pointer-events: none;
+    animation: ripple 0.55s ease-out forwards;
+    z-index: 10;
+  }
+  .card { overflow: hidden; }
+  @keyframes speakPulse {
+    0%,100% { border-color: var(--border); }
+    50%     { border-color: var(--red); box-shadow: 0 0 14px rgba(224,82,82,0.4); }
+  }
+  .card.speaking { animation: speakPulse 0.6s ease; }
+  #speech-toast {
+    position: fixed;
+    bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #1e1e1e;
+    border: 1px solid #3d1515;
+    color: #e8e0d4;
+    padding: 10px 20px;
+    border-radius: 30px;
+    font-size: 13px;
+    display: flex; align-items: center; gap: 10px;
+    opacity: 0; transition: all 0.3s ease;
+    pointer-events: none; z-index: 999; white-space: nowrap;
+  }
+  #speech-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+  #speech-toast .toast-char { font-family: 'Noto Sans SC', sans-serif; font-size: 20px; color: #ff7a7a; }
+  #speech-toast .toast-pinyin { color: #e6a817; font-style: italic; font-size: 12px; }
+</style>
+
+<div id="speech-toast">
+  <span class="toast-char" id="toast-char"></span>
+  <span>
+    <span id="toast-fr" style="font-size:13px;"></span><br>
+    <span class="toast-pinyin" id="toast-pinyin"></span>
+  </span>
+</div>
+
+<script>
+  const synth = window.speechSynthesis;
+  let chineseVoice = null;
+  function loadVoices() {
+    const v = synth.getVoices();
+    chineseVoice = v.find(x => x.lang === 'zh-CN') || v.find(x => x.lang.startsWith('zh')) || null;
+  }
+  loadVoices();
+  if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = loadVoices;
+
+  function speak(text) {
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'zh-CN'; u.rate = 0.85; u.pitch = 1.05;
+    if (chineseVoice) u.voice = chineseVoice;
+    synth.speak(u);
+  }
+
+  const toast = document.getElementById('speech-toast');
+  const toastChar = document.getElementById('toast-char');
+  const toastFr = document.getElementById('toast-fr');
+  const toastPinyin = document.getElementById('toast-pinyin');
+  let toastTimer = null;
+
+  function showToast(char, pinyin, fr) {
+    toastChar.textContent = char;
+    toastFr.textContent = fr.replace(/^[\p{Emoji}\s]+/u, '').trim();
+    toastPinyin.textContent = pinyin;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  function spawnRipple(el, e) {
+    const rect = el.getBoundingClientRect();
+    const r = document.createElement('span');
+    r.className = 'ripple-circle';
+    r.style.left = (e.clientX - rect.left - 30) + 'px';
+    r.style.top  = (e.clientY - rect.top  - 30) + 'px';
+    el.appendChild(r);
+    r.addEventListener('animationend', () => r.remove());
+  }
+
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const char   = this.querySelector('.card-char')?.textContent.trim()   || '';
+      const pinyin = this.querySelector('.card-pinyin')?.textContent.trim() || '';
+      const fr     = this.querySelector('.card-fr')?.textContent.trim()     || '';
+      if (!char) return;
+      speak(char);
+      spawnRipple(this, e);
+      this.classList.remove('speaking');
+      void this.offsetWidth;
+      this.classList.add('speaking');
+      this.addEventListener('animationend', () => this.classList.remove('speaking'), { once: true });
+      showToast(char, pinyin, fr);
+    });
+  });
+
+  document.querySelectorAll('.phrase-box').forEach(box => {
+    box.addEventListener('click', function(e) {
+      const char   = this.querySelector('.phrase-char')?.textContent.trim()   || '';
+      const pinyin = this.querySelector('.phrase-pinyin')?.textContent.trim() || '';
+      const fr     = this.querySelector('.phrase-fr')?.textContent.trim()     || '';
+      if (!char) return;
+      speak(char);
+      spawnRipple(this, e);
+      showToast(char, pinyin, fr);
+    });
+  });
+</script>
+</body>
+</html>
