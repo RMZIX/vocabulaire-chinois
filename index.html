@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>生词表 — Vocabulaire Chinois</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
 <style>
   :root {
     --red: #e05252;
@@ -484,6 +485,8 @@
 <nav class="nav-tabs">
   <button class="nav-tab active" onclick="showView('vocab')">📚 Vocabulaire</button>
   <button class="nav-tab" onclick="showView('quiz')">🎯 Quiz</button>
+  <button class="nav-tab" onclick="showView('write')">✍️ Écriture</button>
+  <button class="nav-tab" onclick="showView('grammar')">📖 Grammaire</button>
 </nav>
 
 <!-- ===== VOCAB VIEW ===== -->
@@ -988,6 +991,1229 @@
   </div>
 </div>
 
+<!-- ===== WRITE VIEW ===== -->
+<div id="write-view" style="display:none;">
+  <div class="write-container">
+    <div class="write-header">
+      <div class="mode-tag">✍️ Ordre des Traits</div>
+      <h2 class="write-title">Apprendre à écrire</h2>
+      <p class="write-subtitle">Cliquez sur un caractère pour voir l'animation des traits</p>
+    </div>
+
+    <!-- Search -->
+    <div class="write-search-row">
+      <input type="text" id="write-search" placeholder="Rechercher un mot..." oninput="filterWriteChars(this.value)">
+    </div>
+
+    <!-- Character grid -->
+    <div class="write-char-grid" id="write-char-grid"></div>
+
+    <!-- Stroke display panel -->
+    <div class="write-panel" id="write-panel" style="display:none;">
+      <div class="write-panel-top">
+        <div class="write-panel-info">
+          <div class="write-panel-char" id="write-panel-char"></div>
+          <div class="write-panel-pinyin" id="write-panel-pinyin"></div>
+          <div class="write-panel-fr" id="write-panel-fr"></div>
+        </div>
+        <div class="write-canvas-wrap">
+          <div id="hanzi-canvas"></div>
+          <div class="write-stroke-count" id="write-stroke-count"></div>
+        </div>
+      </div>
+      <div class="write-controls">
+        <button class="write-btn" onclick="animateStrokes()">▶ Animer</button>
+        <button class="write-btn write-btn-outline" onclick="showNextStroke()">Trait suivant →</button>
+        <button class="write-btn write-btn-outline" onclick="resetStrokes()">↺ Réinitialiser</button>
+        <button class="write-btn write-btn-quiz" onclick="startWriteQuiz()">✏️ Mode Tracé</button>
+      </div>
+      <!-- Quiz mode inside write panel -->
+      <div id="write-quiz-area" style="display:none;">
+        <div class="write-quiz-label">Tracez le caractère :</div>
+        <div id="hanzi-quiz-canvas"></div>
+        <div class="write-quiz-feedback" id="write-quiz-feedback"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* WRITE TAB */
+  .write-container { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+  .write-header { text-align: center; margin-bottom: 32px; }
+  .write-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--accent); margin-bottom: 6px; }
+  .write-subtitle { color: var(--text-muted); font-size: 14px; }
+
+  .write-search-row { margin-bottom: 24px; display: flex; justify-content: center; }
+  .write-search-row input {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 18px;
+    font-size: 14px;
+    color: var(--text);
+    width: 100%; max-width: 400px;
+    outline: none;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s;
+  }
+  .write-search-row input:focus { border-color: var(--red); }
+  .write-search-row input::placeholder { color: var(--text-muted); }
+
+  .write-char-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 10px;
+    margin-bottom: 36px;
+  }
+  .write-char-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px 6px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+  }
+  .write-char-btn:hover, .write-char-btn.active {
+    border-color: var(--red);
+    background: #1e0a0a;
+    transform: translateY(-2px);
+  }
+  .write-char-btn .wc-char { font-family: 'Noto Sans SC', sans-serif; font-size: 26px; color: var(--accent); line-height: 1; }
+  .write-char-btn .wc-pinyin { font-size: 10px; color: var(--gold); font-style: italic; }
+
+  /* PANEL */
+  .write-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-top: 8px;
+  }
+  .write-panel-top { display: flex; gap: 40px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 24px; }
+  .write-panel-info { flex: 1; min-width: 160px; }
+  .write-panel-char { font-family: 'Noto Sans SC', sans-serif; font-size: 64px; color: var(--accent); font-weight: 700; line-height: 1; margin-bottom: 8px; }
+  .write-panel-pinyin { color: var(--gold); font-size: 18px; font-style: italic; margin-bottom: 6px; }
+  .write-panel-fr { color: var(--text-muted); font-size: 15px; }
+
+  .write-canvas-wrap { position: relative; }
+  #hanzi-canvas { width: 220px; height: 220px; background: #111; border-radius: 12px; border: 1px solid var(--border); }
+  #hanzi-canvas svg { border-radius: 12px; }
+  .write-stroke-count { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 8px; letter-spacing: 1px; }
+
+  .write-controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+  .write-btn {
+    background: var(--red);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .write-btn:hover { background: var(--red-deep); }
+  .write-btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text-muted); }
+  .write-btn-outline:hover { border-color: var(--accent); color: var(--accent); background: transparent; }
+  .write-btn-quiz { background: transparent; border: 1px solid var(--gold); color: var(--gold); }
+  .write-btn-quiz:hover { background: var(--gold); color: #111; }
+
+  /* WRITE QUIZ */
+  .write-quiz-label { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; letter-spacing: 1px; text-transform: uppercase; }
+  #hanzi-quiz-canvas { width: 220px; height: 220px; background: #111; border-radius: 12px; border: 1px solid var(--border); }
+  #hanzi-quiz-canvas svg { border-radius: 12px; }
+  .write-quiz-feedback { margin-top: 12px; font-size: 14px; font-weight: 600; min-height: 20px; }
+  .write-quiz-feedback.correct { color: var(--green); }
+  .write-quiz-feedback.wrong   { color: var(--accent); }
+
+  @media (max-width: 500px) {
+    .write-panel-top { flex-direction: column; align-items: center; }
+    .write-char-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
+  }
+</style>
+
+<!-- ===== GRAMMAR VIEW ===== -->
+<div id="grammar-view" style="display:none;">
+<div class="grammar-container">
+
+  <div class="write-header">
+    <div class="mode-tag">📖 Grammaire</div>
+    <h2 class="write-title">Règles de Grammaire</h2>
+    <p class="write-subtitle">Les 6 piliers de la grammaire chinoise</p>
+  </div>
+
+  <!-- TOPIC NAV -->
+  <div class="grammar-topics">
+    <button class="gtopic-btn active" onclick="showGrammar('svo')">🔤 Structure</button>
+    <button class="gtopic-btn" onclick="showGrammar('neg')">🚫 Négation</button>
+    <button class="gtopic-btn" onclick="showGrammar('quest')">❓ Questions</button>
+    <button class="gtopic-btn" onclick="showGrammar('meas')">🔢 Classificateurs</button>
+    <button class="gtopic-btn" onclick="showGrammar('time')">🕐 Le Temps</button>
+    <button class="gtopic-btn" onclick="showGrammar('modal')">✅ Verbes Modaux</button>
+  </div>
+
+  <!-- ── 1. SENTENCE STRUCTURE ── -->
+  <div class="grammar-panel active" id="gpanel-svo">
+    <div class="grammar-rule-header">
+      <span class="grammar-emoji">🔤</span>
+      <div>
+        <div class="grammar-rule-title">Structure de la Phrase (主谓宾)</div>
+        <div class="grammar-rule-sub">Sujet — Verbe — Objet · Identique au français !</div>
+      </div>
+    </div>
+
+    <div class="grammar-formula">
+      <span class="gf-box gf-subject">Sujet</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-verb">Verbe</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-object">Objet</span>
+    </div>
+
+    <div class="grammar-note">💡 En chinois, l'ordre des mots est <strong>fixe</strong> — il n'y a pas de conjugaison, pas de genre, et pas de pluriel obligatoire !</div>
+
+    <div class="grammar-examples">
+      <div class="gex-title">Exemples</div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-s">我</span> <span class="gex-v">吃</span> <span class="gex-o">饭</span></div>
+        <div class="gex-py">Wǒ chī fàn</div>
+        <div class="gex-fr">Je mange (du riz)</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-s">她</span> <span class="gex-v">喝</span> <span class="gex-o">茶</span></div>
+        <div class="gex-py">Tā hē chá</div>
+        <div class="gex-fr">Elle boit du thé</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-s">我们</span> <span class="gex-v">学习</span> <span class="gex-o">中文</span></div>
+        <div class="gex-py">Wǒmen xuéxí zhōngwén</div>
+        <div class="gex-fr">Nous étudions le chinois</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-s">医生</span> <span class="gex-v">给</span> <span class="gex-o">药物</span></div>
+        <div class="gex-py">Yīshēng gěi yàowù</div>
+        <div class="gex-fr">Le médecin donne des médicaments</div>
+      </div>
+    </div>
+
+    <div class="grammar-tip">
+      <div class="gtip-title">⚠️ Différence clé avec le français</div>
+      <div class="gtip-body">Les adjectifs se placent <strong>avant</strong> le nom : 好医生 (hǎo yīshēng) = <em>bon médecin</em>, pas ~~médecin bon~~</div>
+    </div>
+  </div>
+
+  <!-- ── 2. NEGATION ── -->
+  <div class="grammar-panel" id="gpanel-neg">
+    <div class="grammar-rule-header">
+      <span class="grammar-emoji">🚫</span>
+      <div>
+        <div class="grammar-rule-title">La Négation (否定)</div>
+        <div class="grammar-rule-sub">Deux mots pour tout nier : 不 et 没</div>
+      </div>
+    </div>
+
+    <div class="grammar-two-col">
+      <div class="grammar-card-block">
+        <div class="gcb-char">不</div>
+        <div class="gcb-pinyin">bù / bú</div>
+        <div class="gcb-label">Négation générale</div>
+        <div class="gcb-desc">Pour nier une action présente/future, une qualité, ou un verbe modal</div>
+      </div>
+      <div class="grammar-card-block">
+        <div class="gcb-char">没</div>
+        <div class="gcb-pinyin">méi</div>
+        <div class="gcb-label">Négation du passé / 有</div>
+        <div class="gcb-desc">Pour nier une action passée ou nier 有 (avoir/il y a)</div>
+      </div>
+    </div>
+
+    <div class="grammar-formula">
+      <span class="gf-box gf-subject">Sujet</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-neg">不 / 没</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-verb">Verbe</span>
+    </div>
+
+    <div class="grammar-examples">
+      <div class="gex-title">不 bù — Négation présente/future</div>
+      <div class="gex-item">
+        <div class="gex-zh">我 <span class="gex-neg">不</span> 吃肉</div>
+        <div class="gex-py">Wǒ bù chī ròu</div>
+        <div class="gex-fr">Je ne mange pas de viande</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">她 <span class="gex-neg">不</span> 是医生</div>
+        <div class="gex-py">Tā bù shì yīshēng</div>
+        <div class="gex-fr">Elle n'est pas médecin</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">我 <span class="gex-neg">不</span> 喜欢咖啡</div>
+        <div class="gex-py">Wǒ bù xǐhuan kāfēi</div>
+        <div class="gex-fr">Je n'aime pas le café</div>
+      </div>
+
+      <div class="gex-title" style="margin-top:20px;">没 méi — Négation passée / 有</div>
+      <div class="gex-item">
+        <div class="gex-zh">我 <span class="gex-neg">没</span> 吃早饭</div>
+        <div class="gex-py">Wǒ méi chī zǎofàn</div>
+        <div class="gex-fr">Je n'ai pas mangé le petit-déjeuner</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">我 <span class="gex-neg">没有</span> 时间</div>
+        <div class="gex-py">Wǒ méiyǒu shíjiān</div>
+        <div class="gex-fr">Je n'ai pas le temps</div>
+      </div>
+    </div>
+
+    <div class="grammar-tip">
+      <div class="gtip-title">⚠️ Règle d'or</div>
+      <div class="gtip-body">是 (être) → toujours nié avec <strong>不是</strong><br>有 (avoir) → toujours nié avec <strong>没有</strong>, jamais 不有</div>
+    </div>
+  </div>
+
+  <!-- ── 3. QUESTIONS ── -->
+  <div class="grammar-panel" id="gpanel-quest">
+    <div class="grammar-rule-header">
+      <span class="grammar-emoji">❓</span>
+      <div>
+        <div class="grammar-rule-title">Poser des Questions (疑问)</div>
+        <div class="grammar-rule-sub">3 méthodes principales</div>
+      </div>
+    </div>
+
+    <div class="grammar-three-col">
+      <div class="grammar-card-block">
+        <div class="gcb-char">吗</div>
+        <div class="gcb-pinyin">ma</div>
+        <div class="gcb-label">Question oui/non</div>
+        <div class="gcb-desc">Ajoutez 吗 à la fin de n'importe quelle phrase affirmative</div>
+      </div>
+      <div class="grammar-card-block">
+        <div class="gcb-char">呢</div>
+        <div class="gcb-pinyin">ne</div>
+        <div class="gcb-label">Et... ? / Et toi ?</div>
+        <div class="gcb-desc">Question de retour ou de continuation</div>
+      </div>
+      <div class="grammar-card-block">
+        <div class="gcb-char">怎么</div>
+        <div class="gcb-pinyin">zěnme</div>
+        <div class="gcb-label">Comment ?</div>
+        <div class="gcb-desc">Question ouverte sur la manière</div>
+      </div>
+    </div>
+
+    <div class="grammar-examples">
+      <div class="gex-title">吗 — Oui / Non</div>
+      <div class="gex-item">
+        <div class="gex-zh">你是医生 <span class="gex-q">吗</span> ？</div>
+        <div class="gex-py">Nǐ shì yīshēng ma?</div>
+        <div class="gex-fr">Es-tu médecin ?</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">你喜欢茶 <span class="gex-q">吗</span> ？</div>
+        <div class="gex-py">Nǐ xǐhuan chá ma?</div>
+        <div class="gex-fr">Tu aimes le thé ?</div>
+      </div>
+
+      <div class="gex-title" style="margin-top:20px;">呢 — Et... ?</div>
+      <div class="gex-item">
+        <div class="gex-zh">我很好，你 <span class="gex-q">呢</span> ？</div>
+        <div class="gex-py">Wǒ hěn hǎo, nǐ ne?</div>
+        <div class="gex-fr">Je vais bien, et toi ?</div>
+      </div>
+
+      <div class="gex-title" style="margin-top:20px;">Mots interrogatifs</div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-q">什么</span> — shénme</div>
+        <div class="gex-fr">Quoi / Quel</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-q">谁</span> — shéi</div>
+        <div class="gex-fr">Qui</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-q">哪里</span> — nǎlǐ</div>
+        <div class="gex-fr">Où</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-q">什么时候</span> — shénme shíhòu</div>
+        <div class="gex-fr">Quand</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-q">为什么</span> — wèishénme</div>
+        <div class="gex-fr">Pourquoi</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-q">多少</span> — duōshǎo</div>
+        <div class="gex-fr">Combien</div>
+      </div>
+    </div>
+
+    <div class="grammar-tip">
+      <div class="gtip-title">💡 Astuce</div>
+      <div class="gtip-body">Contrairement au français, la structure de la phrase <strong>ne change pas</strong> pour une question avec 吗 — on ajoute juste 吗 à la fin !</div>
+    </div>
+  </div>
+
+  <!-- ── 4. MEASURE WORDS ── -->
+  <div class="grammar-panel" id="gpanel-meas">
+    <div class="grammar-rule-header">
+      <span class="grammar-emoji">🔢</span>
+      <div>
+        <div class="grammar-rule-title">Les Classificateurs (量词 liàngcí)</div>
+        <div class="grammar-rule-sub">Obligatoires entre un nombre et un nom</div>
+      </div>
+    </div>
+
+    <div class="grammar-formula">
+      <span class="gf-box gf-subject">Nombre</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-verb">量词</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-object">Nom</span>
+    </div>
+
+    <div class="grammar-note">💡 En français on dit "deux livres" directement. En chinois il faut un classificateur : 两 <strong>本</strong> 书 (liǎng běn shū = deux <em>[volume]</em> livre)</div>
+
+    <div class="grammar-examples">
+      <div class="gex-title">Les classificateurs essentiels</div>
+      <div class="gex-item">
+        <div class="gex-zh">三 <span class="gex-q">个</span> 人</div>
+        <div class="gex-py">sān gè rén</div>
+        <div class="gex-fr">trois personnes (个 = général)</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">两 <span class="gex-q">本</span> 书</div>
+        <div class="gex-py">liǎng běn shū</div>
+        <div class="gex-fr">deux livres (本 = volumes)</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">一 <span class="gex-q">杯</span> 茶</div>
+        <div class="gex-py">yī bēi chá</div>
+        <div class="gex-fr">une tasse de thé (杯 = tasse)</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">五 <span class="gex-q">位</span> 医生</div>
+        <div class="gex-py">wǔ wèi yīshēng</div>
+        <div class="gex-fr">cinq médecins (位 = personnes, respect)</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">一 <span class="gex-q">辆</span> 汽车</div>
+        <div class="gex-py">yī liàng qìchē</div>
+        <div class="gex-fr">une voiture (辆 = véhicules)</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">两 <span class="gex-q">瓶</span> 水</div>
+        <div class="gex-py">liǎng píng shuǐ</div>
+        <div class="gex-fr">deux bouteilles d'eau (瓶 = bouteilles)</div>
+      </div>
+    </div>
+
+    <div class="grammar-tip">
+      <div class="gtip-title">⚠️ 两 vs 二</div>
+      <div class="gtip-body">Pour compter seul → 二 (èr) : 一、二、三...<br>Devant un classificateur → 两 (liǎng) : 两个人, 两本书</div>
+    </div>
+  </div>
+
+  <!-- ── 5. TIME ── -->
+  <div class="grammar-panel" id="gpanel-time">
+    <div class="grammar-rule-header">
+      <span class="grammar-emoji">🕐</span>
+      <div>
+        <div class="grammar-rule-title">Exprimer le Temps (时间表达)</div>
+        <div class="grammar-rule-sub">Le temps se place en tête de phrase ou après le sujet</div>
+      </div>
+    </div>
+
+    <div class="grammar-formula">
+      <span class="gf-box gf-time">Temps</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-subject">Sujet</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-verb">Verbe</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-object">Objet</span>
+    </div>
+
+    <div class="grammar-examples">
+      <div class="gex-title">Ordre du temps : du plus grand au plus petit</div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-q">2024年 3月 15日 上午 9点</span></div>
+        <div class="gex-py">2024 nián, 3 yuè, 15 rì, shàngwǔ 9 diǎn</div>
+        <div class="gex-fr">Le 15 mars 2024, 9h du matin</div>
+      </div>
+
+      <div class="gex-title" style="margin-top:20px;">Exemples de phrases</div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-q">今天</span> 我 学习 中文</div>
+        <div class="gex-py">Jīntiān wǒ xuéxí zhōngwén</div>
+        <div class="gex-fr">Aujourd'hui j'étudie le chinois</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh"><span class="gex-q">明天</span> 她 去 医院</div>
+        <div class="gex-py">Míngtiān tā qù yīyuàn</div>
+        <div class="gex-fr">Demain elle va à l'hôpital</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">我 <span class="gex-q">每天</span> 喝 茶</div>
+        <div class="gex-py">Wǒ měitiān hē chá</div>
+        <div class="gex-fr">Je bois du thé tous les jours</div>
+      </div>
+
+      <div class="gex-title" style="margin-top:20px;">Mots de temps utiles</div>
+      <div class="gex-item"><div class="gex-zh"><span class="gex-q">现在</span> — xiànzài</div><div class="gex-fr">maintenant</div></div>
+      <div class="gex-item"><div class="gex-zh"><span class="gex-q">以前</span> — yǐqián</div><div class="gex-fr">avant / autrefois</div></div>
+      <div class="gex-item"><div class="gex-zh"><span class="gex-q">以后</span> — yǐhòu</div><div class="gex-fr">après / plus tard</div></div>
+      <div class="gex-item"><div class="gex-zh"><span class="gex-q">每天</span> — měitiān</div><div class="gex-fr">chaque jour</div></div>
+      <div class="gex-item"><div class="gex-zh"><span class="gex-q">有时候</span> — yǒushíhòu</div><div class="gex-fr">parfois</div></div>
+      <div class="gex-item"><div class="gex-zh"><span class="gex-q">经常</span> — jīngcháng</div><div class="gex-fr">souvent</div></div>
+    </div>
+
+    <div class="grammar-tip">
+      <div class="gtip-title">💡 Pas de temps verbaux !</div>
+      <div class="gtip-body">Le chinois n'a <strong>pas de conjugaison</strong>. C'est le mot de temps (今天, 明天, 去年...) qui indique passé/présent/futur. On peut aussi ajouter 了 (le) après le verbe pour marquer une action accomplie.</div>
+    </div>
+  </div>
+
+  <!-- ── 6. MODAL VERBS ── -->
+  <div class="grammar-panel" id="gpanel-modal">
+    <div class="grammar-rule-header">
+      <span class="grammar-emoji">✅</span>
+      <div>
+        <div class="grammar-rule-title">Les Verbes Modaux (情态动词)</div>
+        <div class="grammar-rule-sub">Exprimer capacité, permission, obligation, désir</div>
+      </div>
+    </div>
+
+    <div class="grammar-formula">
+      <span class="gf-box gf-subject">Sujet</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-verb">Modal</span>
+      <span class="gf-plus">+</span>
+      <span class="gf-box gf-object">Verbe</span>
+    </div>
+
+    <div class="grammar-two-col" style="grid-template-columns: repeat(auto-fill, minmax(200px,1fr));">
+      <div class="grammar-card-block">
+        <div class="gcb-char">会</div>
+        <div class="gcb-pinyin">huì</div>
+        <div class="gcb-label">Savoir faire (acquis)</div>
+        <div class="gcb-desc">Compétence apprise : savoir parler, conduire...</div>
+      </div>
+      <div class="grammar-card-block">
+        <div class="gcb-char">能</div>
+        <div class="gcb-pinyin">néng</div>
+        <div class="gcb-label">Pouvoir (capacité physique)</div>
+        <div class="gcb-desc">Capacité du moment : je peux / je suis en mesure de</div>
+      </div>
+      <div class="grammar-card-block">
+        <div class="gcb-char">可以</div>
+        <div class="gcb-pinyin">kě yǐ</div>
+        <div class="gcb-label">Être autorisé</div>
+        <div class="gcb-desc">Permission : on peut, c'est autorisé</div>
+      </div>
+      <div class="grammar-card-block">
+        <div class="gcb-char">要</div>
+        <div class="gcb-pinyin">yào</div>
+        <div class="gcb-label">Vouloir / Devoir</div>
+        <div class="gcb-desc">Désir ou obligation selon le contexte</div>
+      </div>
+      <div class="grammar-card-block">
+        <div class="gcb-char">想</div>
+        <div class="gcb-pinyin">xiǎng</div>
+        <div class="gcb-label">Avoir envie de</div>
+        <div class="gcb-desc">Désir moins fort que 要, vouloir bien</div>
+      </div>
+      <div class="grammar-card-block">
+        <div class="gcb-char">应该</div>
+        <div class="gcb-pinyin">yīnggāi</div>
+        <div class="gcb-label">Devoir (obligation morale)</div>
+        <div class="gcb-desc">On devrait, il faut que...</div>
+      </div>
+    </div>
+
+    <div class="grammar-examples">
+      <div class="gex-title">Exemples comparés</div>
+      <div class="gex-item">
+        <div class="gex-zh">我 <span class="gex-v">会</span> 说 中文</div>
+        <div class="gex-py">Wǒ huì shuō zhōngwén</div>
+        <div class="gex-fr">Je sais parler chinois (compétence acquise)</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">我今天 <span class="gex-v">能</span> 来</div>
+        <div class="gex-py">Wǒ jīntiān néng lái</div>
+        <div class="gex-fr">Je peux venir aujourd'hui (physiquement possible)</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">这里 <span class="gex-v">可以</span> 吃东西</div>
+        <div class="gex-py">Zhèlǐ kěyǐ chī dōngxi</div>
+        <div class="gex-fr">On peut manger ici (c'est autorisé)</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">我 <span class="gex-v">要</span> 喝水</div>
+        <div class="gex-py">Wǒ yào hē shuǐ</div>
+        <div class="gex-fr">Je veux / j'ai besoin de boire de l'eau</div>
+      </div>
+      <div class="gex-item">
+        <div class="gex-zh">医生 <span class="gex-v">应该</span> 帮忙 病人</div>
+        <div class="gex-py">Yīshēng yīnggāi bāngmáng bìngrén</div>
+        <div class="gex-fr">Le médecin devrait aider le patient</div>
+      </div>
+    </div>
+
+    <div class="grammar-tip">
+      <div class="gtip-title">⚠️ Négation des modaux</div>
+      <div class="gtip-body">
+        不会 (bù huì) = ne sait pas faire<br>
+        不能 (bù néng) = ne peut pas<br>
+        不可以 (bù kěyǐ) = ce n'est pas autorisé<br>
+        不要 (bù yào) = ne pas / ne veux pas (aussi utilisé comme impératif négatif !)
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<style>
+  /* GRAMMAR TAB */
+  .grammar-container { max-width: 860px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .grammar-topics {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 32px; justify-content: center;
+  }
+  .gtopic-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 9px 16px;
+    font-size: 13px; font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .gtopic-btn:hover { border-color: var(--red); color: var(--accent); }
+  .gtopic-btn.active { background: #2a1010; border-color: var(--red); color: var(--accent); }
+
+  .grammar-panel { display: none; animation: fadeUp 0.3s ease both; }
+  .grammar-panel.active { display: block; }
+
+  .grammar-rule-header {
+    display: flex; align-items: center; gap: 18px;
+    margin-bottom: 28px;
+    padding-bottom: 18px;
+    border-bottom: 2px solid var(--border);
+  }
+  .grammar-emoji { font-size: 40px; }
+  .grammar-rule-title { font-family: 'Playfair Display', serif; font-size: 24px; color: var(--accent); margin-bottom: 4px; }
+  .grammar-rule-sub { color: var(--text-muted); font-size: 14px; }
+
+  /* FORMULA */
+  .grammar-formula {
+    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    background: #111; border: 1px solid var(--border);
+    border-radius: 12px; padding: 20px 24px;
+    margin-bottom: 24px; justify-content: center;
+  }
+  .gf-box {
+    padding: 8px 18px; border-radius: 8px;
+    font-size: 14px; font-weight: 700; letter-spacing: 1px;
+  }
+  .gf-subject { background: rgba(100,160,255,0.15); color: #7ab3ff; border: 1px solid rgba(100,160,255,0.3); }
+  .gf-verb    { background: rgba(224,82,82,0.15);  color: var(--accent); border: 1px solid rgba(224,82,82,0.3); }
+  .gf-object  { background: rgba(230,168,23,0.15); color: var(--gold);   border: 1px solid rgba(230,168,23,0.3); }
+  .gf-neg     { background: rgba(224,82,82,0.25);  color: var(--accent); border: 1px solid var(--red); }
+  .gf-time    { background: rgba(76,175,125,0.15); color: #4caf7d;       border: 1px solid rgba(76,175,125,0.3); }
+  .gf-plus    { color: var(--text-muted); font-size: 18px; font-weight: 300; }
+
+  .grammar-note {
+    background: rgba(230,168,23,0.08);
+    border: 1px solid rgba(230,168,23,0.2);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  /* EXAMPLES */
+  .grammar-examples { margin-bottom: 24px; }
+  .gex-title {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 12px; font-weight: 700;
+  }
+  .gex-item {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+    align-items: center;
+  }
+  @media (max-width: 600px) {
+    .gex-item { grid-template-columns: 1fr; }
+  }
+  .gex-zh { font-family: 'Noto Sans SC', sans-serif; font-size: 20px; color: var(--text); }
+  .gex-py { font-size: 13px; color: var(--gold); font-style: italic; }
+  .gex-fr { font-size: 13px; color: var(--text-muted); }
+  .gex-s  { color: #7ab3ff; font-weight: 700; }
+  .gex-v  { color: var(--accent); font-weight: 700; }
+  .gex-o  { color: var(--gold); font-weight: 700; }
+  .gex-neg{ color: var(--accent); font-weight: 700; }
+  .gex-q  { color: var(--gold); font-weight: 700; }
+
+  /* CARD BLOCKS */
+  .grammar-two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  .grammar-three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 24px; }
+  @media (max-width: 600px) {
+    .grammar-two-col, .grammar-three-col { grid-template-columns: 1fr; }
+  }
+  .grammar-card-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 18px;
+    text-align: center;
+    transition: border-color 0.15s;
+  }
+  .grammar-card-block:hover { border-color: var(--red); }
+  .gcb-char   { font-family: 'Noto Sans SC', sans-serif; font-size: 42px; color: var(--accent); font-weight: 700; line-height: 1.1; }
+  .gcb-pinyin { font-size: 13px; color: var(--gold); font-style: italic; margin: 4px 0 8px; }
+  .gcb-label  { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 6px; letter-spacing: 0.5px; }
+  .gcb-desc   { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+
+  /* TIP */
+  .grammar-tip {
+    background: rgba(224,82,82,0.07);
+    border: 1px solid rgba(224,82,82,0.2);
+    border-left: 4px solid var(--red);
+    border-radius: 8px;
+    padding: 16px 20px;
+  }
+  .gtip-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+  .gtip-body  { font-size: 13px; color: var(--text); line-height: 1.8; }
+</style>
+
+<!-- ===== GRAMMAR VIEW ===== -->
+<div id="grammar-view" style="display:none;">
+  <div class="grammar-container">
+
+    <div class="write-header">
+      <div class="mode-tag">📖 Grammaire</div>
+      <h2 class="write-title">Règles de Grammaire</h2>
+      <p class="write-subtitle">Cliquez sur un exemple pour l'entendre</p>
+    </div>
+
+    <!-- TOPIC NAV -->
+    <div class="g-topic-nav">
+      <button class="g-topic-btn active" onclick="showGrammarTopic(0, this)">🧱 Structure SVO</button>
+      <button class="g-topic-btn" onclick="showGrammarTopic(1, this)">🚫 Négation</button>
+      <button class="g-topic-btn" onclick="showGrammarTopic(2, this)">❓ Questions</button>
+      <button class="g-topic-btn" onclick="showGrammarTopic(3, this)">🔢 Classificateurs</button>
+      <button class="g-topic-btn" onclick="showGrammarTopic(4, this)">🕐 Temps</button>
+      <button class="g-topic-btn" onclick="showGrammarTopic(5, this)">✅ Verbes Modaux</button>
+    </div>
+
+    <!-- TOPIC PANELS -->
+    <div id="g-topics">
+
+      <!-- 0: SVO -->
+      <div class="g-panel active">
+        <div class="g-rule-title">Structure de base : Sujet + Verbe + Objet</div>
+        <div class="g-rule-desc">Le chinois suit la même structure de base que le français : Sujet → Verbe → Objet. Il n'y a pas de conjugaison — le verbe ne change jamais de forme.</div>
+        <div class="g-formula">
+          <span class="g-box g-box-s">Sujet</span>
+          <span class="g-arrow">+</span>
+          <span class="g-box g-box-v">Verbe</span>
+          <span class="g-arrow">+</span>
+          <span class="g-box g-box-o">Objet</span>
+        </div>
+        <div class="g-examples">
+          <div class="g-ex" onclick="speakEx('我吃饭')">
+            <div class="g-ex-cn"><span class="g-s">我</span> <span class="g-v">吃</span> <span class="g-o">饭</span></div>
+            <div class="g-ex-py">Wǒ chī fàn</div>
+            <div class="g-ex-fr">Je mange (du riz)</div>
+          </div>
+          <div class="g-ex" onclick="speakEx('她喝茶')">
+            <div class="g-ex-cn"><span class="g-s">她</span> <span class="g-v">喝</span> <span class="g-o">茶</span></div>
+            <div class="g-ex-py">Tā hē chá</div>
+            <div class="g-ex-fr">Elle boit du thé</div>
+          </div>
+          <div class="g-ex" onclick="speakEx('我们学习中文')">
+            <div class="g-ex-cn"><span class="g-s">我们</span> <span class="g-v">学习</span> <span class="g-o">中文</span></div>
+            <div class="g-ex-py">Wǒmen xuéxí zhōngwén</div>
+            <div class="g-ex-fr">Nous étudions le chinois</div>
+          </div>
+          <div class="g-ex" onclick="speakEx('他看书')">
+            <div class="g-ex-cn"><span class="g-s">他</span> <span class="g-v">看</span> <span class="g-o">书</span></div>
+            <div class="g-ex-py">Tā kàn shū</div>
+            <div class="g-ex-fr">Il lit un livre</div>
+          </div>
+        </div>
+        <div class="g-note">💡 <strong>Remarque :</strong> Le verbe 是 (shì = être) s'utilise pour identifier ou définir : 我是学生 (Je suis étudiant). Il ne s'utilise <em>pas</em> avec les adjectifs !</div>
+        <div class="g-examples" style="margin-top:12px;">
+          <div class="g-ex" onclick="speakEx('我是医生')">
+            <div class="g-ex-cn"><span class="g-s">我</span> <span class="g-v">是</span> <span class="g-o">医生</span></div>
+            <div class="g-ex-py">Wǒ shì yīshēng</div>
+            <div class="g-ex-fr">Je suis médecin ✅</div>
+          </div>
+          <div class="g-ex g-ex-wrong">
+            <div class="g-ex-cn" style="text-decoration:line-through;opacity:0.5;"><span class="g-s">他</span> <span class="g-v">是</span> <span class="g-o">高</span></div>
+            <div class="g-ex-py" style="opacity:0.5;">Tā shì gāo</div>
+            <div class="g-ex-fr">❌ Incorrect — pas de 是 avec les adjectifs</div>
+          </div>
+          <div class="g-ex" onclick="speakEx('他很高')">
+            <div class="g-ex-cn"><span class="g-s">他</span> <span class="g-v">很高</span></div>
+            <div class="g-ex-py">Tā hěn gāo</div>
+            <div class="g-ex-fr">Il est grand ✅ (très grand)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1: NEGATION -->
+      <div class="g-panel">
+        <div class="g-rule-title">La Négation : 不 (bù) et 没 (méi)</div>
+        <div class="g-rule-desc">Il existe deux mots de négation en chinois, chacun avec un usage précis. Ils se placent toujours <strong>avant</strong> le verbe.</div>
+
+        <div class="g-two-col">
+          <div class="g-neg-card">
+            <div class="g-neg-char" onclick="speakEx('不')">不 <span style="font-family:'DM Sans';font-size:16px;color:var(--gold)">bù</span></div>
+            <div class="g-neg-label">Négation générale</div>
+            <div class="g-neg-uses">
+              <div>✔ Refus / volonté</div>
+              <div>✔ Adjectifs</div>
+              <div>✔ Habitudes</div>
+              <div>✔ Futur</div>
+            </div>
+          </div>
+          <div class="g-neg-card">
+            <div class="g-neg-char" onclick="speakEx('没')">没 <span style="font-family:'DM Sans';font-size:16px;color:var(--gold)">méi</span></div>
+            <div class="g-neg-label">Négation du passé / possession</div>
+            <div class="g-neg-uses">
+              <div>✔ Action passée</div>
+              <div>✔ Possession (没有)</div>
+              <div>✔ Expérience vécue</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="g-examples">
+          <div class="g-ex" onclick="speakEx('我不吃肉')">
+            <div class="g-ex-cn">我 <span class="g-neg">不</span> 吃 肉</div>
+            <div class="g-ex-py">Wǒ bù chī ròu</div>
+            <div class="g-ex-fr">Je ne mange pas de viande (habitude)</div>
+          </div>
+          <div class="g-ex" onclick="speakEx('他不是医生')">
+            <div class="g-ex-cn">他 <span class="g-neg">不</span> 是 医生</div>
+            <div class="g-ex-py">Tā bù shì yīshēng</div>
+            <div class="g-ex-fr">Il n'est pas médecin</div>
+          </div>
+          <div class="g-ex" onclick="speakEx('我没吃饭')">
+            <div class="g-ex-cn">我 <span class="g-neg">没</span> 吃 饭</div>
+            <div class="g-ex-py">Wǒ méi chī fàn</div>
+            <div class="g-ex-fr">Je n'ai pas mangé (action passée)</div>
+          </div>
+          <div class="g-ex" onclick="speakEx('我没有钱')">
+            <div class="g-ex-cn">我 <span class="g-neg">没有</span> 钱</div>
+            <div class="g-ex-py">Wǒ méiyǒu qián</div>
+            <div class="g-ex-fr">Je n'ai pas d'argent (possession)</div>
+          </div>
+        </div>
+        <div class="g-note">💡 <strong>Astuce :</strong> 不好 (bù hǎo) = pas bien · 不大 (bù dà) = pas grand · 不快 (bù kuài) = pas rapide. 不 se place directement avant l'adjectif.</div>
+      </div>
+
+      <!-- 2: QUESTIONS -->
+      <div class="g-panel">
+        <div class="g-rule-title">Poser des Questions</div>
+        <div class="g-rule-desc">Il existe plusieurs façons de poser une question en chinois. La plus simple : ajouter 吗 (ma) à la fin d'une phrase affirmative.</div>
+
+        <div class="g-q-methods">
+          <div class="g-q-method">
+            <div class="g-q-tag">吗 ma</div>
+            <div class="g-q-desc">Oui / Non — ajouter à la fin</div>
+            <div class="g-examples" style="margin-top:10px;">
+              <div class="g-ex" onclick="speakEx('你好吗')">
+                <div class="g-ex-cn">你好 <span class="g-q">吗</span> ？</div>
+                <div class="g-ex-py">Nǐ hǎo ma ?</div>
+                <div class="g-ex-fr">Ça va ?</div>
+              </div>
+              <div class="g-ex" onclick="speakEx('你是医生吗')">
+                <div class="g-ex-cn">你是医生 <span class="g-q">吗</span> ？</div>
+                <div class="g-ex-py">Nǐ shì yīshēng ma ?</div>
+                <div class="g-ex-fr">Tu es médecin ?</div>
+              </div>
+            </div>
+          </div>
+          <div class="g-q-method">
+            <div class="g-q-tag">呢 ne</div>
+            <div class="g-q-desc">Et … ? / Qu'en est-il de … ?</div>
+            <div class="g-examples" style="margin-top:10px;">
+              <div class="g-ex" onclick="speakEx('我很好，你呢')">
+                <div class="g-ex-cn">我很好，你 <span class="g-q">呢</span> ？</div>
+                <div class="g-ex-py">Wǒ hěn hǎo, nǐ ne ?</div>
+                <div class="g-ex-fr">Je vais bien, et toi ?</div>
+              </div>
+            </div>
+          </div>
+          <div class="g-q-method">
+            <div class="g-q-tag">怎么 zěnme</div>
+            <div class="g-q-desc">Comment ?</div>
+            <div class="g-examples" style="margin-top:10px;">
+              <div class="g-ex" onclick="speakEx('怎么样')">
+                <div class="g-ex-cn"><span class="g-q">怎么</span>样 ？</div>
+                <div class="g-ex-py">Zěnme yàng ?</div>
+                <div class="g-ex-fr">Comment ça va ? / C'est comment ?</div>
+              </div>
+              <div class="g-ex" onclick="speakEx('你怎么去')">
+                <div class="g-ex-cn">你 <span class="g-q">怎么</span> 去 ？</div>
+                <div class="g-ex-py">Nǐ zěnme qù ?</div>
+                <div class="g-ex-fr">Comment y vas-tu ?</div>
+              </div>
+            </div>
+          </div>
+          <div class="g-q-method">
+            <div class="g-q-tag">什么 shénme</div>
+            <div class="g-q-desc">Quoi / Quel ?</div>
+            <div class="g-examples" style="margin-top:10px;">
+              <div class="g-ex" onclick="speakEx('你叫什么名字')">
+                <div class="g-ex-cn">你叫 <span class="g-q">什么</span> 名字 ？</div>
+                <div class="g-ex-py">Nǐ jiào shénme míngzi ?</div>
+                <div class="g-ex-fr">Comment tu t'appelles ?</div>
+              </div>
+              <div class="g-ex" onclick="speakEx('这是什么')">
+                <div class="g-ex-cn">这是 <span class="g-q">什么</span> ？</div>
+                <div class="g-ex-py">Zhè shì shénme ?</div>
+                <div class="g-ex-fr">Qu'est-ce que c'est ?</div>
+              </div>
+            </div>
+          </div>
+          <div class="g-q-method">
+            <div class="g-q-tag">谁 shéi</div>
+            <div class="g-q-desc">Qui ?</div>
+            <div class="g-examples" style="margin-top:10px;">
+              <div class="g-ex" onclick="speakEx('他是谁')">
+                <div class="g-ex-cn">他是 <span class="g-q">谁</span> ？</div>
+                <div class="g-ex-py">Tā shì shéi ?</div>
+                <div class="g-ex-fr">Qui est-il ?</div>
+              </div>
+            </div>
+          </div>
+          <div class="g-q-method">
+            <div class="g-q-tag">哪 nǎ</div>
+            <div class="g-q-desc">Lequel / Où ?</div>
+            <div class="g-examples" style="margin-top:10px;">
+              <div class="g-ex" onclick="speakEx('你在哪里')">
+                <div class="g-ex-cn">你在 <span class="g-q">哪里</span> ？</div>
+                <div class="g-ex-py">Nǐ zài nǎlǐ ?</div>
+                <div class="g-ex-fr">Où es-tu ?</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="g-note">💡 <strong>Astuce :</strong> En chinois, les mots interrogatifs (什么, 谁, 哪…) restent à la place du mot qu'ils remplacent dans la phrase — pas en début de phrase comme en français !</div>
+      </div>
+
+      <!-- 3: CLASSIFIERS -->
+      <div class="g-panel">
+        <div class="g-rule-title">Les Classificateurs (量词 liàngcí)</div>
+        <div class="g-rule-desc">En chinois, on ne peut pas mettre un nombre directement devant un nom. Il faut toujours insérer un classificateur (mot de mesure) entre les deux.</div>
+        <div class="g-formula">
+          <span class="g-box g-box-s">Nombre</span>
+          <span class="g-arrow">+</span>
+          <span class="g-box g-box-v">Classificateur</span>
+          <span class="g-arrow">+</span>
+          <span class="g-box g-box-o">Nom</span>
+        </div>
+        <div class="g-cl-grid">
+          <div class="g-cl-item">
+            <div class="g-cl-char" onclick="speakEx('个')">个 <span>gè</span></div>
+            <div class="g-cl-use">Usage général</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('三个人')"><span class="g-ex-cn" style="font-size:18px;">三个人</span><span class="g-ex-py">sān gè rén</span><span class="g-ex-fr">3 personnes</span></div>
+          </div>
+          <div class="g-cl-item">
+            <div class="g-cl-char" onclick="speakEx('本')">本 <span>běn</span></div>
+            <div class="g-cl-use">Livres / cahiers</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('两本书')"><span class="g-ex-cn" style="font-size:18px;">两本书</span><span class="g-ex-py">liǎng běn shū</span><span class="g-ex-fr">2 livres</span></div>
+          </div>
+          <div class="g-cl-item">
+            <div class="g-cl-char" onclick="speakEx('张')">张 <span>zhāng</span></div>
+            <div class="g-cl-use">Objets plats</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('一张纸')"><span class="g-ex-cn" style="font-size:18px;">一张纸</span><span class="g-ex-py">yī zhāng zhǐ</span><span class="g-ex-fr">1 feuille</span></div>
+          </div>
+          <div class="g-cl-item">
+            <div class="g-cl-char" onclick="speakEx('杯')">杯 <span>bēi</span></div>
+            <div class="g-cl-use">Tasses / verres</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('一杯茶')"><span class="g-ex-cn" style="font-size:18px;">一杯茶</span><span class="g-ex-py">yī bēi chá</span><span class="g-ex-fr">1 tasse de thé</span></div>
+          </div>
+          <div class="g-cl-item">
+            <div class="g-cl-char" onclick="speakEx('只')">只 <span>zhī</span></div>
+            <div class="g-cl-use">Animaux / petits objets</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('两只猫')"><span class="g-ex-cn" style="font-size:18px;">两只猫</span><span class="g-ex-py">liǎng zhī māo</span><span class="g-ex-fr">2 chats</span></div>
+          </div>
+          <div class="g-cl-item">
+            <div class="g-cl-char" onclick="speakEx('辆')">辆 <span>liàng</span></div>
+            <div class="g-cl-use">Véhicules</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('一辆汽车')"><span class="g-ex-cn" style="font-size:18px;">一辆汽车</span><span class="g-ex-py">yī liàng qìchē</span><span class="g-ex-fr">1 voiture</span></div>
+          </div>
+        </div>
+        <div class="g-note">💡 <strong>Astuce :</strong> Quand on ne connaît pas le bon classificateur, 个 (gè) fonctionne dans presque tous les cas !</div>
+      </div>
+
+      <!-- 4: TIME -->
+      <div class="g-panel">
+        <div class="g-rule-title">Expressions de Temps</div>
+        <div class="g-rule-desc">En chinois, le temps se place en début de phrase (ou juste après le sujet), avant le verbe. Contrairement au français, le verbe ne change pas de forme — on indique le temps avec des mots ou des marqueurs.</div>
+
+        <div class="g-formula">
+          <span class="g-box g-box-t">Temps</span>
+          <span class="g-arrow">+</span>
+          <span class="g-box g-box-s">Sujet</span>
+          <span class="g-arrow">+</span>
+          <span class="g-box g-box-v">Verbe</span>
+          <span class="g-arrow">+</span>
+          <span class="g-box g-box-o">Objet</span>
+        </div>
+
+        <div class="g-time-sections">
+          <div class="g-time-group">
+            <div class="g-time-label">📅 Passé — 了 (le) et 过 (guò)</div>
+            <div class="g-examples">
+              <div class="g-ex" onclick="speakEx('我吃了')">
+                <div class="g-ex-cn">我 吃 <span class="g-t">了</span></div>
+                <div class="g-ex-py">Wǒ chī le</div>
+                <div class="g-ex-fr">J'ai mangé (action accomplie)</div>
+              </div>
+              <div class="g-ex" onclick="speakEx('我去过中国')">
+                <div class="g-ex-cn">我 去 <span class="g-t">过</span> 中国</div>
+                <div class="g-ex-py">Wǒ qù guò Zhōngguó</div>
+                <div class="g-ex-fr">Je suis déjà allé en Chine (expérience)</div>
+              </div>
+              <div class="g-ex" onclick="speakEx('昨天我学习了中文')">
+                <div class="g-ex-cn"><span class="g-t">昨天</span> 我 学习 了 中文</div>
+                <div class="g-ex-py">Zuótiān wǒ xuéxí le zhōngwén</div>
+                <div class="g-ex-fr">Hier j'ai étudié le chinois</div>
+              </div>
+            </div>
+          </div>
+          <div class="g-time-group">
+            <div class="g-time-label">⏳ En cours — 在 (zài) / 正在 (zhèngzài)</div>
+            <div class="g-examples">
+              <div class="g-ex" onclick="speakEx('我在学习')">
+                <div class="g-ex-cn">我 <span class="g-t">在</span> 学习</div>
+                <div class="g-ex-py">Wǒ zài xuéxí</div>
+                <div class="g-ex-fr">Je suis en train d'étudier</div>
+              </div>
+              <div class="g-ex" onclick="speakEx('她正在睡觉')">
+                <div class="g-ex-cn">她 <span class="g-t">正在</span> 睡觉</div>
+                <div class="g-ex-py">Tā zhèngzài shuìjiào</div>
+                <div class="g-ex-fr">Elle est en train de dormir</div>
+              </div>
+            </div>
+          </div>
+          <div class="g-time-group">
+            <div class="g-time-label">🔮 Futur — 要 (yào) / 会 (huì) / 明天 (míngtiān)</div>
+            <div class="g-examples">
+              <div class="g-ex" onclick="speakEx('我要去医院')">
+                <div class="g-ex-cn">我 <span class="g-t">要</span> 去 医院</div>
+                <div class="g-ex-py">Wǒ yào qù yīyuàn</div>
+                <div class="g-ex-fr">Je vais aller à l'hôpital</div>
+              </div>
+              <div class="g-ex" onclick="speakEx('明天我们去上课')">
+                <div class="g-ex-cn"><span class="g-t">明天</span> 我们 去 上课</div>
+                <div class="g-ex-py">Míngtiān wǒmen qù shàngkè</div>
+                <div class="g-ex-fr">Demain nous allons en cours</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="g-note">💡 <strong>Mots de temps utiles :</strong> 现在 (xiànzài) maintenant · 今天 (jīntiān) aujourd'hui · 明天 (míngtiān) demain · 昨天 (zuótiān) hier · 以前 (yǐqián) avant · 以后 (yǐhòu) après</div>
+      </div>
+
+      <!-- 5: MODAL VERBS -->
+      <div class="g-panel">
+        <div class="g-rule-title">Les Verbes Modaux</div>
+        <div class="g-rule-desc">Les verbes modaux se placent toujours <strong>avant</strong> le verbe principal. Ils expriment la capacité, la permission, la volonté ou l'obligation.</div>
+
+        <div class="g-modal-grid">
+          <div class="g-modal-card" onclick="speakEx('能')">
+            <div class="g-modal-char">能 <span>néng</span></div>
+            <div class="g-modal-meaning">Pouvoir (capacité physique)</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('我能游泳')"><span class="g-ex-cn" style="font-size:16px;">我能游泳</span><span class="g-ex-py">Wǒ néng yóuyǒng</span><span class="g-ex-fr">Je sais nager</span></div>
+          </div>
+          <div class="g-modal-card" onclick="speakEx('会')">
+            <div class="g-modal-char">会 <span>huì</span></div>
+            <div class="g-modal-meaning">Savoir faire (compétence acquise)</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('我会说中文')"><span class="g-ex-cn" style="font-size:16px;">我会说中文</span><span class="g-ex-py">Wǒ huì shuō zhōngwén</span><span class="g-ex-fr">Je sais parler chinois</span></div>
+          </div>
+          <div class="g-modal-card" onclick="speakEx('可以')">
+            <div class="g-modal-char">可以 <span>kě yǐ</span></div>
+            <div class="g-modal-meaning">Pouvoir (permission)</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('你可以进来')"><span class="g-ex-cn" style="font-size:16px;">你可以进来</span><span class="g-ex-py">Nǐ kěyǐ jìnlái</span><span class="g-ex-fr">Tu peux entrer</span></div>
+          </div>
+          <div class="g-modal-card" onclick="speakEx('要')">
+            <div class="g-modal-char">要 <span>yào</span></div>
+            <div class="g-modal-meaning">Vouloir / Devoir</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('我要学习')"><span class="g-ex-cn" style="font-size:16px;">我要学习</span><span class="g-ex-py">Wǒ yào xuéxí</span><span class="g-ex-fr">Je dois étudier / Je veux étudier</span></div>
+          </div>
+          <div class="g-modal-card" onclick="speakEx('应该')">
+            <div class="g-modal-char">应该 <span>yīng gāi</span></div>
+            <div class="g-modal-meaning">Devoir (obligation morale)</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('你应该休息')"><span class="g-ex-cn" style="font-size:16px;">你应该休息</span><span class="g-ex-py">Nǐ yīnggāi xiūxi</span><span class="g-ex-fr">Tu devrais te reposer</span></div>
+          </div>
+          <div class="g-modal-card" onclick="speakEx('想')">
+            <div class="g-modal-char">想 <span>xiǎng</span></div>
+            <div class="g-modal-meaning">Vouloir / Avoir envie de</div>
+            <div class="g-ex g-ex-sm" onclick="speakEx('我想吃面条')"><span class="g-ex-cn" style="font-size:16px;">我想吃面条</span><span class="g-ex-py">Wǒ xiǎng chī miàntiáo</span><span class="g-ex-fr">J'ai envie de manger des nouilles</span></div>
+          </div>
+        </div>
+
+        <div class="g-note">💡 <strong>Négation des modaux :</strong> 不能 (ne peut pas) · 不会 (ne sait pas) · 不可以 (n'est pas autorisé) · 不要 (ne pas, impératif) · 不想 (ne veut pas)</div>
+        <div class="g-examples" style="margin-top:12px;">
+          <div class="g-ex" onclick="speakEx('我不会开车')">
+            <div class="g-ex-cn">我 <span class="g-neg">不会</span> 开车</div>
+            <div class="g-ex-py">Wǒ bù huì kāichē</div>
+            <div class="g-ex-fr">Je ne sais pas conduire</div>
+          </div>
+          <div class="g-ex" onclick="speakEx('你不可以进去')">
+            <div class="g-ex-cn">你 <span class="g-neg">不可以</span> 进去</div>
+            <div class="g-ex-py">Nǐ bù kěyǐ jìnqù</div>
+            <div class="g-ex-fr">Tu n'as pas le droit d'entrer</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end g-topics -->
+  </div>
+</div>
+<!-- END GRAMMAR VIEW -->
+
+<style>
+  /* GRAMMAR TAB */
+  .grammar-container { max-width: 900px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  .g-topic-nav {
+    display: flex; flex-wrap: wrap; gap: 8px;
+    margin-bottom: 32px; justify-content: center;
+  }
+  .g-topic-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 8px 18px;
+    font-size: 13px; font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .g-topic-btn:hover { border-color: var(--red); color: var(--accent); }
+  .g-topic-btn.active { background: #2a1010; border-color: var(--red); color: var(--accent); }
+
+  .g-panel { display: none; animation: fadeUp 0.3s ease; }
+  .g-panel.active { display: block; }
+
+  .g-rule-title { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent); margin-bottom: 10px; }
+  .g-rule-desc { color: var(--text-muted); font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+
+  /* FORMULA */
+  .g-formula { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
+  .g-box { padding: 8px 18px; border-radius: 8px; font-weight: 700; font-size: 14px; letter-spacing: 1px; }
+  .g-box-s { background: rgba(52,152,219,0.2); border: 1px solid rgba(52,152,219,0.4); color: #5dade2; }
+  .g-box-v { background: rgba(224,82,82,0.2); border: 1px solid rgba(224,82,82,0.4); color: var(--accent); }
+  .g-box-o { background: rgba(230,168,23,0.2); border: 1px solid rgba(230,168,23,0.4); color: var(--gold); }
+  .g-box-t { background: rgba(76,175,125,0.2); border: 1px solid rgba(76,175,125,0.4); color: var(--green); }
+  .g-arrow { color: var(--text-muted); font-size: 18px; font-weight: 700; }
+
+  /* EXAMPLES */
+  .g-examples { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .g-ex {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .g-ex:hover { border-color: var(--red); background: #1e0a0a; }
+  .g-ex-wrong { cursor: default; opacity: 0.6; }
+  .g-ex-wrong:hover { border-color: var(--border) !important; background: var(--surface) !important; }
+  .g-ex-cn { font-family: 'Noto Sans SC', sans-serif; font-size: 22px; color: var(--text); margin-bottom: 5px; line-height: 1.4; }
+  .g-ex-py { font-size: 12px; color: var(--gold); font-style: italic; margin-bottom: 4px; }
+  .g-ex-fr { font-size: 13px; color: var(--text-muted); }
+  .g-ex-sm { display: flex; flex-direction: column; gap: 2px; margin-top: 8px; padding: 10px; }
+
+  /* COLOR HIGHLIGHTS */
+  .g-s { color: #5dade2; }
+  .g-v { color: var(--accent); }
+  .g-o { color: var(--gold); }
+  .g-neg { color: var(--accent); font-weight: 700; }
+  .g-q { color: var(--green); font-weight: 700; }
+  .g-t { color: var(--green); font-weight: 700; }
+
+  /* NOTE */
+  .g-note {
+    background: rgba(230,168,23,0.08);
+    border: 1px solid rgba(230,168,23,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-top: 8px;
+  }
+  .g-note strong { color: var(--gold); }
+
+  /* NEGATION CARDS */
+  .g-two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .g-neg-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+  .g-neg-char { font-family: 'Noto Sans SC', sans-serif; font-size: 48px; color: var(--accent); cursor: pointer; line-height: 1.2; margin-bottom: 6px; }
+  .g-neg-label { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+  .g-neg-uses { font-size: 12px; color: var(--text-muted); line-height: 2; text-align: left; }
+
+  /* QUESTION METHODS */
+  .g-q-methods { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 20px; }
+  .g-q-method { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+  .g-q-tag { display: inline-block; background: rgba(76,175,125,0.15); border: 1px solid rgba(76,175,125,0.3); color: var(--green); font-size: 16px; font-weight: 700; padding: 4px 14px; border-radius: 20px; margin-bottom: 6px; font-family: 'Noto Sans SC', sans-serif; }
+  .g-q-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 2px; }
+
+  /* CLASSIFIERS */
+  .g-cl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .g-cl-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px; }
+  .g-cl-char { font-family: 'Noto Sans SC', sans-serif; font-size: 36px; color: var(--accent); cursor: pointer; margin-bottom: 4px; }
+  .g-cl-char span { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--gold); font-style: italic; }
+  .g-cl-use { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+
+  /* TIME */
+  .g-time-sections { display: flex; flex-direction: column; gap: 24px; margin-bottom: 20px; }
+  .g-time-group {}
+  .g-time-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 12px; }
+
+  /* MODAL VERBS */
+  .g-modal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .g-modal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; cursor: pointer; transition: all 0.15s; }
+  .g-modal-card:hover { border-color: var(--red); background: #1e0a0a; }
+  .g-modal-char { font-family: 'Noto Sans SC', sans-serif; font-size: 36px; color: var(--accent); margin-bottom: 4px; }
+  .g-modal-char span { font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--gold); font-style: italic; }
+  .g-modal-meaning { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; }
+
+  @media (max-width: 500px) {
+    .g-two-col { grid-template-columns: 1fr; }
+    .g-formula { gap: 6px; }
+    .g-box { font-size: 12px; padding: 6px 12px; }
+  }
+</style>
+
 <!-- SPEECH TOAST -->
 <div id="speech-toast">
   <span class="toast-char" id="toast-char"></span>
@@ -1071,10 +2297,184 @@ document.querySelectorAll('.phrase-box').forEach(box => {
 
 // ===================== VIEW SWITCHING =====================
 function showView(view) {
-  document.getElementById('vocab-view').style.display = view === 'vocab' ? 'block' : 'none';
-  document.getElementById('quiz-view').style.display  = view === 'quiz'  ? 'block' : 'none';
+  document.getElementById('vocab-view').style.display   = view === 'vocab'   ? 'block' : 'none';
+  document.getElementById('quiz-view').style.display    = view === 'quiz'    ? 'block' : 'none';
+  document.getElementById('write-view').style.display   = view === 'write'   ? 'block' : 'none';
+  document.getElementById('grammar-view').style.display = view === 'grammar' ? 'block' : 'none';
   document.querySelectorAll('.nav-tab').forEach((t, i) => {
-    t.classList.toggle('active', (view === 'vocab' && i === 0) || (view === 'quiz' && i === 1));
+    t.classList.toggle('active',
+      (view === 'vocab'   && i === 0) ||
+      (view === 'quiz'    && i === 1) ||
+      (view === 'write'   && i === 2) ||
+      (view === 'grammar' && i === 3)
+    );
+  });
+  if (view === 'write') initWriteTab();
+}
+
+// ===================== GRAMMAR TAB =====================
+function showGrammar(topic) {
+  document.querySelectorAll('.grammar-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.gtopic-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('gpanel-' + topic).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function showGrammarTopic(index, btn) {
+  document.querySelectorAll('.g-panel').forEach((p, i) => {
+    p.classList.toggle('active', i === index);
+  });
+  document.querySelectorAll('.g-topic-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === index);
+  });
+}
+
+function speakEx(text) { speak(text); }
+
+// ===================== WRITE TAB =====================
+let hanziWriter = null;
+let hanziQuizWriter = null;
+let writeTabInited = false;
+let currentWriteWord = null;
+
+function initWriteTab() {
+  if (writeTabInited) return;
+  writeTabInited = true;
+  renderWriteGrid(VOCAB);
+}
+
+function renderWriteGrid(words) {
+  const grid = document.getElementById('write-char-grid');
+  grid.innerHTML = '';
+  // Only show single characters (Hanzi Writer works best with single chars)
+  words.forEach(w => {
+    // Show all words but note multi-char ones
+    const btn = document.createElement('div');
+    btn.className = 'write-char-btn';
+    btn.innerHTML = `<div class="wc-char">${w.char[0]}</div><div class="wc-pinyin">${w.pinyin.split(' ')[0]}</div>`;
+    btn.title = w.fr;
+    btn.onclick = () => selectWriteChar(w, btn);
+    grid.appendChild(btn);
+  });
+}
+
+function filterWriteChars(query) {
+  const q = query.toLowerCase().trim();
+  const filtered = q ? VOCAB.filter(w =>
+    w.char.includes(q) || w.pinyin.toLowerCase().includes(q) || w.fr.toLowerCase().includes(q)
+  ) : VOCAB;
+  renderWriteGrid(filtered);
+}
+
+function selectWriteChar(word, btnEl) {
+  currentWriteWord = word;
+
+  // Mark active
+  document.querySelectorAll('.write-char-btn').forEach(b => b.classList.remove('active'));
+  btnEl.classList.add('active');
+
+  // Show panel
+  const panel = document.getElementById('write-panel');
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  document.getElementById('write-panel-char').textContent   = word.char;
+  document.getElementById('write-panel-pinyin').textContent = word.pinyin;
+  document.getElementById('write-panel-fr').textContent     = word.fr;
+
+  // Hide quiz area
+  document.getElementById('write-quiz-area').style.display = 'none';
+  document.getElementById('write-quiz-feedback').textContent = '';
+
+  // Load first character into Hanzi Writer
+  loadHanziChar(word.char[0]);
+}
+
+function loadHanziChar(char) {
+  // Destroy old writer
+  const container = document.getElementById('hanzi-canvas');
+  container.innerHTML = '';
+
+  hanziWriter = HanziWriter.create('hanzi-canvas', char, {
+    width: 220,
+    height: 220,
+    padding: 20,
+    showOutline: true,
+    strokeColor: '#ff7a7a',
+    outlineColor: '#2e2e2e',
+    drawingColor: '#e6a817',
+    radicalColor: '#ff7a7a',
+    strokeAnimationSpeed: 1,
+    delayBetweenStrokes: 200,
+    onLoadCharDataSuccess: function(data) {
+      const count = data.strokes ? data.strokes.length : '?';
+      document.getElementById('write-stroke-count').textContent = `${count} trait${count > 1 ? 's' : ''}`;
+    },
+    onLoadCharDataError: function() {
+      document.getElementById('write-stroke-count').textContent = 'Données non disponibles';
+    }
+  });
+}
+
+function animateStrokes() {
+  if (!hanziWriter) return;
+  hanziWriter.animateCharacter();
+  speak(currentWriteWord?.char || '');
+}
+
+function showNextStroke() {
+  if (!hanziWriter) return;
+  hanziWriter.animateNextStroke();
+}
+
+function resetStrokes() {
+  if (!hanziWriter) return;
+  hanziWriter.hideCharacter();
+  setTimeout(() => hanziWriter.showCharacter(), 100);
+}
+
+function startWriteQuiz() {
+  if (!currentWriteWord) return;
+
+  const area = document.getElementById('write-quiz-area');
+  area.style.display = 'block';
+  area.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  const qContainer = document.getElementById('hanzi-quiz-canvas');
+  qContainer.innerHTML = '';
+  document.getElementById('write-quiz-feedback').textContent = '';
+  document.getElementById('write-quiz-feedback').className = 'write-quiz-feedback';
+
+  hanziQuizWriter = HanziWriter.create('hanzi-quiz-canvas', currentWriteWord.char[0], {
+    width: 220,
+    height: 220,
+    padding: 20,
+    showOutline: true,
+    showCharacter: false,
+    strokeColor: '#e6a817',
+    outlineColor: '#2e2e2e',
+    drawingColor: '#e6a817',
+    highlightColor: '#4caf7d',
+    strokeAnimationSpeed: 1,
+  });
+
+  hanziQuizWriter.quiz({
+    onMistake: function(strokeData) {
+      const fb = document.getElementById('write-quiz-feedback');
+      fb.textContent = `Essayez encore — trait ${strokeData.strokeNum + 1}`;
+      fb.className = 'write-quiz-feedback wrong';
+    },
+    onCorrectStroke: function(strokeData) {
+      const fb = document.getElementById('write-quiz-feedback');
+      fb.textContent = `✓ Trait ${strokeData.strokeNum + 1} correct !`;
+      fb.className = 'write-quiz-feedback correct';
+    },
+    onComplete: function(summaryData) {
+      const fb = document.getElementById('write-quiz-feedback');
+      fb.textContent = `🎉 Bravo ! ${summaryData.totalMistakes === 0 ? 'Parfait !' : summaryData.totalMistakes + ' erreur(s)'}`;
+      fb.className = 'write-quiz-feedback correct';
+      speak(currentWriteWord.char);
+    }
   });
 }
 
