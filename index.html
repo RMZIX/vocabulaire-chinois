@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -224,7 +224,7 @@ footer strong{color:var(--gold);}
 .gb-t{background:rgba(76,175,125,.2);border:1px solid rgba(76,175,125,.4);color:var(--green);}
 .gar{color:var(--muted);font-size:18px;font-weight:700;}
 .gex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-bottom:14px;}
-.gex{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:15px;cursor:pointer;transition:all .15s;}
+.gex{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:15px;cursor:pointer;transition:all .15px;}
 .gex:hover{border-color:var(--red);background:#1e0a0a;}
 .gex-cn{font-family:'Noto Sans SC',sans-serif;font-size:21px;color:var(--text);margin-bottom:5px;line-height:1.4;}
 .gex-py{font-size:12px;color:var(--gold);font-style:italic;margin-bottom:4px;}
@@ -325,14 +325,88 @@ footer strong{color:var(--gold);}
   .agrid{grid-template-columns:repeat(auto-fill,minmax(68px,1fr));}
   .rgrid{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));}
 }
+
+[data-theme="light"]{--red:#c0392b;--red-deep:#a93226;--gold:#b7770d;--bg:#f5f0eb;--surface:#ffffff;--surface2:#f0ebe4;--border:#d5cfc6;--text:#1a1a1a;--muted:#666;--accent:#c0392b;--green:#2e7d52;}
+[data-theme="light"] body{background:var(--bg);}
+[data-theme="light"] .author-bar{background:linear-gradient(90deg,#f0e8e0,#f8ede8,#f0e8e0);border-bottom:1px solid #d5b5a8;}
+[data-theme="light"] header{background:linear-gradient(135deg,#f8e8e8,#fdecea 50%,#f8e8e8);border-bottom:1px solid #d5a8a8;}
+[data-theme="light"] header::before,[data-theme="light"] header::after{color:rgba(192,57,43,.07);}
+[data-theme="light"] .nav-tabs{background:#f8f3ee;border-bottom:1px solid #d5cfc6;}
+[data-theme="light"] .nav-tab{color:#888;}[data-theme="light"] .nav-tab.active{color:var(--red);border-bottom-color:var(--red);}
+[data-theme="light"] .card{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .card:hover{background:#fdf7f4;border-color:#c0392b;}
+[data-theme="light"] .cc{color:var(--red);}[data-theme="light"] .cp{color:#b7770d;}[data-theme="light"] .cf{color:#555;}
+[data-theme="light"] .st{color:var(--red);}[data-theme="light"] .sc{background:#fdecea;color:var(--red);border-color:#d5a8a8;}
+[data-theme="light"] .sh{border-bottom-color:#d5cfc6;}
+[data-theme="light"] .pbox{background:linear-gradient(135deg,#fdecea,#fef3f1);border-color:#d5a8a8;}
+[data-theme="light"] .pc{color:var(--red);}[data-theme="light"] .pp{color:#b7770d;}[data-theme="light"] .pf{color:#333;}
+[data-theme="light"] .dm-card{background:#fff;border-color:#d5cfc6;}
+[data-theme="light"] .dm-head{background:#fdecea;color:var(--red);}
+[data-theme="light"] .dm-item:hover{background:#fef3f1;}[data-theme="light"] .dm-ic{color:var(--red);}[data-theme="light"] .dm-py{color:#b7770d;}
+[data-theme="light"] .cl-ph{background:linear-gradient(135deg,#fff,#fdecea);border-color:#d5a8a8;}[data-theme="light"] .cl-cn{color:var(--red);}[data-theme="light"] .cl-py{color:#b7770d;}
+[data-theme="light"] .pn{background:rgba(46,125,82,.05);border-color:rgba(46,125,82,.2);}
+[data-theme="light"] footer{background:#ede8e3;border-top:1px solid #d5cfc6;color:rgba(0,0,0,.4);}
+[data-theme="light"] .qset,[data-theme="light"] .qcard,[data-theme="light"] .qres{background:#fff;border-color:#d5cfc6;}
+[data-theme="light"] .qlbl{background:#f5f0eb;border-color:#d5cfc6;color:#1a1a1a;}
+[data-theme="light"] .qabt{background:#f5f0eb;border-color:#d5cfc6;color:#1a1a1a;}
+[data-theme="light"] .qabt:hover:not(:disabled){border-color:var(--red);background:#fdecea;color:var(--red);}
+[data-theme="light"] .qpb{background:#d5cfc6;}[data-theme="light"] .qnxt{color:#b7770d;border-color:#b7770d;}
+[data-theme="light"] .qnxt:hover{background:#b7770d;color:#fff;}[data-theme="light"] .qsc{color:#b7770d;}
+[data-theme="light"] .ri{border-bottom-color:#e8e2dc;}[data-theme="light"] .ri .rc{color:var(--red);}[data-theme="light"] .ri .rpy{color:#b7770d;}
+[data-theme="light"] .wpanel{background:#fff;border-color:#d5cfc6;}
+[data-theme="light"] .wcb{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .wcb:hover,[data-theme="light"] .wcb.on{border-color:var(--red);background:#fdecea;}
+[data-theme="light"] .wcc{color:var(--red);}[data-theme="light"] .wcp{color:#b7770d;}
+[data-theme="light"] #hzc,[data-theme="light"] #hzq{background:#f5f0eb;}
+[data-theme="light"] .wb{background:var(--red);}[data-theme="light"] .wbo{border-color:#d5cfc6;color:#888;background:transparent;}
+[data-theme="light"] .wbo:hover{border-color:var(--red);color:var(--red);background:transparent;}
+[data-theme="light"] .wbq{border-color:#b7770d;color:#b7770d;background:transparent;}[data-theme="light"] .wbq:hover{background:#b7770d;color:#fff;}
+[data-theme="light"] .gtb{background:#fff;border-color:#d5cfc6;color:#888;}[data-theme="light"] .gtb.on{background:#fdecea;border-color:var(--red);color:var(--red);}
+[data-theme="light"] .gex{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .gex:hover{border-color:var(--red);background:#fdecea;}
+[data-theme="light"] .gnc{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .gnote{background:rgba(183,119,13,.06);border-color:rgba(183,119,13,.25);}
+[data-theme="light"] .gnote strong{color:#b7770d;}
+[data-theme="light"] .gqmb{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .gcl{background:#fff;border-color:#d5cfc6;}
+[data-theme="light"] .gmod{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .gmod:hover{border-color:var(--red);background:#fdecea;}
+[data-theme="light"] .atab{background:#fff;border-color:#d5cfc6;color:#888;}[data-theme="light"] .atab.on{background:#fdecea;border-color:var(--red);color:var(--red);}
+[data-theme="light"] .tcard{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .tcard:hover{border-color:var(--red);background:#fdf7f4;}
+[data-theme="light"] .tmark{color:var(--red);}[data-theme="light"] .tpy{color:#b7770d;}
+[data-theme="light"] .tei{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .tei:hover{border-color:var(--red);background:#fdecea;}
+[data-theme="light"] .tec{color:var(--red);}[data-theme="light"] .tep{color:#b7770d;}
+[data-theme="light"] .acell{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .acell:hover{border-color:var(--red);background:#fdecea;}
+[data-theme="light"] .cnote{background:rgba(192,57,43,.04);border-color:rgba(192,57,43,.15);}
+[data-theme="light"] .ctbl{background:#fff;border-color:#d5cfc6;}
+[data-theme="light"] .ctbl th{background:#fdecea;color:var(--red);border-color:#d5cfc6;}
+[data-theme="light"] .ctbl td{color:#1a1a1a;border-color:#d5cfc6;}[data-theme="light"] .ctbl td:hover{background:#fdecea;color:var(--red);}
+[data-theme="light"] .ctbl td:first-child{background:#fdf7f4;color:#b7770d;}[data-theme="light"] .ctbl td:first-child:hover{background:#fdf7f4;color:#b7770d;}
+[data-theme="light"] .ctbl td.emp{background:#f5f0eb;color:#ccc;}[data-theme="light"] .ctbl td.emp:hover{background:#f5f0eb;color:#ccc;}
+[data-theme="light"] .rintro{background:linear-gradient(135deg,#fdecea,#fef3f1);border-color:#d5a8a8;}[data-theme="light"] .rit{color:var(--red);}
+[data-theme="light"] .rfb{background:#fff;border-color:#d5cfc6;color:#888;}[data-theme="light"] .rfb.on{background:rgba(183,119,13,.08);border-color:#b7770d;color:#b7770d;}
+[data-theme="light"] .rcard{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .rcard:hover{border-color:rgba(183,119,13,.5);background:#fdf9f3;}
+[data-theme="light"] .rcard::before{background:#b7770d;}[data-theme="light"] .rch{color:#b7770d;}[data-theme="light"] .rpy{color:var(--red);}
+[data-theme="light"] .dov{background:rgba(0,0,0,.55);}[data-theme="light"] .dmod{background:#fff;border-color:#d5a8a8;box-shadow:0 24px 80px rgba(0,0,0,.12);}
+[data-theme="light"] .dmc{color:var(--red);}[data-theme="light"] .dpy{color:#b7770d;}
+[data-theme="light"] .dp{background:#f5f0eb;border-color:#d5cfc6;}[data-theme="light"] .dp:hover{border-color:var(--red);background:#fdecea;}
+[data-theme="light"] .dr{background:rgba(192,57,43,.06);border-color:rgba(192,57,43,.2);}[data-theme="light"] .drc{color:var(--red);}
+[data-theme="light"] .dnote{background:rgba(183,119,23,.06);border-color:rgba(183,119,13,.2);}[data-theme="light"] .dnote strong{color:#b7770d;}
+[data-theme="light"] #toast{background:#fff;border-color:#d5a8a8;color:#1a1a1a;}
+[data-theme="light"] .mtag{background:rgba(192,57,43,.08);color:var(--red);border-color:rgba(192,57,43,.2);}
+[data-theme="light"] .bstart,[data-theme="light"] .br{background:var(--red);}
+[data-theme="light"] .vsearch{background:#fff;border-color:#d5cfc6;color:#1a1a1a;}
+[data-theme="light"] .wt,[data-theme="light"] .at{color:var(--red);}
+[data-theme="light"] .wsr input{background:#fff;border-color:#d5cfc6;color:#1a1a1a;}
+[data-theme="light"] .tbl table{background:#fff;border-color:#d5cfc6;}[data-theme="light"] .tbl thead tr{background:#fdecea;}[data-theme="light"] .tbl td{color:#1a1a1a;border-bottom:1px solid #d5cfc6;}[data-theme="light"] .tbl td:first-child{color:var(--red);}[data-theme="light"] .tbl td:nth-child(2){color:#b7770d;}
+[data-theme="light"] .h-main{color:#1a0505;}[data-theme="light"] .h-sub{color:#b7770d;}[data-theme="light"] .h-desc{color:rgba(0,0,0,.5);}
+[data-theme="light"] .hstat-num{color:var(--red);}[data-theme="light"] .hbadge-gold{background:#b7770d;color:#fff;}[data-theme="light"] .hbadge-outline{color:var(--red);border-color:rgba(192,57,43,.4);}
+[data-theme="light"] .h-chars span{color:rgba(0,0,0,.75);background:rgba(192,57,43,.08);border-color:rgba(192,57,43,.2);}
+[data-theme="light"] #bm-bar{background:rgba(183,119,13,.07);border-bottom:1px solid rgba(183,119,13,.2);color:#b7770d;}
+[data-theme="light"] #theme-toggle{border-color:rgba(0,0,0,.2)!important;color:#1a1a1a!important;}
+
 </style>
 </head>
 <body>
-
 <!-- AUTHOR BAR -->
 <div class="author-bar">
   <div class="author-name">✦ Elhomri Ahmed Ramzi</div>
   <div class="author-info">L3 IPPS + AUXP<span class="dot">·</span>Faculté de Pharmacie<span class="dot">·</span>Université des Sciences de la Santé</div>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Changer le thème" style="background:none;border:1px solid rgba(255,255,255,.2);color:inherit;padding:5px 14px;border-radius:20px;cursor:pointer;font-size:11px;font-weight:600;letter-spacing:1px;transition:all .2s;white-space:nowrap;">☀️ Clair</button>
 </div>
 <header>
   <div class="hbadges">
@@ -639,55 +713,33 @@ footer strong{color:var(--gold);}
 </tbody></table></div>
 </main>
 <footer><strong>学中文</strong> · Apprendre le Chinois · L3 IPPS + AUXP · Faculté de Pharmacie<br>Dr. Setrerrahmane · Université des Sciences de la Santé<br><span style="color:var(--gold);font-style:italic;display:block;margin-top:8px;">✦ Réalisé par Elhomri Ahmed Ramzi</span><span style="opacity:.4;font-size:11px;">🔊 Cliquez pour entendre · ⭐ Favoris · 🔍 Décomposer · 部首 Radicaux</span></footer>
-</div><!-- end vocab -->
+</div>
 
 <!-- QUIZ VIEW -->
 <div id="quiz-view">
 <div class="qcon">
-  <div id="q-setup">
-    <div class="qset">
-      <div class="mtag">🎯 Mode Quiz</div>
-      <h2>Testez-vous !</h2>
-      <p>Choisissez le type de question et le nombre de mots</p>
-      <div class="qopts">
-        <label class="qlbl"><input type="radio" name="qt" value="c2f" checked> 汉字 → Français</label>
-        <label class="qlbl"><input type="radio" name="qt" value="f2c"> Français → 汉字</label>
-        <label class="qlbl"><input type="radio" name="qt" value="p2f"> Pinyin → Français</label>
-        <label class="qlbl"><input type="radio" name="qt" value="c2p"> 汉字 → Pinyin</label>
-      </div>
-      <div class="qcr">
-        <span>Questions :</span>
-        <input type="range" id="qn-slider" min="5" max="30" value="10" oninput="document.getElementById('qn-val').textContent=this.value">
-        <span class="qcv" id="qn-val">10</span>
-      </div>
-      <button class="bstart" onclick="startQuiz()">Commencer →</button>
+  <div id="q-setup"><div class="qset"><div class="mtag">🎯 Mode Quiz</div><h2>Testez-vous !</h2><p>Choisissez le type de question et le nombre de mots</p>
+    <div class="qopts">
+      <label class="qlbl"><input type="radio" name="qt" value="c2f" checked> 汉字 → Français</label>
+      <label class="qlbl"><input type="radio" name="qt" value="f2c"> Français → 汉字</label>
+      <label class="qlbl"><input type="radio" name="qt" value="p2f"> Pinyin → Français</label>
+      <label class="qlbl"><input type="radio" name="qt" value="c2p"> 汉字 → Pinyin</label>
     </div>
-  </div>
-  <div id="q-question" style="display:none;">
-    <div class="qcard">
-      <div class="qpb"><div class="qpbf" id="qpbf"></div></div>
-      <div class="qcnt" id="qcnt"></div>
-      <div class="qqc" id="qqc"></div>
-      <div class="qqh" id="qqh"></div>
-      <div class="qans" id="qans"></div>
-      <div class="qfb" id="qfb"></div>
-      <button class="qnxt" id="qnxt" onclick="nextQ()">Question suivante →</button>
-    </div>
-  </div>
-  <div id="q-results" style="display:none;">
-    <div class="qres">
-      <div class="mtag">Résultats</div>
-      <h2>Quiz terminé !</h2>
-      <div class="qst" id="qst"></div>
-      <div class="qsc" id="qsc"></div>
-      <div class="qss" id="qss"></div>
-      <div class="qrv"><h3>📋 Récapitulatif</h3><div id="qrl"></div></div>
-      <div class="qar">
-        <button class="br" onclick="restartQ()">🔄 Recommencer</button>
-        <button class="bb" onclick="showSetup()">⚙️ Options</button>
-      </div>
-    </div>
-  </div>
+    <div class="qcr"><span>Questions :</span><input type="range" id="qn-slider" min="5" max="30" value="10" oninput="document.getElementById('qn-val').textContent=this.value"><span class="qcv" id="qn-val">10</span></div>
+    <button class="bstart" onclick="startQuiz()">Commencer →</button>
+  </div></div>
+  <div id="q-question" style="display:none;"><div class="qcard">
+    <div class="qpb"><div class="qpbf" id="qpbf"></div></div>
+    <div class="qcnt" id="qcnt"></div><div class="qqc" id="qqc"></div><div class="qqh" id="qqh"></div>
+    <div class="qans" id="qans"></div><div class="qfb" id="qfb"></div>
+    <button class="qnxt" id="qnxt" onclick="nextQ()">Question suivante →</button>
+  </div></div>
+  <div id="q-results" style="display:none;"><div class="qres">
+    <div class="mtag">Résultats</div><h2>Quiz terminé !</h2>
+    <div class="qst" id="qst"></div><div class="qsc" id="qsc"></div><div class="qss" id="qss"></div>
+    <div class="qrv"><h3>📋 Récapitulatif</h3><div id="qrl"></div></div>
+    <div class="qar"><button class="br" onclick="restartQ()">🔄 Recommencer</button><button class="bb" onclick="showSetup()">⚙️ Options</button></div>
+  </div></div>
 </div>
 </div>
 
@@ -699,11 +751,7 @@ footer strong{color:var(--gold);}
   <div class="wcg" id="wcg"></div>
   <div class="wpanel" id="wpanel" style="display:none;">
     <div class="wpt">
-      <div class="wpi">
-        <div class="wpc" id="wpc"></div>
-        <div class="wpp" id="wpp"></div>
-        <div class="wpf" id="wpf"></div>
-      </div>
+      <div class="wpi"><div class="wpc" id="wpc"></div><div class="wpp" id="wpp"></div><div class="wpf" id="wpf"></div></div>
       <div><div id="hzc"></div><div class="wsc" id="wsc"></div></div>
     </div>
     <div class="wctrl">
@@ -714,8 +762,7 @@ footer strong{color:var(--gold);}
     </div>
     <div id="wqa" style="display:none;">
       <div class="wql">Tracez le caractère :</div>
-      <div id="hzq"></div>
-      <div class="wqf" id="wqf"></div>
+      <div id="hzq"></div><div class="wqf" id="wqf"></div>
     </div>
   </div>
 </div>
@@ -759,7 +806,7 @@ footer strong{color:var(--gold);}
         <div class="gex" onclick="speak('我没有时间')"><div class="gex-cn">我 <span class="gneg">没有</span> 时间</div><div class="gex-py">Wǒ méiyǒu shíjiān</div><div class="gex-fr">Je n'ai pas le temps 🔊</div></div>
         <div class="gex" onclick="speak('他不是医生')"><div class="gex-cn">他 <span class="gneg">不是</span> 医生</div><div class="gex-py">Tā bù shì yīshēng</div><div class="gex-fr">Il n'est pas médecin 🔊</div></div>
       </div>
-      <div class="gnote">💡 <strong>Règle d'or :</strong> 是 → toujours nié avec <strong>不是</strong>. 有 → toujours nié avec <strong>没有</strong>, jamais 不有.</div>
+      <div class="gnote">💡 <strong>Règle d'or :</strong> 是 → toujours nié avec <strong>不是</strong>. 有 → toujours nié avec <strong>没有</strong>.</div>
     </div>
     <div class="gpanel">
       <div class="grt">Poser des Questions</div>
@@ -770,7 +817,7 @@ footer strong{color:var(--gold);}
         <div class="gqmb"><div class="gqtag">怎么 zěnme</div><div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Comment ?</div><div class="gex" onclick="speak('怎么样')"><div class="gex-cn"><span class="gqw">怎么</span>样 ？</div><div class="gex-py">Zěnme yàng ?</div><div class="gex-fr">Comment ça va ? 🔊</div></div></div>
         <div class="gqmb"><div class="gqtag">哪里 nǎlǐ</div><div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Où ?</div><div class="gex" onclick="speak('你在哪里')"><div class="gex-cn">你在 <span class="gqw">哪里</span> ？</div><div class="gex-py">Nǐ zài nǎlǐ ?</div><div class="gex-fr">Où es-tu ? 🔊</div></div></div>
         <div class="gqmb"><div class="gqtag">谁 shéi</div><div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Qui ?</div><div class="gex" onclick="speak('他是谁')"><div class="gex-cn">他是 <span class="gqw">谁</span> ？</div><div class="gex-py">Tā shì shéi ?</div><div class="gex-fr">Qui est-il ? 🔊</div></div></div>
-        <div class="gqmb"><div class="gqtag">呢 ne</div><div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Et toi / Et … ?</div><div class="gex" onclick="speak('你呢')"><div class="gex-cn">你 <span class="gqw">呢</span> ？</div><div class="gex-py">Nǐ ne ?</div><div class="gex-fr">Et toi ? 🔊</div></div></div>
+        <div class="gqmb"><div class="gqtag">呢 ne</div><div style="font-size:12px;color:var(--muted);margin-bottom:8px;">Et toi ?</div><div class="gex" onclick="speak('你呢')"><div class="gex-cn">你 <span class="gqw">呢</span> ？</div><div class="gex-py">Nǐ ne ?</div><div class="gex-fr">Et toi ? 🔊</div></div></div>
       </div>
       <div class="gnote">💡 Les mots interrogatifs restent à la place du mot qu'ils remplacent — pas en début de phrase comme en français !</div>
     </div>
@@ -801,12 +848,12 @@ footer strong{color:var(--gold);}
       <div class="grt">Les Verbes Modaux</div>
       <div class="grd">Ils se placent toujours <strong>avant</strong> le verbe principal.</div>
       <div class="gmod-grid">
-        <div class="gmod" onclick="speak('能')"><div class="gmodc">能 <span>néng</span></div><div class="gmodm">Pouvoir (capacité physique)</div><div class="gex gex-sm" onclick="speak('我能游泳');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">我能游泳</span><span class="gex-py">Wǒ néng yóuyǒng — Je sais nager 🔊</span></div></div>
-        <div class="gmod" onclick="speak('会')"><div class="gmodc">会 <span>huì</span></div><div class="gmodm">Savoir faire (compétence)</div><div class="gex gex-sm" onclick="speak('我会说中文');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">我会说中文</span><span class="gex-py">Wǒ huì shuō zhōngwén — Je parle chinois 🔊</span></div></div>
-        <div class="gmod" onclick="speak('可以')"><div class="gmodc">可以 <span>kě yǐ</span></div><div class="gmodm">Pouvoir (permission)</div><div class="gex gex-sm" onclick="speak('你可以进来');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">你可以进来</span><span class="gex-py">Nǐ kěyǐ jìnlái — Tu peux entrer 🔊</span></div></div>
-        <div class="gmod" onclick="speak('要')"><div class="gmodc">要 <span>yào</span></div><div class="gmodm">Vouloir / Devoir</div><div class="gex gex-sm" onclick="speak('我要学习');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">我要学习</span><span class="gex-py">Wǒ yào xuéxí — Je dois étudier 🔊</span></div></div>
-        <div class="gmod" onclick="speak('应该')"><div class="gmodc">应该 <span>yīng gāi</span></div><div class="gmodm">Devoir (obligation morale)</div><div class="gex gex-sm" onclick="speak('你应该休息');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">你应该休息</span><span class="gex-py">Nǐ yīnggāi xiūxi — Tu devrais te reposer 🔊</span></div></div>
-        <div class="gmod" onclick="speak('想')"><div class="gmodc">想 <span>xiǎng</span></div><div class="gmodm">Avoir envie de</div><div class="gex gex-sm" onclick="speak('我想吃面条');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">我想吃面条</span><span class="gex-py">Wǒ xiǎng chī miàntiáo — J'ai envie de nouilles 🔊</span></div></div>
+        <div class="gmod" onclick="speak('能')"><div class="gmodc">能 <span>néng</span></div><div class="gmodm">Pouvoir (capacité physique)</div><div class="gex gex-sm" onclick="speak('我能游泳');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">我能游泳</span><span class="gex-py">Wǒ néng yóuyǒng 🔊</span></div></div>
+        <div class="gmod" onclick="speak('会')"><div class="gmodc">会 <span>huì</span></div><div class="gmodm">Savoir faire (compétence)</div><div class="gex gex-sm" onclick="speak('我会说中文');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">我会说中文</span><span class="gex-py">Wǒ huì shuō zhōngwén 🔊</span></div></div>
+        <div class="gmod" onclick="speak('可以')"><div class="gmodc">可以 <span>kě yǐ</span></div><div class="gmodm">Pouvoir (permission)</div><div class="gex gex-sm" onclick="speak('你可以进来');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">你可以进来</span><span class="gex-py">Nǐ kěyǐ jìnlái 🔊</span></div></div>
+        <div class="gmod" onclick="speak('要')"><div class="gmodc">要 <span>yào</span></div><div class="gmodm">Vouloir / Devoir</div><div class="gex gex-sm" onclick="speak('我要学习');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">我要学习</span><span class="gex-py">Wǒ yào xuéxí 🔊</span></div></div>
+        <div class="gmod" onclick="speak('应该')"><div class="gmodc">应该 <span>yīng gāi</span></div><div class="gmodm">Devoir (obligation morale)</div><div class="gex gex-sm" onclick="speak('你应该休息');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">你应该休息</span><span class="gex-py">Nǐ yīnggāi xiūxi 🔊</span></div></div>
+        <div class="gmod" onclick="speak('想')"><div class="gmodc">想 <span>xiǎng</span></div><div class="gmodm">Avoir envie de</div><div class="gex gex-sm" onclick="speak('我想吃面条');event.stopPropagation()"><span class="gex-cn" style="font-size:16px;">我想吃面条</span><span class="gex-py">Wǒ xiǎng chī miàntiáo 🔊</span></div></div>
       </div>
       <div class="gnote">💡 <strong>Négation :</strong> 不能 · 不会 · 不可以 · 不要 (impératif négatif) · 不想</div>
     </div>
@@ -824,7 +871,6 @@ footer strong{color:var(--gold);}
     <button class="atab" onclick="showAP('finals',this)">韵母 Finales</button>
     <button class="atab" onclick="showAP('combo',this)">📊 Tableau Combiné</button>
   </div>
-
   <div class="apanel on" id="ap-tones">
     <p class="asd">Le chinois mandarin a <strong>4 tons</strong> + un ton neutre. Le même son = sens complètement différent !</p>
     <div class="tgrid">
@@ -846,7 +892,6 @@ footer strong{color:var(--gold);}
       <div class="tei" onclick="speak('是')"><div class="tec">是</div><div class="tep">shì — 4e</div><div class="tef">Être 🔊</div></div>
     </div>
   </div>
-
   <div class="apanel" id="ap-initials">
     <div class="ast">声母 — Initiales (21 consonnes)</div>
     <p class="asd">Attention à <strong>j, q, x</strong> (palatales) et <strong>zh, ch, sh, r</strong> (rétroflexes) — ces sons n'existent pas en français !</p>
@@ -859,86 +904,84 @@ footer strong{color:var(--gold);}
     </div>
     <div class="tex-title">Groupe 2 — Dentales</div>
     <div class="agrid">
-      <div class="acell" onclick="speak('dà')"><div class="acpy">d</div><div class="aceg">dà 大<br><span style="font-size:10px;color:var(--muted)">comme "d"</span></div></div>
-      <div class="acell" onclick="speak('tā')"><div class="acpy">t</div><div class="aceg">tā 他<br><span style="font-size:10px;color:var(--muted)">t aspiré</span></div></div>
-      <div class="acell" onclick="speak('nǐ')"><div class="acpy">n</div><div class="aceg">nǐ 你<br><span style="font-size:10px;color:var(--muted)">comme "n"</span></div></div>
-      <div class="acell" onclick="speak('lái')"><div class="acpy">l</div><div class="aceg">lái 来<br><span style="font-size:10px;color:var(--muted)">comme "l"</span></div></div>
+      <div class="acell" onclick="speak('dà')"><div class="acpy">d</div><div class="aceg">dà 大</div></div>
+      <div class="acell" onclick="speak('tā')"><div class="acpy">t</div><div class="aceg">tā 他</div></div>
+      <div class="acell" onclick="speak('nǐ')"><div class="acpy">n</div><div class="aceg">nǐ 你</div></div>
+      <div class="acell" onclick="speak('lái')"><div class="acpy">l</div><div class="aceg">lái 来</div></div>
     </div>
     <div class="tex-title">Groupe 3 — Vélaires</div>
     <div class="agrid">
-      <div class="acell" onclick="speak('gāo')"><div class="acpy">g</div><div class="aceg">gāo 高<br><span style="font-size:10px;color:var(--muted)">comme "g"</span></div></div>
-      <div class="acell" onclick="speak('kāi')"><div class="acpy">k</div><div class="aceg">kāi 开<br><span style="font-size:10px;color:var(--muted)">k aspiré</span></div></div>
-      <div class="acell" onclick="speak('hǎo')"><div class="acpy">h</div><div class="aceg">hǎo 好<br><span style="font-size:10px;color:var(--muted)">h guttural</span></div></div>
+      <div class="acell" onclick="speak('gāo')"><div class="acpy">g</div><div class="aceg">gāo 高</div></div>
+      <div class="acell" onclick="speak('kāi')"><div class="acpy">k</div><div class="aceg">kāi 开</div></div>
+      <div class="acell" onclick="speak('hǎo')"><div class="acpy">h</div><div class="aceg">hǎo 好</div></div>
     </div>
-    <div class="tex-title">Groupe 4 — Palatales ⚠️ Difficiles</div>
+    <div class="tex-title">Groupe 4 — Palatales ⚠️</div>
     <div class="agrid">
-      <div class="acell" onclick="speak('jī')"><div class="acpy" style="color:#ff9a7a;">j</div><div class="aceg">jī 鸡<br><span style="font-size:10px;color:var(--muted)">"dj" palatalisé</span></div></div>
-      <div class="acell" onclick="speak('qī')"><div class="acpy" style="color:#ff9a7a;">q</div><div class="aceg">qī 七<br><span style="font-size:10px;color:var(--muted)">"tch" aspiré</span></div></div>
-      <div class="acell" onclick="speak('xī')"><div class="acpy" style="color:#ff9a7a;">x</div><div class="aceg">xī 西<br><span style="font-size:10px;color:var(--muted)">"s" palatal ≠ sh</span></div></div>
+      <div class="acell" onclick="speak('jī')"><div class="acpy" style="color:#ff9a7a;">j</div><div class="aceg">jī 鸡</div></div>
+      <div class="acell" onclick="speak('qī')"><div class="acpy" style="color:#ff9a7a;">q</div><div class="aceg">qī 七</div></div>
+      <div class="acell" onclick="speak('xī')"><div class="acpy" style="color:#ff9a7a;">x</div><div class="aceg">xī 西</div></div>
     </div>
-    <div class="tex-title">Groupe 5 — Rétroflexes ⚠️ Très difficiles</div>
+    <div class="tex-title">Groupe 5 — Rétroflexes ⚠️</div>
     <div class="agrid">
-      <div class="acell" onclick="speak('zhè')"><div class="acpy" style="color:#ffb347;">zh</div><div class="aceg">zhè 这<br><span style="font-size:10px;color:var(--muted)">langue en arrière</span></div></div>
-      <div class="acell" onclick="speak('chī')"><div class="acpy" style="color:#ffb347;">ch</div><div class="aceg">chī 吃<br><span style="font-size:10px;color:var(--muted)">ch rétroflexe</span></div></div>
-      <div class="acell" onclick="speak('shū')"><div class="acpy" style="color:#ffb347;">sh</div><div class="aceg">shū 书<br><span style="font-size:10px;color:var(--muted)">sh rétroflexe</span></div></div>
-      <div class="acell" onclick="speak('rén')"><div class="acpy" style="color:#ffb347;">r</div><div class="aceg">rén 人<br><span style="font-size:10px;color:var(--muted)">r rétroflexe</span></div></div>
+      <div class="acell" onclick="speak('zhè')"><div class="acpy" style="color:#ffb347;">zh</div><div class="aceg">zhè 这</div></div>
+      <div class="acell" onclick="speak('chī')"><div class="acpy" style="color:#ffb347;">ch</div><div class="aceg">chī 吃</div></div>
+      <div class="acell" onclick="speak('shū')"><div class="acpy" style="color:#ffb347;">sh</div><div class="aceg">shū 书</div></div>
+      <div class="acell" onclick="speak('rén')"><div class="acpy" style="color:#ffb347;">r</div><div class="aceg">rén 人</div></div>
     </div>
     <div class="tex-title">Groupe 6 — Sifflantes &amp; Semi-voyelles</div>
     <div class="agrid">
-      <div class="acell" onclick="speak('zài')"><div class="acpy">z</div><div class="aceg">zài 在<br><span style="font-size:10px;color:var(--muted)">comme "dz"</span></div></div>
-      <div class="acell" onclick="speak('cài')"><div class="acpy">c</div><div class="aceg">cài 菜<br><span style="font-size:10px;color:var(--muted)">comme "ts"</span></div></div>
-      <div class="acell" onclick="speak('sān')"><div class="acpy">s</div><div class="aceg">sān 三<br><span style="font-size:10px;color:var(--muted)">comme "s"</span></div></div>
-      <div class="acell" onclick="speak('yī')"><div class="acpy">y</div><div class="aceg">yī 一<br><span style="font-size:10px;color:var(--muted)">comme "y"</span></div></div>
-      <div class="acell" onclick="speak('wū')"><div class="acpy">w</div><div class="aceg">wū 屋<br><span style="font-size:10px;color:var(--muted)">comme "w"</span></div></div>
+      <div class="acell" onclick="speak('zài')"><div class="acpy">z</div><div class="aceg">zài 在</div></div>
+      <div class="acell" onclick="speak('cài')"><div class="acpy">c</div><div class="aceg">cài 菜</div></div>
+      <div class="acell" onclick="speak('sān')"><div class="acpy">s</div><div class="aceg">sān 三</div></div>
+      <div class="acell" onclick="speak('yī')"><div class="acpy">y</div><div class="aceg">yī 一</div></div>
+      <div class="acell" onclick="speak('wū')"><div class="acpy">w</div><div class="aceg">wū 屋</div></div>
     </div>
   </div>
-
   <div class="apanel" id="ap-finals">
     <div class="ast">韵母 — Finales</div>
     <p class="asd">Les finales comprennent les voyelles simples, les diphtongues et les finales nasales.</p>
     <div class="tex-title">Voyelles simples</div>
     <div class="agrid">
-      <div class="acell" onclick="speak('ā')"><div class="acpy">a</div><div class="aceg">ā 啊<br><span style="font-size:10px;color:var(--muted)">comme "a"</span></div></div>
-      <div class="acell" onclick="speak('ō')"><div class="acpy">o</div><div class="aceg">ō 哦<br><span style="font-size:10px;color:var(--muted)">comme "o"</span></div></div>
-      <div class="acell" onclick="speak('é')"><div class="acpy">e</div><div class="aceg">é 鹅<br><span style="font-size:10px;color:var(--muted)">voyelle centrale</span></div></div>
-      <div class="acell" onclick="speak('yī')"><div class="acpy">i</div><div class="aceg">yī 一<br><span style="font-size:10px;color:var(--muted)">comme "i"</span></div></div>
-      <div class="acell" onclick="speak('wū')"><div class="acpy">u</div><div class="aceg">wū 屋<br><span style="font-size:10px;color:var(--muted)">comme "ou"</span></div></div>
-      <div class="acell" onclick="speak('yú')"><div class="acpy">ü</div><div class="aceg">yú 鱼<br><span style="font-size:10px;color:var(--muted)">comme "u" fr.</span></div></div>
+      <div class="acell" onclick="speak('ā')"><div class="acpy">a</div><div class="aceg">ā 啊</div></div>
+      <div class="acell" onclick="speak('ō')"><div class="acpy">o</div><div class="aceg">ō 哦</div></div>
+      <div class="acell" onclick="speak('é')"><div class="acpy">e</div><div class="aceg">é 鹅</div></div>
+      <div class="acell" onclick="speak('yī')"><div class="acpy">i</div><div class="aceg">yī 一</div></div>
+      <div class="acell" onclick="speak('wū')"><div class="acpy">u</div><div class="aceg">wū 屋</div></div>
+      <div class="acell" onclick="speak('yú')"><div class="acpy">ü</div><div class="aceg">yú 鱼</div></div>
     </div>
     <div class="tex-title">Diphtongues</div>
     <div class="agrid">
-      <div class="acell" onclick="speak('ài')"><div class="acpy">ai</div><div class="aceg">ài 爱<br><span style="font-size:10px;color:var(--muted)">Aimer</span></div></div>
-      <div class="acell" onclick="speak('gěi')"><div class="acpy">ei</div><div class="aceg">gěi 给<br><span style="font-size:10px;color:var(--muted)">Donner</span></div></div>
-      <div class="acell" onclick="speak('hǎo')"><div class="acpy">ao</div><div class="aceg">hǎo 好<br><span style="font-size:10px;color:var(--muted)">Bien</span></div></div>
-      <div class="acell" onclick="speak('ōu')"><div class="acpy">ou</div><div class="aceg">ōu 欧<br><span style="font-size:10px;color:var(--muted)">diphtongue o+u</span></div></div>
-      <div class="acell" onclick="speak('yā')"><div class="acpy">ia</div><div class="aceg">yā 鸭<br><span style="font-size:10px;color:var(--muted)">Canard</span></div></div>
-      <div class="acell" onclick="speak('yē')"><div class="acpy">ie</div><div class="aceg">yē 爷<br><span style="font-size:10px;color:var(--muted)">Grand-père</span></div></div>
-      <div class="acell" onclick="speak('wā')"><div class="acpy">ua</div><div class="aceg">wā 挖<br><span style="font-size:10px;color:var(--muted)">Creuser</span></div></div>
-      <div class="acell" onclick="speak('wō')"><div class="acpy">uo</div><div class="aceg">wō 窝<br><span style="font-size:10px;color:var(--muted)">Nid</span></div></div>
-      <div class="acell" onclick="speak('yuē')"><div class="acpy">üe</div><div class="aceg">yuē 约<br><span style="font-size:10px;color:var(--muted)">Rendez-vous</span></div></div>
+      <div class="acell" onclick="speak('ài')"><div class="acpy">ai</div><div class="aceg">ài 爱</div></div>
+      <div class="acell" onclick="speak('gěi')"><div class="acpy">ei</div><div class="aceg">gěi 给</div></div>
+      <div class="acell" onclick="speak('hǎo')"><div class="acpy">ao</div><div class="aceg">hǎo 好</div></div>
+      <div class="acell" onclick="speak('ōu')"><div class="acpy">ou</div><div class="aceg">ōu 欧</div></div>
+      <div class="acell" onclick="speak('yā')"><div class="acpy">ia</div><div class="aceg">yā 鸭</div></div>
+      <div class="acell" onclick="speak('yē')"><div class="acpy">ie</div><div class="aceg">yē 爷</div></div>
+      <div class="acell" onclick="speak('wā')"><div class="acpy">ua</div><div class="aceg">wā 挖</div></div>
+      <div class="acell" onclick="speak('wō')"><div class="acpy">uo</div><div class="aceg">wō 窝</div></div>
+      <div class="acell" onclick="speak('yuē')"><div class="acpy">üe</div><div class="aceg">yuē 约</div></div>
     </div>
-    <div class="tex-title">Finales nasales — avec n</div>
+    <div class="tex-title">Finales nasales — n</div>
     <div class="agrid">
-      <div class="acell" onclick="speak('ān')"><div class="acpy">an</div><div class="aceg">ān 安<br><span style="font-size:10px;color:var(--muted)">Sécurité</span></div></div>
-      <div class="acell" onclick="speak('rén')"><div class="acpy">en</div><div class="aceg">rén 人<br><span style="font-size:10px;color:var(--muted)">Personne</span></div></div>
-      <div class="acell" onclick="speak('yīn')"><div class="acpy">in</div><div class="aceg">yīn 音<br><span style="font-size:10px;color:var(--muted)">Son</span></div></div>
-      <div class="acell" onclick="speak('guān')"><div class="acpy">uan</div><div class="aceg">guān 关<br><span style="font-size:10px;color:var(--muted)">Fermer</span></div></div>
-      <div class="acell" onclick="speak('yùn')"><div class="acpy">ün</div><div class="aceg">yùn 运<br><span style="font-size:10px;color:var(--muted)">Destin</span></div></div>
+      <div class="acell" onclick="speak('ān')"><div class="acpy">an</div><div class="aceg">ān 安</div></div>
+      <div class="acell" onclick="speak('rén')"><div class="acpy">en</div><div class="aceg">rén 人</div></div>
+      <div class="acell" onclick="speak('yīn')"><div class="acpy">in</div><div class="aceg">yīn 音</div></div>
+      <div class="acell" onclick="speak('guān')"><div class="acpy">uan</div><div class="aceg">guān 关</div></div>
+      <div class="acell" onclick="speak('yùn')"><div class="acpy">ün</div><div class="aceg">yùn 运</div></div>
     </div>
-    <div class="tex-title">Finales nasales — avec ng</div>
+    <div class="tex-title">Finales nasales — ng</div>
     <div class="agrid">
-      <div class="acell" onclick="speak('máng')"><div class="acpy">ang</div><div class="aceg">máng 忙<br><span style="font-size:10px;color:var(--muted)">Occupé</span></div></div>
-      <div class="acell" onclick="speak('fēng')"><div class="acpy">eng</div><div class="aceg">fēng 风<br><span style="font-size:10px;color:var(--muted)">Vent</span></div></div>
-      <div class="acell" onclick="speak('míng')"><div class="acpy">ing</div><div class="aceg">míng 明<br><span style="font-size:10px;color:var(--muted)">Brillant</span></div></div>
-      <div class="acell" onclick="speak('zhuāng')"><div class="acpy">uang</div><div class="aceg">zhuāng 装<br><span style="font-size:10px;color:var(--muted)">Habiller</span></div></div>
-      <div class="acell" onclick="speak('xióng')"><div class="acpy">iong</div><div class="aceg">xióng 熊<br><span style="font-size:10px;color:var(--muted)">Ours</span></div></div>
-      <div class="acell" onclick="speak('ér')"><div class="acpy">er</div><div class="aceg">ér 儿<br><span style="font-size:10px;color:var(--muted)">Enfant</span></div></div>
+      <div class="acell" onclick="speak('máng')"><div class="acpy">ang</div><div class="aceg">máng 忙</div></div>
+      <div class="acell" onclick="speak('fēng')"><div class="acpy">eng</div><div class="aceg">fēng 风</div></div>
+      <div class="acell" onclick="speak('míng')"><div class="acpy">ing</div><div class="aceg">míng 明</div></div>
+      <div class="acell" onclick="speak('zhuāng')"><div class="acpy">uang</div><div class="aceg">zhuāng 装</div></div>
+      <div class="acell" onclick="speak('xióng')"><div class="acpy">iong</div><div class="aceg">xióng 熊</div></div>
+      <div class="acell" onclick="speak('ér')"><div class="acpy">er</div><div class="aceg">ér 儿</div></div>
     </div>
   </div>
-
   <div class="apanel" id="ap-combo">
     <div class="ast">Tableau des Combinaisons Initiales + Finales</div>
-    <p class="asd">Cliquez sur une cellule pour entendre. Les points indiquent des combinaisons inexistantes en mandarin.</p>
+    <p class="asd">Cliquez sur une cellule pour entendre. Les points indiquent des combinaisons inexistantes.</p>
     <div class="cnote"><strong>Comment lire :</strong> ligne = finale, colonne = initiale → syllabe.</div>
     <div class="ctwrap"><table class="ctbl" id="ctbl"></table></div>
   </div>
@@ -981,12 +1024,10 @@ footer strong{color:var(--gold);}
 <div id="toast"><span class="tc" id="tc"></span><span><span id="tf" style="font-size:13px;"></span><br><span class="tp" id="tp"></span></span></div>
 
 <script>
-const synth=window.speechSynthesis;
-let voice=null;
+const synth=window.speechSynthesis;let voice=null;
 function loadV(){const v=synth.getVoices();voice=v.find(x=>x.lang==='zh-CN')||v.find(x=>x.lang.startsWith('zh'))||null;}
 loadV();if(synth.onvoiceschanged!==undefined)synth.onvoiceschanged=loadV;
 function speak(t){synth.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='zh-CN';u.rate=0.85;u.pitch=1.05;if(voice)u.voice=voice;synth.speak(u);}
-
 let toastT=null;
 function showToast(char,py,fr){
   document.getElementById('tc').textContent=char;
@@ -995,11 +1036,7 @@ function showToast(char,py,fr){
   const t=document.getElementById('toast');t.classList.add('show');
   clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2200);
 }
-function spawnRipple(el,e){
-  const r=el.getBoundingClientRect(),s=document.createElement('span');
-  s.className='rip';s.style.left=(e.clientX-r.left-30)+'px';s.style.top=(e.clientY-r.top-30)+'px';
-  el.appendChild(s);s.addEventListener('animationend',()=>s.remove());
-}
+function spawnRipple(el,e){const r=el.getBoundingClientRect(),s=document.createElement('span');s.className='rip';s.style.left=(e.clientX-r.left-30)+'px';s.style.top=(e.clientY-r.top-30)+'px';el.appendChild(s);s.addEventListener('animationend',()=>s.remove());}
 document.addEventListener('click',function(e){
   const card=e.target.closest('.card');if(!card)return;
   if(e.target.classList.contains('cbm'))return;
@@ -1010,317 +1047,61 @@ document.addEventListener('click',function(e){
   card.addEventListener('animationend',()=>card.classList.remove('speaking'),{once:true});
   showToast(ch,py,fr);
 });
-document.querySelectorAll('.pbox').forEach(b=>{
-  b.addEventListener('click',function(e){
-    const ch=this.querySelector('.pc')?.textContent.trim()||'';
-    const py=this.querySelector('.pp')?.textContent.trim()||'';
-    const fr=this.querySelector('.pf')?.textContent.trim()||'';
-    if(!ch)return;speak(ch);spawnRipple(this,e);showToast(ch,py,fr);
-  });
-});
-
-function filterVocab(q){
-  q=q.toLowerCase().trim();
-  document.querySelectorAll('#vocab-view .section[data-s]').forEach(sec=>{
-    let any=false;
-    sec.querySelectorAll('.card').forEach(c=>{
-      const m=!q||(c.dataset.char||'').includes(q)||(c.dataset.pinyin||'').toLowerCase().includes(q)||(c.dataset.fr||'').toLowerCase().includes(q);
-      c.style.display=m?'':'none';if(m)any=true;
-    });
-    sec.querySelectorAll('.dm-item,.cl-ph').forEach(item=>{
-      const m=!q||item.textContent.toLowerCase().includes(q);
-      item.style.display=m?'':'none';if(m)any=true;
-    });
-    sec.style.display=(any||!q)?'':'none';
-  });
-}
-
-let BM=[];
-try{BM=JSON.parse(localStorage.getItem('cn_bm')||'[]');}catch(e){BM=[];}
+document.querySelectorAll('.pbox').forEach(b=>{b.addEventListener('click',function(e){const ch=this.querySelector('.pc')?.textContent.trim()||'';const py=this.querySelector('.pp')?.textContent.trim()||'';const fr=this.querySelector('.pf')?.textContent.trim()||'';if(!ch)return;speak(ch);spawnRipple(this,e);showToast(ch,py,fr);});});
+function filterVocab(q){q=q.toLowerCase().trim();document.querySelectorAll('#vocab-view .section[data-s]').forEach(sec=>{let any=false;sec.querySelectorAll('.card').forEach(c=>{const m=!q||(c.dataset.char||'').includes(q)||(c.dataset.pinyin||'').toLowerCase().includes(q)||(c.dataset.fr||'').toLowerCase().includes(q);c.style.display=m?'':'none';if(m)any=true;});sec.querySelectorAll('.dm-item,.cl-ph').forEach(item=>{const m=!q||item.textContent.toLowerCase().includes(q);item.style.display=m?'':'none';if(m)any=true;});sec.style.display=(any||!q)?'':'none';});}
+let BM=[];try{BM=JSON.parse(localStorage.getItem('cn_bm')||'[]');}catch(e){BM=[];}
 function saveBM(){try{localStorage.setItem('cn_bm',JSON.stringify(BM));}catch(e){}}
-function toggleBM(btn,e){
-  e.stopPropagation();
-  const card=btn.closest('.card'),ch=card.dataset.char||'';
-  const idx=BM.findIndex(b=>b.char===ch);
-  if(idx>=0){BM.splice(idx,1);btn.textContent='☆';btn.classList.remove('on');}
-  else{BM.push({char:ch,pinyin:card.dataset.pinyin||'',fr:card.dataset.fr||''});btn.textContent='★';btn.classList.add('on');}
-  saveBM();updateBMBar();renderBM();
-}
-function updateBMBar(){
-  document.getElementById('bm-cnt').textContent=BM.length;
-  document.getElementById('bm-bar').classList.toggle('on',BM.length>0);
-}
-function renderBM(){
-  const sec=document.getElementById('bm-sec'),grid=document.getElementById('bm-cards');
-  if(!BM.length){sec.style.display='none';return;}
-  sec.style.display='block';grid.innerHTML='';
-  BM.forEach(b=>{
-    const d=document.createElement('div');d.className='card';
-    d.dataset.char=b.char;d.dataset.pinyin=b.pinyin;d.dataset.fr=b.fr;
-    d.innerHTML=`<button class="cbm on" onclick="toggleBM(this,event)">★</button><div class="cc">${b.char}</div><div class="cp">${b.pinyin}</div><div class="cf">${b.fr}</div><div class="cd">🔍 décomposer</div>`;
-    grid.appendChild(d);
-  });
-}
+function toggleBM(btn,e){e.stopPropagation();const card=btn.closest('.card'),ch=card.dataset.char||'';const idx=BM.findIndex(b=>b.char===ch);if(idx>=0){BM.splice(idx,1);btn.textContent='☆';btn.classList.remove('on');}else{BM.push({char:ch,pinyin:card.dataset.pinyin||'',fr:card.dataset.fr||''});btn.textContent='★';btn.classList.add('on');}saveBM();updateBMBar();renderBM();}
+function updateBMBar(){document.getElementById('bm-cnt').textContent=BM.length;document.getElementById('bm-bar').classList.toggle('on',BM.length>0);}
+function renderBM(){const sec=document.getElementById('bm-sec'),grid=document.getElementById('bm-cards');if(!BM.length){sec.style.display='none';return;}sec.style.display='block';grid.innerHTML='';BM.forEach(b=>{const d=document.createElement('div');d.className='card';d.dataset.char=b.char;d.dataset.pinyin=b.pinyin;d.dataset.fr=b.fr;d.innerHTML=`<button class="cbm on" onclick="toggleBM(this,event)">★</button><div class="cc">${b.char}</div><div class="cp">${b.pinyin}</div><div class="cf">${b.fr}</div><div class="cd">🔍 décomposer</div>`;grid.appendChild(d);});}
 function scrollToBM(){showView('vocab');setTimeout(()=>document.getElementById('bm-sec')?.scrollIntoView({behavior:'smooth'}),100);}
-(function init(){
-  BM.forEach(b=>{document.querySelectorAll(`.card[data-char="${CSS.escape(b.char)}"] .cbm`).forEach(btn=>{btn.textContent='★';btn.classList.add('on');});});
-  updateBMBar();renderBM();
-})();
-
-function showView(v){
-  ['vocab','quiz','write','grammar','alpha','radicals'].forEach(n=>{
-    document.getElementById(n+'-view')||document.getElementById(n==='radicals'?'rad-view':n+'-view');
-  });
-  const ids={vocab:'vocab-view',quiz:'quiz-view',write:'write-view',grammar:'grammar-view',alpha:'alpha-view',radicals:'rad-view'};
-  Object.entries(ids).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.style.display=k===v?'block':'none';});
-  document.querySelectorAll('.nav-tab').forEach((t,i)=>{t.classList.toggle('active',['vocab','quiz','write','grammar','alpha','radicals'][i]===v);});
-  if(v==='write')initWT();
-  if(v==='alpha')initCT();
-  if(v==='radicals')initRad();
-}
-
-function showGT(i,btn){
-  document.querySelectorAll('.gpanel').forEach((p,j)=>p.classList.toggle('on',j===i));
-  document.querySelectorAll('.gtb').forEach((b,j)=>b.classList.toggle('on',j===i));
-}
-
-function showAP(id,btn){
-  document.querySelectorAll('.apanel').forEach(p=>p.classList.remove('on'));
-  document.querySelectorAll('.atab').forEach(b=>b.classList.remove('on'));
-  document.getElementById('ap-'+id).classList.add('on');
-  btn.classList.add('on');
-  if(id==='combo')initCT();
-}
-
+(function init(){BM.forEach(b=>{document.querySelectorAll(`.card[data-char="${CSS.escape(b.char)}"] .cbm`).forEach(btn=>{btn.textContent='★';btn.classList.add('on');});});updateBMBar();renderBM();})();
+function showView(v){const ids={vocab:'vocab-view',quiz:'quiz-view',write:'write-view',grammar:'grammar-view',alpha:'alpha-view',radicals:'rad-view'};Object.entries(ids).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.style.display=k===v?'block':'none';});document.querySelectorAll('.nav-tab').forEach((t,i)=>{t.classList.toggle('active',['vocab','quiz','write','grammar','alpha','radicals'][i]===v);});if(v==='write')initWT();if(v==='alpha')initCT();if(v==='radicals')initRad();}
+function showGT(i,btn){document.querySelectorAll('.gpanel').forEach((p,j)=>p.classList.toggle('on',j===i));document.querySelectorAll('.gtb').forEach((b,j)=>b.classList.toggle('on',j===i));}
+function showAP(id,btn){document.querySelectorAll('.apanel').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.atab').forEach(b=>b.classList.remove('on'));document.getElementById('ap-'+id).classList.add('on');btn.classList.add('on');if(id==='combo')initCT();}
 let ctDone=false;
-function initCT(){
-  if(ctDone)return;ctDone=true;
+function initCT(){if(ctDone)return;ctDone=true;
   const ini=['b','p','m','f','d','t','n','l','g','k','h','j','q','x','zh','ch','sh','r','z','c','s','y','w'];
-  const fins=[
-    {f:'a',c:{b:'ba',p:'pa',m:'ma',f:'fa',d:'da',t:'ta',n:'na',l:'la',g:'ga',k:'ka',h:'ha',zh:'zha',ch:'cha',sh:'sha',z:'za',c:'ca',s:'sa',y:'ya',w:'wa'}},
-    {f:'o',c:{b:'bo',p:'po',m:'mo',f:'fo',y:'yo',w:'wo'}},
-    {f:'e',c:{m:'me',d:'de',t:'te',n:'ne',l:'le',g:'ge',k:'ke',h:'he',zh:'zhe',ch:'che',sh:'she',r:'re',z:'ze',c:'ce',s:'se',y:'ye'}},
-    {f:'i',c:{b:'bi',p:'pi',m:'mi',d:'di',t:'ti',n:'ni',l:'li',j:'ji',q:'qi',x:'xi',zh:'zhi',ch:'chi',sh:'shi',r:'ri',z:'zi',c:'ci',s:'si',y:'yi'}},
-    {f:'u',c:{b:'bu',p:'pu',m:'mu',f:'fu',d:'du',t:'tu',n:'nu',l:'lu',g:'gu',k:'ku',h:'hu',zh:'zhu',ch:'chu',sh:'shu',r:'ru',z:'zu',c:'cu',s:'su',w:'wu'}},
-    {f:'ü',c:{n:'nü',l:'lü',j:'ju',q:'qu',x:'xu',y:'yu'}},
-    {f:'ai',c:{b:'bai',p:'pai',m:'mai',d:'dai',t:'tai',n:'nai',l:'lai',g:'gai',k:'kai',h:'hai',zh:'zhai',ch:'chai',sh:'shai',z:'zai',c:'cai',s:'sai',w:'wai'}},
-    {f:'ei',c:{b:'bei',p:'pei',m:'mei',f:'fei',d:'dei',n:'nei',l:'lei',g:'gei',h:'hei',zh:'zhei',sh:'shei',z:'zei',w:'wei'}},
-    {f:'ao',c:{b:'bao',p:'pao',m:'mao',d:'dao',t:'tao',n:'nao',l:'lao',g:'gao',k:'kao',h:'hao',zh:'zhao',ch:'chao',sh:'shao',r:'rao',z:'zao',c:'cao',s:'sao',y:'yao'}},
-    {f:'ou',c:{p:'pou',m:'mou',f:'fou',d:'dou',t:'tou',n:'nou',l:'lou',g:'gou',k:'kou',h:'hou',zh:'zhou',ch:'chou',sh:'shou',r:'rou',z:'zou',c:'cou',s:'sou',y:'you'}},
-    {f:'an',c:{b:'ban',p:'pan',m:'man',f:'fan',d:'dan',t:'tan',n:'nan',l:'lan',g:'gan',k:'kan',h:'han',zh:'zhan',ch:'chan',sh:'shan',r:'ran',z:'zan',c:'can',s:'san',y:'yan',w:'wan'}},
-    {f:'en',c:{b:'ben',p:'pen',m:'men',f:'fen',g:'gen',k:'ken',h:'hen',zh:'zhen',ch:'chen',sh:'shen',r:'ren',z:'zen',c:'cen',s:'sen',w:'wen'}},
-    {f:'ang',c:{b:'bang',p:'pang',m:'mang',f:'fang',d:'dang',t:'tang',n:'nang',l:'lang',g:'gang',k:'kang',h:'hang',zh:'zhang',ch:'chang',sh:'shang',r:'rang',z:'zang',c:'cang',s:'sang',y:'yang',w:'wang'}},
-    {f:'eng',c:{b:'beng',p:'peng',m:'meng',f:'feng',d:'deng',t:'teng',n:'neng',l:'leng',g:'geng',k:'keng',h:'heng',zh:'zheng',ch:'cheng',sh:'sheng',r:'reng',z:'zeng',c:'ceng',s:'seng',w:'weng'}},
-    {f:'er',c:{r:'er'}},
-  ];
+  const fins=[{f:'a',c:{b:'ba',p:'pa',m:'ma',f:'fa',d:'da',t:'ta',n:'na',l:'la',g:'ga',k:'ka',h:'ha',zh:'zha',ch:'cha',sh:'sha',z:'za',c:'ca',s:'sa',y:'ya',w:'wa'}},{f:'o',c:{b:'bo',p:'po',m:'mo',f:'fo',y:'yo',w:'wo'}},{f:'e',c:{m:'me',d:'de',t:'te',n:'ne',l:'le',g:'ge',k:'ke',h:'he',zh:'zhe',ch:'che',sh:'she',r:'re',z:'ze',c:'ce',s:'se',y:'ye'}},{f:'i',c:{b:'bi',p:'pi',m:'mi',d:'di',t:'ti',n:'ni',l:'li',j:'ji',q:'qi',x:'xi',zh:'zhi',ch:'chi',sh:'shi',r:'ri',z:'zi',c:'ci',s:'si',y:'yi'}},{f:'u',c:{b:'bu',p:'pu',m:'mu',f:'fu',d:'du',t:'tu',n:'nu',l:'lu',g:'gu',k:'ku',h:'hu',zh:'zhu',ch:'chu',sh:'shu',r:'ru',z:'zu',c:'cu',s:'su',w:'wu'}},{f:'ü',c:{n:'nü',l:'lü',j:'ju',q:'qu',x:'xu',y:'yu'}},{f:'ai',c:{b:'bai',p:'pai',m:'mai',d:'dai',t:'tai',n:'nai',l:'lai',g:'gai',k:'kai',h:'hai',zh:'zhai',ch:'chai',sh:'shai',z:'zai',c:'cai',s:'sai',w:'wai'}},{f:'ei',c:{b:'bei',p:'pei',m:'mei',f:'fei',d:'dei',n:'nei',l:'lei',g:'gei',h:'hei',zh:'zhei',sh:'shei',z:'zei',w:'wei'}},{f:'ao',c:{b:'bao',p:'pao',m:'mao',d:'dao',t:'tao',n:'nao',l:'lao',g:'gao',k:'kao',h:'hao',zh:'zhao',ch:'chao',sh:'shao',r:'rao',z:'zao',c:'cao',s:'sao',y:'yao'}},{f:'ou',c:{p:'pou',m:'mou',f:'fou',d:'dou',t:'tou',n:'nou',l:'lou',g:'gou',k:'kou',h:'hou',zh:'zhou',ch:'chou',sh:'shou',r:'rou',z:'zou',c:'cou',s:'sou',y:'you'}},{f:'an',c:{b:'ban',p:'pan',m:'man',f:'fan',d:'dan',t:'tan',n:'nan',l:'lan',g:'gan',k:'kan',h:'han',zh:'zhan',ch:'chan',sh:'shan',r:'ran',z:'zan',c:'can',s:'san',y:'yan',w:'wan'}},{f:'en',c:{b:'ben',p:'pen',m:'men',f:'fen',g:'gen',k:'ken',h:'hen',zh:'zhen',ch:'chen',sh:'shen',r:'ren',z:'zen',c:'cen',s:'sen',w:'wen'}},{f:'ang',c:{b:'bang',p:'pang',m:'mang',f:'fang',d:'dang',t:'tang',n:'nang',l:'lang',g:'gang',k:'kang',h:'hang',zh:'zhang',ch:'chang',sh:'shang',r:'rang',z:'zang',c:'cang',s:'sang',y:'yang',w:'wang'}},{f:'eng',c:{b:'beng',p:'peng',m:'meng',f:'feng',d:'deng',t:'teng',n:'neng',l:'leng',g:'geng',k:'keng',h:'heng',zh:'zheng',ch:'cheng',sh:'sheng',r:'reng',z:'zeng',c:'ceng',s:'seng',w:'weng'}},{f:'er',c:{r:'er'}}];
   const tbl=document.getElementById('ctbl');if(!tbl||tbl.innerHTML!=='')return;
-  let html='<thead><tr><th>韵\\声</th>';
-  ini.forEach(i=>html+=`<th>${i}</th>`);html+='</tr></thead><tbody>';
-  fins.forEach(row=>{
-    html+=`<tr><td>${row.f}</td>`;
-    ini.forEach(i=>{const s=row.c[i];html+=s?`<td onclick="speak('${s}')">${s}</td>`:'<td class="emp">·</td>';});
-    html+='</tr>';
-  });
-  tbl.innerHTML=html+'</tbody>';
-}
-
+  let html='<thead><tr><th>韵\\声</th>';ini.forEach(i=>html+=`<th>${i}</th>`);html+='</tr></thead><tbody>';
+  fins.forEach(row=>{html+=`<tr><td>${row.f}</td>`;ini.forEach(i=>{const s=row.c[i];html+=s?`<td onclick="speak('${s}')">${s}</td>`:'<td class="emp">·</td>';});html+='</tr>';});
+  tbl.innerHTML=html+'</tbody>';}
 const VOCAB=[];
-document.querySelectorAll('#vocab-view .card[data-char]').forEach(c=>{
-  if(c.dataset.char&&c.dataset.pinyin&&c.dataset.fr)VOCAB.push({char:c.dataset.char,pinyin:c.dataset.pinyin,fr:c.dataset.fr});
-});
-
+document.querySelectorAll('#vocab-view .card[data-char]').forEach(c=>{if(c.dataset.char&&c.dataset.pinyin&&c.dataset.fr)VOCAB.push({char:c.dataset.char,pinyin:c.dataset.pinyin,fr:c.dataset.fr});});
 let qQ=[],qI=0,qS=0,qR=[],qT='c2f';
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-function startQuiz(){
-  qT=document.querySelector('input[name="qt"]:checked').value;
-  const n=parseInt(document.getElementById('qn-slider').value);
-  qQ=shuffle(VOCAB).slice(0,n);qI=0;qS=0;qR=[];
-  document.getElementById('q-setup').style.display='none';
-  document.getElementById('q-results').style.display='none';
-  document.getElementById('q-question').style.display='block';
-  renderQ();
-}
-function renderQ(){
-  const q=qQ[qI],tot=qQ.length;
-  document.getElementById('qpbf').style.width=((qI/tot)*100)+'%';
-  document.getElementById('qcnt').textContent=`Question ${qI+1} / ${tot}`;
-  document.getElementById('qfb').textContent='';document.getElementById('qfb').className='qfb';
-  document.getElementById('qnxt').classList.remove('on');
-  const qc=document.getElementById('qqc');let qt='',ht='';
-  if(qT==='c2f'){qt=q.char;qc.style.fontFamily="'Noto Sans SC',sans-serif";qc.style.fontSize='80px';}
-  else if(qT==='f2c'){qt=q.fr;qc.style.fontFamily="'DM Sans',sans-serif";qc.style.fontSize='26px';}
-  else if(qT==='p2f'){qt=q.pinyin;qc.style.fontFamily="'DM Sans',sans-serif";qc.style.fontSize='34px';}
-  else{qt=q.char;ht=q.fr;qc.style.fontFamily="'Noto Sans SC',sans-serif";qc.style.fontSize='80px';}
-  qc.textContent=qt;document.getElementById('qqh').textContent=ht;
-  const opts=shuffle([q,...shuffle(VOCAB.filter(v=>v.char!==q.char)).slice(0,3)]);
-  const ae=document.getElementById('qans');ae.innerHTML='';
-  opts.forEach(opt=>{
-    const btn=document.createElement('button');btn.className='qabt';
-    btn.textContent=qT==='c2f'||qT==='p2f'?opt.fr:qT==='f2c'?opt.char:opt.pinyin;
-    btn.onclick=()=>selQ(btn,opt,q);ae.appendChild(btn);
-  });
-}
-function selQ(btn,sel,cor){
-  document.querySelectorAll('.qabt').forEach(b=>b.disabled=true);
-  const ok=sel.char===cor.char;
-  if(ok){btn.classList.add('correct');qS++;document.getElementById('qfb').textContent='✓ Correct !';document.getElementById('qfb').className='qfb correct';speak(cor.char);}
-  else{
-    btn.classList.add('wrong');
-    let cl=qT==='c2f'||qT==='p2f'?cor.fr:qT==='f2c'?cor.char:cor.pinyin;
-    document.querySelectorAll('.qabt').forEach(b=>{if(b.textContent===cl)b.classList.add('correct');});
-    document.getElementById('qfb').textContent=`✗ Réponse : ${cor.char} (${cor.pinyin}) — ${cor.fr}`;
-    document.getElementById('qfb').className='qfb wrong';
-  }
-  qR.push({word:cor,correct:ok});document.getElementById('qnxt').classList.add('on');
-}
+function startQuiz(){qT=document.querySelector('input[name="qt"]:checked').value;const n=parseInt(document.getElementById('qn-slider').value);qQ=shuffle(VOCAB).slice(0,n);qI=0;qS=0;qR=[];document.getElementById('q-setup').style.display='none';document.getElementById('q-results').style.display='none';document.getElementById('q-question').style.display='block';renderQ();}
+function renderQ(){const q=qQ[qI],tot=qQ.length;document.getElementById('qpbf').style.width=((qI/tot)*100)+'%';document.getElementById('qcnt').textContent=`Question ${qI+1} / ${tot}`;document.getElementById('qfb').textContent='';document.getElementById('qfb').className='qfb';document.getElementById('qnxt').classList.remove('on');const qc=document.getElementById('qqc');let qt='',ht='';if(qT==='c2f'){qt=q.char;qc.style.fontFamily="'Noto Sans SC',sans-serif";qc.style.fontSize='80px';}else if(qT==='f2c'){qt=q.fr;qc.style.fontFamily="'DM Sans',sans-serif";qc.style.fontSize='26px';}else if(qT==='p2f'){qt=q.pinyin;qc.style.fontFamily="'DM Sans',sans-serif";qc.style.fontSize='34px';}else{qt=q.char;ht=q.fr;qc.style.fontFamily="'Noto Sans SC',sans-serif";qc.style.fontSize='80px';}qc.textContent=qt;document.getElementById('qqh').textContent=ht;const opts=shuffle([q,...shuffle(VOCAB.filter(v=>v.char!==q.char)).slice(0,3)]);const ae=document.getElementById('qans');ae.innerHTML='';opts.forEach(opt=>{const btn=document.createElement('button');btn.className='qabt';btn.textContent=qT==='c2f'||qT==='p2f'?opt.fr:qT==='f2c'?opt.char:opt.pinyin;btn.onclick=()=>selQ(btn,opt,q);ae.appendChild(btn);});}
+function selQ(btn,sel,cor){document.querySelectorAll('.qabt').forEach(b=>b.disabled=true);const ok=sel.char===cor.char;if(ok){btn.classList.add('correct');qS++;document.getElementById('qfb').textContent='✓ Correct !';document.getElementById('qfb').className='qfb correct';speak(cor.char);}else{btn.classList.add('wrong');let cl=qT==='c2f'||qT==='p2f'?cor.fr:qT==='f2c'?cor.char:cor.pinyin;document.querySelectorAll('.qabt').forEach(b=>{if(b.textContent===cl)b.classList.add('correct');});document.getElementById('qfb').textContent=`✗ Réponse : ${cor.char} (${cor.pinyin}) — ${cor.fr}`;document.getElementById('qfb').className='qfb wrong';}qR.push({word:cor,correct:ok});document.getElementById('qnxt').classList.add('on');}
 function nextQ(){qI++;if(qI>=qQ.length)showQRes();else renderQ();}
-function showQRes(){
-  document.getElementById('q-question').style.display='none';document.getElementById('q-results').style.display='block';
-  const tot=qQ.length,pct=Math.round((qS/tot)*100);
-  document.getElementById('qsc').textContent=`${qS} / ${tot}`;document.getElementById('qss').textContent=`${pct}% de bonnes réponses`;
-  document.getElementById('qst').textContent=pct===100?'⭐⭐⭐':pct>=70?'⭐⭐':'⭐';
-  const list=document.getElementById('qrl');list.innerHTML='';
-  qR.forEach(r=>{const d=document.createElement('div');d.className='ri';d.innerHTML=`<div class="rc">${r.word.char}</div><div class="ri2"><div class="rpy">${r.word.pinyin}</div><div class="rfr">${r.word.fr}</div></div><div class="rs">${r.correct?'✅':'❌'}</div>`;list.appendChild(d);});
-}
+function showQRes(){document.getElementById('q-question').style.display='none';document.getElementById('q-results').style.display='block';const tot=qQ.length,pct=Math.round((qS/tot)*100);document.getElementById('qsc').textContent=`${qS} / ${tot}`;document.getElementById('qss').textContent=`${pct}% de bonnes réponses`;document.getElementById('qst').textContent=pct===100?'⭐⭐⭐':pct>=70?'⭐⭐':'⭐';const list=document.getElementById('qrl');list.innerHTML='';qR.forEach(r=>{const d=document.createElement('div');d.className='ri';d.innerHTML=`<div class="rc">${r.word.char}</div><div class="ri2"><div class="rpy">${r.word.pinyin}</div><div class="rfr">${r.word.fr}</div></div><div class="rs">${r.correct?'✅':'❌'}</div>`;list.appendChild(d);});}
 function restartQ(){document.getElementById('q-results').style.display='none';startQuiz();}
 function showSetup(){document.getElementById('q-results').style.display='none';document.getElementById('q-setup').style.display='block';}
-
 let hw=null,hwq=null,wtDone=false,cww=null;
 function initWT(){if(wtDone)return;wtDone=true;renderWG(VOCAB);}
-function renderWG(words){
-  const g=document.getElementById('wcg');g.innerHTML='';
-  words.forEach(w=>{
-    const b=document.createElement('div');b.className='wcb';
-    b.innerHTML=`<div class="wcc">${w.char[0]}</div><div class="wcp">${w.pinyin.split(' ')[0]}</div>`;
-    b.title=w.fr;b.onclick=()=>selWC(w,b);g.appendChild(b);
-  });
-}
+function renderWG(words){const g=document.getElementById('wcg');g.innerHTML='';words.forEach(w=>{const b=document.createElement('div');b.className='wcb';b.innerHTML=`<div class="wcc">${w.char[0]}</div><div class="wcp">${w.pinyin.split(' ')[0]}</div>`;b.title=w.fr;b.onclick=()=>selWC(w,b);g.appendChild(b);});}
 function filterWC(q){q=q.toLowerCase().trim();renderWG(q?VOCAB.filter(w=>w.char.includes(q)||w.pinyin.toLowerCase().includes(q)||w.fr.toLowerCase().includes(q)):VOCAB);}
-function selWC(word,btn){
-  cww=word;document.querySelectorAll('.wcb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
-  const p=document.getElementById('wpanel');p.style.display='block';p.scrollIntoView({behavior:'smooth',block:'nearest'});
-  document.getElementById('wpc').textContent=word.char;document.getElementById('wpp').textContent=word.pinyin;document.getElementById('wpf').textContent=word.fr;
-  document.getElementById('wqa').style.display='none';document.getElementById('wqf').textContent='';
-  loadHZ(word.char[0]);
-}
-function loadHZ(ch){
-  document.getElementById('hzc').innerHTML='';
-  hw=HanziWriter.create('hzc',ch,{width:220,height:220,padding:20,showOutline:true,strokeColor:'#ff7a7a',outlineColor:'#2e2e2e',drawingColor:'#e6a817',strokeAnimationSpeed:1,delayBetweenStrokes:200,onLoadCharDataSuccess:d=>{const c=d.strokes?d.strokes.length:'?';document.getElementById('wsc').textContent=`${c} trait${c>1?'s':''}`;}});
-}
+function selWC(word,btn){cww=word;document.querySelectorAll('.wcb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');const p=document.getElementById('wpanel');p.style.display='block';p.scrollIntoView({behavior:'smooth',block:'nearest'});document.getElementById('wpc').textContent=word.char;document.getElementById('wpp').textContent=word.pinyin;document.getElementById('wpf').textContent=word.fr;document.getElementById('wqa').style.display='none';document.getElementById('wqf').textContent='';loadHZ(word.char[0]);}
+function loadHZ(ch){document.getElementById('hzc').innerHTML='';hw=HanziWriter.create('hzc',ch,{width:220,height:220,padding:20,showOutline:true,strokeColor:'#ff7a7a',outlineColor:'#2e2e2e',drawingColor:'#e6a817',strokeAnimationSpeed:1,delayBetweenStrokes:200,onLoadCharDataSuccess:d=>{const c=d.strokes?d.strokes.length:'?';document.getElementById('wsc').textContent=`${c} trait${c>1?'s':''}`;}});}
 function animW(){if(!hw)return;hw.animateCharacter();speak(cww?.char||'');}
 function nextStroke(){if(!hw)return;hw.animateNextStroke();}
 function resetW(){if(!hw)return;hw.hideCharacter();setTimeout(()=>hw.showCharacter(),100);}
-function startWQ(){
-  if(!cww)return;const a=document.getElementById('wqa');a.style.display='block';a.scrollIntoView({behavior:'smooth',block:'nearest'});
-  document.getElementById('hzq').innerHTML='';document.getElementById('wqf').textContent='';document.getElementById('wqf').className='wqf';
-  hwq=HanziWriter.create('hzq',cww.char[0],{width:220,height:220,padding:20,showOutline:true,showCharacter:false,strokeColor:'#e6a817',outlineColor:'#2e2e2e',drawingColor:'#e6a817',highlightColor:'#4caf7d'});
-  hwq.quiz({
-    onMistake:d=>{const f=document.getElementById('wqf');f.textContent=`Essayez encore — trait ${d.strokeNum+1}`;f.className='wqf wrong';},
-    onCorrectStroke:d=>{const f=document.getElementById('wqf');f.textContent=`✓ Trait ${d.strokeNum+1} correct !`;f.className='wqf correct';},
-    onComplete:d=>{const f=document.getElementById('wqf');f.textContent=`🎉 Bravo ! ${d.totalMistakes===0?'Parfait !':d.totalMistakes+' erreur(s)'}`;f.className='wqf correct';speak(cww.char);}
-  });
-}
-
-const DECOMP={
-  '明':{parts:[{char:'日',py:'rì',m:'Soleil'},{char:'月',py:'yuè',m:'Lune'}],note:'日 (soleil) + 月 (lune) = 明 (brillant, clair). La combinaison du soleil et de la lune symbolise la clarté.'},
-  '好':{parts:[{char:'女',py:'nǚ',m:'Femme'},{char:'子',py:'zǐ',m:'Enfant'}],note:'女 (femme) + 子 (enfant) = 好 (bon, bien). Une femme avec un enfant représente le bonheur.'},
-  '妈':{parts:[{char:'女',py:'nǚ',m:'Femme (sens)'},{char:'马',py:'mǎ',m:'Cheval (son)'}],note:'女 donne le sens (femme/mère), 马 donne la prononciation "ma". Caractère phono-sémantique typique.'},
-  '爸':{parts:[{char:'父',py:'fù',m:'Père'},{char:'巴',py:'bā',m:'Son "ba"'}],note:'父 (père) est le radical sémantique. 巴 indique la prononciation.'},
-  '家':{parts:[{char:'宀',py:'mián',m:'Toit'},{char:'豕',py:'shǐ',m:'Cochon'}],note:'宀 (toit) + 豕 (cochon) = 家 (foyer). Anciennement, avoir un toit et un cochon symbolisait le foyer familial.'},
-  '学':{parts:[{char:'爻',py:'yáo',m:'Croisement'},{char:'子',py:'zǐ',m:'Enfant'}],note:'子 (enfant) sous une structure d\'enseignement = 学 (étudier). L\'enfant qui reçoit un enseignement.'},
-  '明天':{parts:[{char:'明',py:'míng',m:'Brillant'},{char:'天',py:'tiān',m:'Ciel / Jour'}],note:'明 (brillant) + 天 (jour) = 明天 (demain). Le "jour brillant" qui vient.'},
-  '医学':{parts:[{char:'医',py:'yī',m:'Médecine'},{char:'学',py:'xué',m:'Science'}],note:'医 (médecine) + 学 (science) = 医学. La "science de guérir".'},
-  '药物':{parts:[{char:'药',py:'yào',m:'Médicament'},{char:'物',py:'wù',m:'Matière'}],note:'药 (médicament) + 物 (matière) = 药物. "La substance médicamenteuse".'},
-  '细胞':{parts:[{char:'细',py:'xì',m:'Fin / Petit'},{char:'胞',py:'bāo',m:'Vésicule'}],note:'细 (fin/petit) + 胞 (vésicule) = 细胞 (cellule). La "petite vésicule" — métaphore parfaite !'},
-  '免疫':{parts:[{char:'免',py:'miǎn',m:'Éviter'},{char:'疫',py:'yì',m:'Épidémie'}],note:'免 (éviter) + 疫 (épidémie) = 免疫 (immunité). "Être exempté de l\'épidémie".'},
-  '抗生素':{parts:[{char:'抗',py:'kàng',m:'Résister'},{char:'生',py:'shēng',m:'Vie'},{char:'素',py:'sù',m:'Élément'}],note:'抗 (résister) + 生 (vie) + 素 (élément) = 抗生素 (antibiotique). "Élément qui résiste aux êtres vivants".'},
-  '副作用':{parts:[{char:'副',py:'fù',m:'Secondaire'},{char:'作用',py:'zuòyòng',m:'Effet / Action'}],note:'副 (secondaire) + 作用 (effet) = 副作用 (effets secondaires). "Effets accessoires".'},
-  '处方':{parts:[{char:'处',py:'chǔ',m:'Prescrire'},{char:'方',py:'fāng',m:'Formule'}],note:'处 (prescrire) + 方 (formule) = 处方 (ordonnance). La "formule de traitement".'},
-  '剂量':{parts:[{char:'剂',py:'jì',m:'Dose'},{char:'量',py:'liàng',m:'Quantité'}],note:'剂 (préparation) + 量 (quantité) = 剂量 (dosage). La "quantité de la préparation" — essentiel en pharmacologie.'},
-  '医院':{parts:[{char:'医',py:'yī',m:'Médecine'},{char:'院',py:'yuàn',m:'Établissement'}],note:'医 (médecine) + 院 (établissement) = 医院 (hôpital). L\'"établissement de la médecine".'},
-  '化学':{parts:[{char:'化',py:'huà',m:'Transformer'},{char:'学',py:'xué',m:'Science'}],note:'化 (transformer) + 学 (science) = 化学 (chimie). La "science de la transformation".'},
-  '大脑':{parts:[{char:'大',py:'dà',m:'Grand'},{char:'脑',py:'nǎo',m:'Cerveau'}],note:'大 (grand) + 脑 (cerveau) = 大脑 (cerveau). Par opposition à 小脑 (petit cerveau = cervelet).'},
-  '血液':{parts:[{char:'血',py:'xuè',m:'Sang'},{char:'液',py:'yè',m:'Liquide'}],note:'血 (sang) + 液 (liquide) = 血液 (sang). "Le liquide sanguin" — terme médical précis.'},
-  '药房':{parts:[{char:'药',py:'yào',m:'Médicament'},{char:'房',py:'fáng',m:'Local / Pièce'}],note:'药 (médicament) + 房 (pièce) = 药房 (pharmacie). La "pièce des médicaments".'},
-  '爱':{parts:[{char:'爪',py:'zhǎo',m:'Main'},{char:'心',py:'xīn',m:'Cœur'},{char:'友',py:'yǒu',m:'Ami'}],note:'Main + cœur + ami = 爱 (amour). Tenir quelqu\'un dans son cœur et être son ami !'},
-  '学习':{parts:[{char:'学',py:'xué',m:'Apprendre'},{char:'习',py:'xí',m:'Pratiquer'}],note:'学 (apprendre théoriquement) + 习 (pratiquer) = 学习 (étudier). Apprendre ET pratiquer.'},
-};
-
-function openD(char,py,fr){
-  const fc=char[0],data=DECOMP[char]||DECOMP[fc];
-  document.getElementById('dmc').textContent=char;
-  document.getElementById('dpy').textContent=py;
-  document.getElementById('dmn').textContent=fr;
-  const eq=document.getElementById('deq'),dn=document.getElementById('dnote');
-  eq.innerHTML='';dn.style.display='none';
-  if(data&&data.parts&&data.parts.length>0){
-    data.parts.forEach((p,i)=>{
-      if(i>0){const pl=document.createElement('span');pl.className='dpl';pl.textContent='+';eq.appendChild(pl);}
-      const dp=document.createElement('div');dp.className='dp';
-      dp.innerHTML=`<div class="dpc">${p.char}</div><div class="dpp">${p.py}</div><div class="dpm">${p.m}</div>`;
-      dp.onclick=()=>speak(p.char);eq.appendChild(dp);
-    });
-    const es=document.createElement('span');es.className='deq-eq';es.textContent='=';eq.appendChild(es);
-    const dr=document.createElement('div');dr.className='dr';
-    dr.innerHTML=`<div class="drc">${char}</div><div class="dpp">${py}</div><div class="dpm">${fr}</div>`;
-    eq.appendChild(dr);
-    if(data.note){dn.innerHTML=`<strong>💡 Note :</strong> ${data.note}`;dn.style.display='block';}
-  } else if(data&&data.note){
-    eq.innerHTML=`<div style="text-align:center;font-size:48px;font-family:'Noto Sans SC',sans-serif;color:var(--gold);cursor:pointer;" onclick="speak('${char}')">${char}</div>`;
-    dn.innerHTML=`<strong>💡 </strong>${data.note}`;dn.style.display='block';
-  } else {
-    eq.innerHTML=`<div style="text-align:center;padding:16px;"><div style="font-size:48px;font-family:'Noto Sans SC',sans-serif;color:var(--gold);cursor:pointer;margin-bottom:10px;" onclick="speak('${char}')">${char}</div><div style="font-size:13px;color:var(--muted);">Cliquez pour entendre · Décomposition non disponible.</div></div>`;
-  }
-  document.getElementById('dov').classList.add('open');
-}
+function startWQ(){if(!cww)return;const a=document.getElementById('wqa');a.style.display='block';a.scrollIntoView({behavior:'smooth',block:'nearest'});document.getElementById('hzq').innerHTML='';document.getElementById('wqf').textContent='';document.getElementById('wqf').className='wqf';hwq=HanziWriter.create('hzq',cww.char[0],{width:220,height:220,padding:20,showOutline:true,showCharacter:false,strokeColor:'#e6a817',outlineColor:'#2e2e2e',drawingColor:'#e6a817',highlightColor:'#4caf7d'});hwq.quiz({onMistake:d=>{const f=document.getElementById('wqf');f.textContent=`Essayez encore — trait ${d.strokeNum+1}`;f.className='wqf wrong';},onCorrectStroke:d=>{const f=document.getElementById('wqf');f.textContent=`✓ Trait ${d.strokeNum+1} correct !`;f.className='wqf correct';},onComplete:d=>{const f=document.getElementById('wqf');f.textContent=`🎉 Bravo ! ${d.totalMistakes===0?'Parfait !':d.totalMistakes+' erreur(s)'}`;f.className='wqf correct';speak(cww.char);}});}
+const DECOMP={'明':{parts:[{char:'日',py:'rì',m:'Soleil'},{char:'月',py:'yuè',m:'Lune'}],note:'日 (soleil) + 月 (lune) = 明 (brillant). La combinaison du soleil et de la lune symbolise la clarté.'},'好':{parts:[{char:'女',py:'nǚ',m:'Femme'},{char:'子',py:'zǐ',m:'Enfant'}],note:'女 (femme) + 子 (enfant) = 好 (bon). Une femme avec un enfant représente le bonheur.'},'妈':{parts:[{char:'女',py:'nǚ',m:'Femme (sens)'},{char:'马',py:'mǎ',m:'Cheval (son)'}],note:'女 donne le sens, 马 donne la prononciation "ma". Caractère phono-sémantique typique.'},'爸':{parts:[{char:'父',py:'fù',m:'Père'},{char:'巴',py:'bā',m:'Son "ba"'}],note:'父 (père) est le radical sémantique. 巴 indique la prononciation.'},'家':{parts:[{char:'宀',py:'mián',m:'Toit'},{char:'豕',py:'shǐ',m:'Cochon'}],note:'宀 (toit) + 豕 (cochon) = 家. Avoir un toit et un cochon symbolisait le foyer familial.'},'学':{parts:[{char:'爻',py:'yáo',m:'Croisement'},{char:'子',py:'zǐ',m:'Enfant'}],note:'子 (enfant) sous une structure d\'enseignement = 学 (étudier).'},'医学':{parts:[{char:'医',py:'yī',m:'Médecine'},{char:'学',py:'xué',m:'Science'}],note:'医 (médecine) + 学 (science) = 医学. La "science de guérir".'},'药物':{parts:[{char:'药',py:'yào',m:'Médicament'},{char:'物',py:'wù',m:'Matière'}],note:'药 + 物 = 药物. "La substance médicamenteuse".'},'细胞':{parts:[{char:'细',py:'xì',m:'Fin'},{char:'胞',py:'bāo',m:'Vésicule'}],note:'细 + 胞 = 细胞 (cellule). La "petite vésicule".'},'免疫':{parts:[{char:'免',py:'miǎn',m:'Éviter'},{char:'疫',py:'yì',m:'Épidémie'}],note:'免 + 疫 = 免疫 (immunité). "Être exempté de l\'épidémie".'},'抗生素':{parts:[{char:'抗',py:'kàng',m:'Résister'},{char:'生',py:'shēng',m:'Vie'},{char:'素',py:'sù',m:'Élément'}],note:'抗 + 生 + 素 = 抗生素 (antibiotique). "Élément qui résiste aux êtres vivants".'},'副作用':{parts:[{char:'副',py:'fù',m:'Secondaire'},{char:'作用',py:'zuòyòng',m:'Effet'}],note:'副 + 作用 = 副作用 (effets secondaires).'},'处方':{parts:[{char:'处',py:'chǔ',m:'Prescrire'},{char:'方',py:'fāng',m:'Formule'}],note:'处 + 方 = 处方 (ordonnance). La "formule de traitement".'},'剂量':{parts:[{char:'剂',py:'jì',m:'Dose'},{char:'量',py:'liàng',m:'Quantité'}],note:'剂 + 量 = 剂量 (dosage).'},'医院':{parts:[{char:'医',py:'yī',m:'Médecine'},{char:'院',py:'yuàn',m:'Établissement'}],note:'医 + 院 = 医院 (hôpital).'},'化学':{parts:[{char:'化',py:'huà',m:'Transformer'},{char:'学',py:'xué',m:'Science'}],note:'化 + 学 = 化学 (chimie). La "science de la transformation".'},'大脑':{parts:[{char:'大',py:'dà',m:'Grand'},{char:'脑',py:'nǎo',m:'Cerveau'}],note:'大 + 脑 = 大脑 (cerveau). Par opposition à 小脑 (cervelet).'},'血液':{parts:[{char:'血',py:'xuè',m:'Sang'},{char:'液',py:'yè',m:'Liquide'}],note:'血 + 液 = 血液 (sang). "Le liquide sanguin".'},'药房':{parts:[{char:'药',py:'yào',m:'Médicament'},{char:'房',py:'fáng',m:'Pièce'}],note:'药 + 房 = 药房 (pharmacie). La "pièce des médicaments".'},'爱':{parts:[{char:'爪',py:'zhǎo',m:'Main'},{char:'心',py:'xīn',m:'Cœur'},{char:'友',py:'yǒu',m:'Ami'}],note:'Main + cœur + ami = 爱 (amour).'},'学习':{parts:[{char:'学',py:'xué',m:'Apprendre'},{char:'习',py:'xí',m:'Pratiquer'}],note:'学 + 习 = 学习 (étudier). Apprendre ET pratiquer.'},'明天':{parts:[{char:'明',py:'míng',m:'Brillant'},{char:'天',py:'tiān',m:'Ciel / Jour'}],note:'明 + 天 = 明天 (demain). Le "jour brillant" qui vient.'}};
+function openD(char,py,fr){const fc=char[0],data=DECOMP[char]||DECOMP[fc];document.getElementById('dmc').textContent=char;document.getElementById('dpy').textContent=py;document.getElementById('dmn').textContent=fr;const eq=document.getElementById('deq'),dn=document.getElementById('dnote');eq.innerHTML='';dn.style.display='none';if(data&&data.parts&&data.parts.length>0){data.parts.forEach((p,i)=>{if(i>0){const pl=document.createElement('span');pl.className='dpl';pl.textContent='+';eq.appendChild(pl);}const dp=document.createElement('div');dp.className='dp';dp.innerHTML=`<div class="dpc">${p.char}</div><div class="dpp">${p.py}</div><div class="dpm">${p.m}</div>`;dp.onclick=()=>speak(p.char);eq.appendChild(dp);});const es=document.createElement('span');es.className='deq-eq';es.textContent='=';eq.appendChild(es);const dr=document.createElement('div');dr.className='dr';dr.innerHTML=`<div class="drc">${char}</div><div class="dpp">${py}</div><div class="dpm">${fr}</div>`;eq.appendChild(dr);if(data.note){dn.innerHTML=`<strong>💡 Note :</strong> ${data.note}`;dn.style.display='block';}}else if(data&&data.note){eq.innerHTML=`<div style="text-align:center;font-size:48px;font-family:'Noto Sans SC',sans-serif;color:var(--gold);cursor:pointer;" onclick="speak('${char}')">${char}</div>`;dn.innerHTML=`<strong>💡 </strong>${data.note}`;dn.style.display='block';}else{eq.innerHTML=`<div style="text-align:center;padding:16px;"><div style="font-size:48px;font-family:'Noto Sans SC',sans-serif;color:var(--gold);cursor:pointer;margin-bottom:10px;" onclick="speak('${char}')">${char}</div><div style="font-size:13px;color:var(--muted);">Décomposition non disponible.</div></div>`;}document.getElementById('dov').classList.add('open');}
 function closeDovModal(){document.getElementById('dov').classList.remove('open');}
 function closeDov(e){if(e.target===document.getElementById('dov'))closeDovModal();}
-
-const RADS=[
-  {char:'日',py:'rì',meaning:'Soleil / Jour',strokes:4,cat:'nature',ex:['明','晴','时','星']},
-  {char:'月',py:'yuè',meaning:'Lune / Mois',strokes:4,cat:'nature',ex:['明','期','朝','朋']},
-  {char:'水',py:'shuǐ',meaning:'Eau (氵)',strokes:4,cat:'nature',ex:['海','河','洗','游']},
-  {char:'火',py:'huǒ',meaning:'Feu (灬)',strokes:4,cat:'nature',ex:['热','烧','炒','灯']},
-  {char:'木',py:'mù',meaning:'Bois / Arbre',strokes:4,cat:'nature',ex:['树','林','森','桌']},
-  {char:'山',py:'shān',meaning:'Montagne',strokes:3,cat:'nature',ex:['出','岛','岩','峰']},
-  {char:'土',py:'tǔ',meaning:'Terre / Sol',strokes:3,cat:'nature',ex:['地','城','坐','场']},
-  {char:'雨',py:'yǔ',meaning:'Pluie',strokes:8,cat:'nature',ex:['雪','云','雷','霜']},
-  {char:'草',py:'cǎo',meaning:'Herbe (艹)',strokes:9,cat:'nature',ex:['花','茶','药','菜']},
-  {char:'虫',py:'chóng',meaning:'Insecte',strokes:6,cat:'nature',ex:['蛇','蚂','蜂','蝶']},
-  {char:'鱼',py:'yú',meaning:'Poisson',strokes:8,cat:'nature',ex:['鲜','鲤','鲸','鳄']},
-  {char:'人',py:'rén',meaning:'Personne (亻)',strokes:2,cat:'human',ex:['他','你','们','做']},
-  {char:'女',py:'nǚ',meaning:'Femme',strokes:3,cat:'human',ex:['妈','姐','她','好']},
-  {char:'子',py:'zǐ',meaning:'Enfant / Fils',strokes:3,cat:'human',ex:['学','好','孩','字']},
-  {char:'父',py:'fù',meaning:'Père',strokes:4,cat:'human',ex:['爸','爷','父亲']},
-  {char:'心',py:'xīn',meaning:'Cœur (忄)',strokes:4,cat:'body',ex:['想','忙','爱','恨']},
-  {char:'手',py:'shǒu',meaning:'Main (扌)',strokes:4,cat:'body',ex:['拿','打','找','扶']},
-  {char:'口',py:'kǒu',meaning:'Bouche',strokes:3,cat:'body',ex:['吃','喝','唱','叫']},
-  {char:'目',py:'mù',meaning:'Œil',strokes:5,cat:'body',ex:['看','眼','睛','睡']},
-  {char:'耳',py:'ěr',meaning:'Oreille',strokes:6,cat:'body',ex:['听','耳朵','聪']},
-  {char:'足',py:'zú',meaning:'Pied (⻊)',strokes:7,cat:'body',ex:['跑','跳','路','跟']},
-  {char:'病',py:'bìng',meaning:'Maladie (疒)',strokes:10,cat:'body',ex:['症','疾','痛','癌']},
-  {char:'门',py:'mén',meaning:'Porte',strokes:3,cat:'object',ex:['开','关','间','闻']},
-  {char:'金',py:'jīn',meaning:'Or / Métal (釒)',strokes:8,cat:'object',ex:['钱','银','铁','钟']},
-  {char:'食',py:'shí',meaning:'Nourriture (饣)',strokes:9,cat:'object',ex:['饭','饮','饿','餐']},
-  {char:'药',py:'yào',meaning:'Médicament',strokes:9,cat:'object',ex:['药片','药房','药物']},
-  {char:'刀',py:'dāo',meaning:'Couteau (刂)',strokes:2,cat:'object',ex:['分','切','剪','刻']},
-  {char:'力',py:'lì',meaning:'Force / Effort',strokes:2,cat:'action',ex:['努','动','助','劳']},
-  {char:'言',py:'yán',meaning:'Parole (讠)',strokes:7,cat:'action',ex:['说','话','语','谢']},
-  {char:'走',py:'zǒu',meaning:'Marcher',strokes:7,cat:'action',ex:['赶','起','越','赴']},
-];
-
+const RADS=[{char:'日',py:'rì',meaning:'Soleil / Jour',strokes:4,cat:'nature',ex:['明','晴','时','星']},{char:'月',py:'yuè',meaning:'Lune / Mois',strokes:4,cat:'nature',ex:['明','期','朝','朋']},{char:'水',py:'shuǐ',meaning:'Eau (氵)',strokes:4,cat:'nature',ex:['海','河','洗','游']},{char:'火',py:'huǒ',meaning:'Feu (灬)',strokes:4,cat:'nature',ex:['热','烧','炒','灯']},{char:'木',py:'mù',meaning:'Bois / Arbre',strokes:4,cat:'nature',ex:['树','林','森','桌']},{char:'山',py:'shān',meaning:'Montagne',strokes:3,cat:'nature',ex:['出','岛','岩','峰']},{char:'土',py:'tǔ',meaning:'Terre / Sol',strokes:3,cat:'nature',ex:['地','城','坐','场']},{char:'雨',py:'yǔ',meaning:'Pluie',strokes:8,cat:'nature',ex:['雪','云','雷','霜']},{char:'草',py:'cǎo',meaning:'Herbe (艹)',strokes:9,cat:'nature',ex:['花','茶','药','菜']},{char:'虫',py:'chóng',meaning:'Insecte',strokes:6,cat:'nature',ex:['蛇','蚂','蜂','蝶']},{char:'鱼',py:'yú',meaning:'Poisson',strokes:8,cat:'nature',ex:['鲜','鲤','鲸','鳄']},{char:'人',py:'rén',meaning:'Personne (亻)',strokes:2,cat:'human',ex:['他','你','们','做']},{char:'女',py:'nǚ',meaning:'Femme',strokes:3,cat:'human',ex:['妈','姐','她','好']},{char:'子',py:'zǐ',meaning:'Enfant / Fils',strokes:3,cat:'human',ex:['学','好','孩','字']},{char:'父',py:'fù',meaning:'Père',strokes:4,cat:'human',ex:['爸','爷','父亲']},{char:'心',py:'xīn',meaning:'Cœur (忄)',strokes:4,cat:'body',ex:['想','忙','爱','恨']},{char:'手',py:'shǒu',meaning:'Main (扌)',strokes:4,cat:'body',ex:['拿','打','找','扶']},{char:'口',py:'kǒu',meaning:'Bouche',strokes:3,cat:'body',ex:['吃','喝','唱','叫']},{char:'目',py:'mù',meaning:'Œil',strokes:5,cat:'body',ex:['看','眼','睛','睡']},{char:'耳',py:'ěr',meaning:'Oreille',strokes:6,cat:'body',ex:['听','耳朵','聪']},{char:'足',py:'zú',meaning:'Pied (⻊)',strokes:7,cat:'body',ex:['跑','跳','路','跟']},{char:'病',py:'bìng',meaning:'Maladie (疒)',strokes:10,cat:'body',ex:['症','疾','痛','癌']},{char:'门',py:'mén',meaning:'Porte',strokes:3,cat:'object',ex:['开','关','间','闻']},{char:'金',py:'jīn',meaning:'Or / Métal (釒)',strokes:8,cat:'object',ex:['钱','银','铁','钟']},{char:'食',py:'shí',meaning:'Nourriture (饣)',strokes:9,cat:'object',ex:['饭','饮','饿','餐']},{char:'药',py:'yào',meaning:'Médicament',strokes:9,cat:'object',ex:['药片','药房','药物']},{char:'刀',py:'dāo',meaning:'Couteau (刂)',strokes:2,cat:'object',ex:['分','切','剪','刻']},{char:'力',py:'lì',meaning:'Force / Effort',strokes:2,cat:'action',ex:['努','动','助','劳']},{char:'言',py:'yán',meaning:'Parole (讠)',strokes:7,cat:'action',ex:['说','话','语','谢']},{char:'走',py:'zǒu',meaning:'Marcher',strokes:7,cat:'action',ex:['赶','起','越','赴']}];
 let rFilt='all';
 function initRad(){if(document.getElementById('rgrid').children.length>0)return;renderR();}
 function filterR(cat,btn){rFilt=cat;document.querySelectorAll('.rfb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');renderR();}
-function renderR(){
-  const g=document.getElementById('rgrid');g.innerHTML='';
-  (rFilt==='all'?RADS:RADS.filter(r=>r.cat===rFilt)).forEach(rad=>{
-    const c=document.createElement('div');c.className='rcard';
-    const ex=rad.ex.map(e=>`<span class="rxc" onclick="speak('${e}');event.stopPropagation()">${e}</span>`).join('');
-    c.innerHTML=`<div class="rch">${rad.char}</div><div class="rpy">${rad.py}</div><div class="rme">${rad.meaning}</div><div class="rst">${rad.strokes} trait${rad.strokes>1?'s':''}</div><div class="rex">${ex}</div>`;
-    c.onclick=()=>speak(rad.char);g.appendChild(c);
-  });
-}
+function renderR(){const g=document.getElementById('rgrid');g.innerHTML='';(rFilt==='all'?RADS:RADS.filter(r=>r.cat===rFilt)).forEach(rad=>{const c=document.createElement('div');c.className='rcard';const ex=rad.ex.map(e=>`<span class="rxc" onclick="speak('${e}');event.stopPropagation()">${e}</span>`).join('');c.innerHTML=`<div class="rch">${rad.char}</div><div class="rpy">${rad.py}</div><div class="rme">${rad.meaning}</div><div class="rst">${rad.strokes} trait${rad.strokes>1?'s':''}</div><div class="rex">${ex}</div>`;c.onclick=()=>speak(rad.char);g.appendChild(c);});}
+
+// ===== DARK / LIGHT THEME TOGGLE =====
+(function(){var s=localStorage.getItem('cn_theme')||'dark';document.documentElement.setAttribute('data-theme',s);updateToggleBtn(s);})();
+function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark',n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('cn_theme',n);updateToggleBtn(n);}
+function updateToggleBtn(t){var btn=document.getElementById('theme-toggle');if(!btn)return;btn.textContent=t==='dark'?'☀️ Clair':'🌙 Sombre';btn.style.borderColor=t==='light'?'rgba(0,0,0,.2)':'rgba(255,255,255,.2)';btn.style.color=t==='light'?'#1a1a1a':'';}
 </script>
 </body>
 </html>
