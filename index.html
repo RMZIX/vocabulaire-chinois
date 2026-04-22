@@ -630,8 +630,26 @@ document.addEventListener("click",function(e){
 });
 document.querySelectorAll(".pbox").forEach(b=>{b.addEventListener("click",function(e){const ch=this.querySelector(".pc")?.textContent.trim()||"";const py=this.querySelector(".pp")?.textContent.trim()||"";const fr=this.querySelector(".pf")?.textContent.trim()||"";if(!ch)return;speak(ch);spawnRipple(this,e);showToast(ch,py,fr);});});
 function filterVocab(q){q=q.toLowerCase().trim();
-  if(q){document.querySelectorAll('.vtab').forEach(b=>b.classList.remove('on'));}
-  else{const on=document.querySelector('.vtab.on');if(!on){document.querySelector('.vtab[data-vcat="all"]').classList.add('on');}}document.querySelectorAll("#vocab-view .section[data-s]").forEach(sec=>{let any=false;sec.querySelectorAll(".card").forEach(c=>{const m=!q||(c.dataset.char||"").includes(q)||(c.dataset.pinyin||"").toLowerCase().includes(q)||(c.dataset.fr||"").toLowerCase().includes(q);c.style.display=m?"":"none";if(m)any=true;});sec.querySelectorAll(".dm-item,.cl-ph,.pbox,.surv-ph").forEach(item=>{const m=!q||item.textContent.toLowerCase().includes(q);item.style.display=m?"":"none";if(m)any=true;});sec.style.display=(any||!q)?"":"none";});}
+  if(!q){
+    // No query: restore vtab filter
+    const activeTab=document.querySelector('.vtab.on')||document.querySelector('.vtab[data-vcat="all"]');
+    activeTab.classList.add('on');
+    // Reset all card/item display
+    document.querySelectorAll("#vocab-view .section[data-s]").forEach(sec=>{
+      sec.querySelectorAll(".card,.dm-item,.cl-ph,.pbox,.surv-ph").forEach(el=>el.style.display="");
+    });
+    showVCat(activeTab.dataset.vcat,activeTab);
+    return;
+  }
+  // Has query: show everything matching, clear vtab highlight
+  document.querySelectorAll('.vtab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll("#vocab-view .section[data-s]").forEach(sec=>{
+    let any=false;
+    sec.querySelectorAll(".card").forEach(c=>{const m=(c.dataset.char||"").includes(q)||(c.dataset.pinyin||"").toLowerCase().includes(q)||(c.dataset.fr||"").toLowerCase().includes(q);c.style.display=m?"":"none";if(m)any=true;});
+    sec.querySelectorAll(".dm-item,.cl-ph,.pbox,.surv-ph").forEach(item=>{const m=item.textContent.toLowerCase().includes(q);item.style.display=m?"":"none";if(m)any=true;});
+    sec.style.display=any?"":"none";
+  });
+}
 let BM=[];try{BM=JSON.parse(localStorage.getItem("cn_bm")||"[]");}catch(e){BM=[];}
 function saveBM(){try{localStorage.setItem("cn_bm",JSON.stringify(BM));}catch(e){}}
 function toggleBM(btn,e){e.stopPropagation();const card=btn.closest(".card"),ch=card.dataset.char||"";const idx=BM.findIndex(b=>b.char===ch);if(idx>=0){BM.splice(idx,1);btn.textContent="☆";btn.classList.remove("on");}else{BM.push({char:ch,pinyin:card.dataset.pinyin||"",fr:card.dataset.fr||""});btn.textContent="★";btn.classList.add("on");}saveBM();updateBMBar();renderBM();}
@@ -639,7 +657,7 @@ function updateBMBar(){document.getElementById("bm-cnt").textContent=BM.length;d
 function renderBM(){const sec=document.getElementById("bm-sec"),grid=document.getElementById("bm-cards");if(!BM.length){sec.style.display="none";return;}sec.style.display="block";grid.innerHTML="";BM.forEach(b=>{const d=document.createElement("div");d.className="card";d.dataset.char=b.char;d.dataset.pinyin=b.pinyin;d.dataset.fr=b.fr;d.innerHTML=`<button class="cbm on" onclick="toggleBM(this,event)">★</button><div class="cc">${b.char}</div><div class="cp">${b.pinyin}</div><div class="cf">${b.fr}</div><div class="cd">🔍 décomposer</div>`;grid.appendChild(d);});}
 function scrollToBM(){showView("vocab");setTimeout(()=>document.getElementById("bm-sec")?.scrollIntoView({behavior:"smooth"}),100);}
 (function init(){BM.forEach(b=>{document.querySelectorAll(`.card[data-char="${CSS.escape(b.char)}"] .cbm`).forEach(btn=>{btn.textContent="★";btn.classList.add("on");});});updateBMBar();renderBM();})();
-function showView(v){const ids={vocab:"vocab-view",quiz:"quiz-view",write:"write-view",grammar:"grammar-view",alpha:"alpha-view",radicals:"rad-view"};Object.entries(ids).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.style.display=k===v?"block":"none";});document.querySelectorAll(".nav-tab").forEach((t,i)=>{t.classList.toggle("active",["vocab","quiz","write","grammar","alpha","radicals"][i]===v);});if(v==="write")initWT();if(v==="alpha")initCT();if(v==="radicals")initRad();if(v==="vocab"){const on=document.querySelector('.vtab.on');if(!on)showVCat('all',document.querySelector('.vtab[data-vcat="all"]'));}}
+function showView(v){const ids={vocab:"vocab-view",quiz:"quiz-view",write:"write-view",grammar:"grammar-view",alpha:"alpha-view",radicals:"rad-view"};Object.entries(ids).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.style.display=k===v?"block":"none";});document.querySelectorAll(".nav-tab").forEach((t,i)=>{t.classList.toggle("active",["vocab","quiz","write","grammar","alpha","radicals"][i]===v);});if(v==="write")initWT();if(v==="alpha")initCT();if(v==="radicals")initRad();if(v==="vocab"){const activeTab=document.querySelector('.vtab.on');const cat=activeTab?activeTab.dataset.vcat:'all';const tabEl=activeTab||document.querySelector('.vtab[data-vcat="all"]');showVCat(cat,tabEl);}}
 function showGT(i,btn){document.querySelectorAll(".gpanel").forEach((p,j)=>p.classList.toggle("on",j===i));document.querySelectorAll(".gtb").forEach((b,j)=>b.classList.toggle("on",j===i));}
 function showAP(id,btn){document.querySelectorAll(".apanel").forEach(p=>p.classList.remove("on"));document.querySelectorAll(".atab").forEach(b=>b.classList.remove("on"));document.getElementById("ap-"+id).classList.add("on");btn.classList.add("on");if(id==="combo")initCT();}
 let ctDone=false;
@@ -694,8 +712,7 @@ function showVCat(cat,btn){
 }
 
 (function(){var s;try{s=localStorage.getItem(“cn_theme”)||“dark”;}catch(e){s=“dark”;}document.documentElement.setAttribute(“data-theme”,s);updateToggleBtn(s);})();
-// Init vocab tabs on load
-document.addEventListener(‘DOMContentLoaded’,function(){showVCat(‘all’,document.querySelector(’.vtab[data-vcat=“all”]’));});
+showVCat(‘all’,document.querySelector(’.vtab[data-vcat=“all”]’));
 </script>
 
 </body>
