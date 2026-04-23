@@ -6,18 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>学中文 — Elhomri Ahmed Ramzi</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;700&family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js">
-function showVG(grp,btn){
-  document.querySelectorAll('.vsub').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  document.querySelectorAll('#vocab-view .section[data-vgroup]').forEach(sec=>{
-    sec.style.display=(grp==='all'||sec.dataset.vgroup===grp)?'':'none';
-  });
-  document.getElementById('bm-sec').style.display='none';
-  // reset search
-  document.querySelector('.vsearch').value='';
-}
-</script>
+<script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
 <style>
 :root{--red:#e05252;--red-deep:#c0392b;--gold:#e6a817;--bg:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;--border:#2e2e2e;--text:#e8e0d4;--muted:#888;--accent:#ff7a7a;--green:#4caf7d;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -557,6 +546,27 @@ footer strong{color:var(--gold);}
     <div class="dnote" id="dnote"></div>
   </div>
 </div><div id="toast"><span class="tc" id="tc"></span><span><span id="tf" style="font-size:13px;"></span><br><span class="tp" id="tp"></span></span></div><script>
+let activeVG='all';
+function showVG(grp,btn){
+  activeVG=grp;
+  document.querySelectorAll('.vsub').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const q=(document.querySelector('.vsearch')?.value||'').toLowerCase().trim();
+  document.querySelectorAll('#vocab-view .section[data-vgroup]').forEach(sec=>{
+    const inGroup=(grp==='all'||sec.dataset.vgroup===grp);
+    if(!q){
+      sec.style.display=inGroup?'':'none';
+      sec.querySelectorAll('.card,.dm-item,.cl-ph,.pbox,.surv-ph').forEach(el=>el.style.display='');
+    } else {
+      if(!inGroup){sec.style.display='none';return;}
+      let any=false;
+      sec.querySelectorAll('.card').forEach(c=>{const m=(c.dataset.char||'').includes(q)||(c.dataset.pinyin||'').toLowerCase().includes(q)||(c.dataset.fr||'').toLowerCase().includes(q);c.style.display=m?'':'none';if(m)any=true;});
+      sec.querySelectorAll('.dm-item,.cl-ph,.pbox,.surv-ph').forEach(item=>{const m=item.textContent.toLowerCase().includes(q);item.style.display=m?'':'none';if(m)any=true;});
+      sec.style.display=any?'':'none';
+    }
+  });
+  document.getElementById('bm-sec').style.display='none';
+}
 const synth=window.speechSynthesis;let voice=null;
 function loadV(){const v=synth.getVoices();voice=v.find(x=>x.lang==="zh-CN")||v.find(x=>x.lang.startsWith("zh"))||null;}
 loadV();if(synth.onvoiceschanged!==undefined)synth.onvoiceschanged=loadV;
@@ -575,7 +585,7 @@ document.addEventListener("click",function(e){
   showToast(ch,py,fr);
 });
 document.querySelectorAll(".pbox").forEach(b=>{b.addEventListener("click",function(e){const ch=this.querySelector(".pc")?.textContent.trim()||"";const py=this.querySelector(".pp")?.textContent.trim()||"";const fr=this.querySelector(".pf")?.textContent.trim()||"";if(!ch)return;speak(ch);spawnRipple(this,e);showToast(ch,py,fr);});});
-function filterVocab(q){q=q.toLowerCase().trim();document.querySelectorAll("#vocab-view .section[data-s]").forEach(sec=>{let any=false;sec.querySelectorAll(".card").forEach(c=>{const m=!q||(c.dataset.char||"").includes(q)||(c.dataset.pinyin||"").toLowerCase().includes(q)||(c.dataset.fr||"").toLowerCase().includes(q);c.style.display=m?"":"none";if(m)any=true;});sec.querySelectorAll(".dm-item,.cl-ph,.pbox,.surv-ph").forEach(item=>{const m=!q||item.textContent.toLowerCase().includes(q);item.style.display=m?"":"none";if(m)any=true;});sec.style.display=(any||!q)?"":"none";});}
+function filterVocab(q){q=q.toLowerCase().trim();document.querySelectorAll("#vocab-view .section[data-vgroup]").forEach(sec=>{const inGroup=(activeVG==='all'||sec.dataset.vgroup===activeVG);if(!inGroup){sec.style.display='none';return;}let any=false;sec.querySelectorAll(".card").forEach(c=>{const m=!q||(c.dataset.char||"").includes(q)||(c.dataset.pinyin||"").toLowerCase().includes(q)||(c.dataset.fr||"").toLowerCase().includes(q);c.style.display=m?"":"none";if(m)any=true;});sec.querySelectorAll(".dm-item,.cl-ph,.pbox,.surv-ph").forEach(item=>{const m=!q||item.textContent.toLowerCase().includes(q);item.style.display=m?"":"none";if(m)any=true;});sec.style.display=(any||!q)?"":"none";});}
 let BM=[];try{BM=JSON.parse(localStorage.getItem("cn_bm")||"[]");}catch(e){BM=[];}
 function saveBM(){try{localStorage.setItem("cn_bm",JSON.stringify(BM));}catch(e){}}
 function toggleBM(btn,e){e.stopPropagation();const card=btn.closest(".card"),ch=card.dataset.char||"";const idx=BM.findIndex(b=>b.char===ch);if(idx>=0){BM.splice(idx,1);btn.textContent="☆";btn.classList.remove("on");}else{BM.push({char:ch,pinyin:card.dataset.pinyin||"",fr:card.dataset.fr||""});btn.textContent="★";btn.classList.add("on");}saveBM();updateBMBar();renderBM();}
